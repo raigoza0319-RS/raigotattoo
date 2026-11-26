@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://google-gemini-link-06d53f.netlify.app/ -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raigo Tattoo — Tour España 2027</title>
+    <meta name="description" content="Raigo Tattoo visita Madrid, Alicante y Granada en marzo de 2027. Elige tu día y separa tu cupo por WhatsApp.">
+    <meta property="og:title" content="Raigo Tattoo — Tour España 2027">
+    <meta property="og:description" content="Madrid · Alicante · Granada — marzo 2027. Separa tu cupo.">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='38' fill='%23c89b54'%3ER%3C/text%3E%3C/svg%3E">
+
+    <!-- Editorial serif display font and clean sans-serif UI font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="./index_files/css2" rel="stylesheet">
+
+  <script type="module" crossorigin="" src="./index_files/index-D-0E5wir.js.descarga"></script>
+  <link rel="stylesheet" crossorigin="" href="./index_files/index-Qdd00V9W.css">
+</head>
+<body class="min-h-screen bg-[#0a0a0a] text-neutral-100 flex flex-col items-center justify-center px-4 py-10 sm:py-14">
+
+    <!-- Main minimalist container -->
+    <main class="w-full max-w-2xl">
+
+        <!-- Bold editorial display header -->
+        <header class="text-center mb-8 sm:mb-10 bg-[#121212] border border-[#c89b54]/35 rounded-3xl px-5 py-8 sm:px-8 sm:py-10 shadow-2xl">
+            <h1 class="font-display-editorial text-6xl sm:text-7xl md:text-8xl font-bold text-white uppercase leading-none tracking-tight">
+                RAIGO TATTOO
+            </h1>
+            <p class="font-display-editorial text-4xl sm:text-6xl md:text-7xl italic font-bold text-[#c89b54] uppercase leading-tight mt-2">
+                TOUR ESPAÑA 2027
+            </p>
+        </header>
+
+        <!-- Client booking form -->
+        <form id="tour-booking-form" novalidate="" class="bg-[#121212] border border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+
+            <!-- Nombre and Apellido -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="input-nombre" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                        Nombre
+                    </label>
+                    <input type="text" id="input-nombre" name="nombre" required="" autocomplete="given-name" placeholder="Tu nombre" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white placeholder:text-neutral-500 outline-none transition">
+                </div>
+
+                <div>
+                    <label for="input-apellido" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                        Apellido
+                    </label>
+                    <input type="text" id="input-apellido" name="apellido" autocomplete="family-name" placeholder="Tu apellido" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white placeholder:text-neutral-500 outline-none transition">
+                </div>
+            </div>
+
+            <!-- Correo and Celular -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="input-correo" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                        Correo
+                    </label>
+                    <input type="email" id="input-correo" name="correo" autocomplete="email" placeholder="correo@ejemplo.com" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white placeholder:text-neutral-500 outline-none transition">
+                </div>
+
+                <div>
+                    <label for="input-celular" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                        Celular
+                    </label>
+                    <input type="tel" id="input-celular" name="celular" autocomplete="tel" placeholder="+34 600 000 000" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white placeholder:text-neutral-500 outline-none transition">
+                </div>
+            </div>
+
+            <!-- Ciudad (Madrid, Alicante, Granada in exact order) -->
+            <div>
+                <label for="select-ciudad" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                    Ciudad
+                </label>
+                <select id="select-ciudad" name="ciudad" required="" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white outline-none transition cursor-pointer">
+                    <option value="" selected="" disabled="">Elige tu ciudad</option>
+                    <option value="Madrid">Madrid</option>
+                    <option value="Alicante">Alicante</option>
+                    <option value="Granada">Granada</option>
+                </select>
+            </div>
+
+            <!-- Interactive March 2027 calendar trigger -->
+            <div>
+                <label for="btn-toggle-calendar" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                    Fecha en marzo 2027
+                </label>
+                <button type="button" id="btn-toggle-calendar" aria-expanded="false" aria-controls="panel-march-calendar" class="w-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-left text-base sm:text-lg transition cursor-pointer flex items-center justify-between gap-3">
+                    <span id="selected-date-text" class="text-neutral-400">Selecciona un día de marzo de 2027</span>
+                    <span class="text-[#c89b54] font-semibold text-sm sm:text-base shrink-0">
+                        Marzo 2027
+                    </span>
+                </button>
+
+                <!-- March 2027 calendar panel -->
+                <div id="panel-march-calendar" class="hidden mt-3 bg-[#0e0e0e] border border-[#c89b54]/50 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-neutral-800 pb-3">
+                        <div>
+                            <h2 class="text-lg sm:text-xl font-bold text-[#c89b54]">
+                                Marzo 2027
+                            </h2>
+                            <p class="text-xs sm:text-sm text-neutral-400">
+                                Elige el día en que quieres tatuarte
+                            </p>
+                        </div>
+                        <button type="button" id="btn-close-calendar" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700 cursor-pointer transition">
+                            Cerrar
+                        </button>
+                    </div>
+
+                    <!-- Days of the week -->
+                    <div class="grid grid-cols-7 gap-1.5 text-center text-xs sm:text-sm font-semibold text-neutral-400">
+                        <div>Lun</div>
+                        <div>Mar</div>
+                        <div>Mié</div>
+                        <div>Jue</div>
+                        <div>Vie</div>
+                        <div>Sáb</div>
+                        <div>Dom</div>
+                    </div>
+
+                    <!-- March 2027 days grid -->
+                    <div id="march-grid" class="grid grid-cols-7 gap-1.5 sm:gap-2" aria-busy="false"><button type="button" aria-label="1 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">1</button><button type="button" aria-label="2 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">2</button><button type="button" aria-label="3 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">3</button><button type="button" aria-label="4 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">4</button><button type="button" aria-label="5 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">5</button><button type="button" aria-label="6 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">6</button><button type="button" aria-label="7 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">7</button><button type="button" aria-label="8 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">8</button><button type="button" aria-label="9 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">9</button><button type="button" aria-label="10 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">10</button><button type="button" aria-label="11 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">11</button><button type="button" aria-label="12 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">12</button><button type="button" aria-label="13 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">13</button><button type="button" aria-label="14 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">14</button><button type="button" aria-label="15 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">15</button><button type="button" aria-label="16 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">16</button><button type="button" aria-label="17 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">17</button><button type="button" aria-label="18 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">18</button><button type="button" aria-label="19 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">19</button><button type="button" aria-label="20 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">20</button><button type="button" aria-label="21 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">21</button><button type="button" aria-label="22 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">22</button><button type="button" aria-label="23 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">23</button><button type="button" aria-label="24 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">24</button><button type="button" aria-label="25 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">25</button><button type="button" aria-label="26 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">26</button><button type="button" aria-label="27 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">27</button><button type="button" aria-label="28 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">28</button><button type="button" aria-label="29 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">29</button><button type="button" aria-label="30 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">30</button><button type="button" aria-label="31 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">31</button></div>
+
+                    <!-- Occupancy counter and legend -->
+                    <div class="pt-3 border-t border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs sm:text-sm text-neutral-400">
+                        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded bg-neutral-900 border border-neutral-700 inline-block"></span>
+                                Disponible
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded bg-[#c89b54] inline-block"></span>
+                                Tu elección
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded bg-neutral-800/90 border border-[#c89b54]/40 inline-block"></span>
+                                Reservada
+                            </span>
+                        </div>
+                        <span id="march-occupancy-status" class="font-semibold text-[#c89b54]">0 / 31 días ocupados</span>
+                    </div>
+
+                    <!-- List of saved dates with client details and save timestamps -->
+                    <div id="booked-dates-summary" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+
+            <!-- Honeypot field: hidden from people, filled in only by spam bots -->
+            <div class="hidden" aria-hidden="true">
+                <label for="input-website">Sitio web</label>
+                <input type="text" id="input-website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- Main CTA button pointing directly to WhatsApp -->
+            <a id="btn-separar-cupo" href="https://wa.me/message/DAUFCP6HLKS4M1" target="_blank" rel="noopener noreferrer" aria-disabled="true" class="w-full bg-[#c89b54] hover:bg-[#dfb570] text-black font-bold text-xl sm:text-2xl py-4 px-6 rounded-2xl transition shadow-lg shadow-[#c89b54]/20 flex items-center justify-center gap-3 text-center opacity-50 pointer-events-none select-none" aria-busy="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 shrink-0" aria-hidden="true">
+                    <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.766.469 3.484 1.359 5l-1.422 5.203 5.328-1.391c1.453.797 3.078 1.219 4.695 1.219 5.516 0 9.969-4.453 9.969-9.969s-4.453-10-9.969-10zm5.813 14.109c-.25.703-1.438 1.344-1.984 1.422-.516.078-1.156.109-1.859-.109-.438-.141-1-.328-1.75-.656-3.078-1.328-5.078-4.453-5.234-4.656-.156-.203-1.25-1.656-1.25-3.156s.797-2.25 1.078-2.547c.281-.297.625-.375.828-.375s.406.016.594.016c.188 0 .453-.078.703.531.266.641.891 2.172.969 2.328.078.156.125.344.031.547-.094.203-.141.328-.281.5-.141.172-.297.391-.422.516-.141.141-.297.297-.125.594.172.297.766 1.266 1.641 2.047 1.125 1 2.078 1.313 2.375 1.453.297.141.469.125.641-.078.172-.203.734-.859.938-1.156.203-.297.406-.25.688-.141.281.109 1.797.844 2.109 1 .313.156.516.234.594.359.078.125.078.734-.172 1.438z"></path>
+                </svg>
+                <span id="btn-separar-cupo-label">Ir a WhatsApp</span>
+            </a>
+
+            <!-- Booking result / error messages -->
+            <div id="booking-status" role="status" aria-live="polite" class="hidden rounded-2xl border px-4 py-3.5 text-sm sm:text-base"></div>
+        </form>
+
+        <footer class="mt-8 text-center text-xs sm:text-sm text-neutral-500 space-y-1">
+            <p class="font-display-editorial italic text-lg text-[#c89b54]/80">Madrid · Alicante · Granada</p>
+            <p>Cupos limitados: un solo cliente por día durante marzo de 2027.</p>
+            <p>© 2026 Raigo Tattoo</p>
+        </footer>
+    </main>
+
+
+
+<script async="" src="./index_files/ar" data-netlify-deploy-id="6b08b8233f04d14bc8bdbad0" data-netlify-site-id="90cd6f20-5432-4822-81df-7ea742fc628f" data-agent-runner-id="6b08b72a56319724b638e870"></script>
+<script async="" src="./index_files/hud" data-nf-variant="owner-private" data-netlify-site-id="90cd6f20-5432-4822-81df-7ea742fc628f" data-app-host="app.netlify.com"></script>
+</body></html>
