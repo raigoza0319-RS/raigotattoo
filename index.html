@@ -563,3 +563,9 @@
         }
 
         btnConfirmarFecha.addEventListener("click", confirmAndLock
+                                           
+                                           
+console.log("grid:", document.getElementById("march-grid"));
+console.log("botones:", document.querySelectorAll("#march-grid button").length);
+document.querySelectorAll("#march-grid button")[4]?.click();
+console.log("selectedDay:", typeof selectedDay !== "undefined" ? selectedDay : "no definido");
