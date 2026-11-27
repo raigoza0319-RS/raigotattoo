@@ -121,7 +121,48 @@
     input:focus,
     select:focus {
       border-color: var(--gold);
-    }
+    }calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.calendar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  color: var(--oro);
+  margin: 0;
+}
+
+.weekdays,
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.weekday {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--texto-silenciado, #a6a095);
+}
+
+.day-cell {
+  padding: 10px 4px;
+  text-align: center;
+  border-radius: 6px;
+  background: var(--tarjeta-bg, #121212);
+  border: 1px solid var(--borde-sutil, rgba(255, 255, 255, 0.1));
+  cursor: pointer;
+}
+
+.day-cell.booked {
+  background: rgba(180, 40, 40, 0.25);
+  border-color: rgba(220, 70, 70, 0.6);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
 
     .calendar-header {
       display: flex;
