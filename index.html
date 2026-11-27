@@ -1,375 +1,622 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Raigo Tattoo — las inscripción ya estan abiertas. Tour España 2027</title>
-  <meta name="description" content="Raigo Tattoo visita Madrid, Alicante , Granada y Barcelona en marzo de 2027. Elige tu día y separa tu cupo." />
-  <meta name="theme-color" content="#0a0a0a" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg-main: #0a0a0a;
-      --bg-card: #121212;
-      --bg-input: #191919;
-      --gold: #c89b54;
-      --gold-soft: rgba(200, 155, 84, 0.16);
-      --gold-border: rgba(200, 155, 84, 0.35);
-      --text-main: #f5f2eb;
-      --text-muted: #a6a095;
-      --border-subtle: rgba(255, 255, 255, 0.1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Cupos y Reservas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 1. ESTILOS CSS ORGANIZADOS -->
+    <style>
+        :root {
+            --oro: #d4af37;
+            --oro-hover: #e5c158;
+            --fondo-app: #0a0a0a;
+            --tarjeta-bg: #121212;
+            --borde-sutil: rgba(255, 255, 255, 0.1);
+            --texto-principal: #f5f5f5;
+            --texto-silenciado: #a6a095;
+        }
 
-    * {
-      box-sizing: border-box;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      display: flex;
-      justify-content: center;
-      padding: 32px 16px 64px;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--fondo-app);
+            color: var(--texto-principal);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
 
-    .container {
-      width: 100%;
-      max-width: 720px;
-    }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 24px;
+        }
 
-    .header {
-      background: linear-gradient(180deg, rgba(200, 155, 84, 0.08) 0%, var(--bg-card) 100%);
-      border: 1px solid var(--gold-border);
-      border-radius: 16px;
-      padding: 36px 24px;
-      text-align: center;
-      margin-bottom: 24px;
-    }
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+        }
 
-    .kicker {
-      color: var(--gold);
-      font-size: 12px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
+        .card {
+            background: var(--tarjeta-bg);
+            border: 1px solid var(--borde-sutil);
+            border-radius: 12px;
+            padding: 20px;
+        }
 
-    h1 {
-      margin: 0;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.4rem, 6vw, 3.8rem);
-      line-height: 1.05;
-      letter-spacing: 0.04em;
-      color: var(--text-main);
-    }
+        /* Cabecera y Controles */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
 
-    .subtitle {
-      margin: 10px 0 0;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
-      color: var(--gold);
-    }
+        .calendar-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--oro);
+            margin: 0;
+        }
 
-    .cities {
-      margin-top: 16px;
-      color: var(--text-muted);
-      font-size: 14px;
-      letter-spacing: 0.08em;
-    }
+        .nav-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
 
-    .card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
+        select, input, textarea {
+            background: #1a1a1a;
+            color: var(--texto-principal);
+            border: 1px solid var(--borde-sutil);
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
 
-    .field {
-      margin-bottom: 16px;
-    }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--oro);
+            outline: none;
+        }
 
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--gold);
-      letter-spacing: 0.04em;
-    }
+        .btn-icon {
+            background: #1a1a1a;
+            color: var(--oro);
+            border: 1px solid var(--borde-sutil);
+            border-radius: 6px;
+            padding: 6px 10px;
+            cursor: pointer;
+        }
 
-    input,
-    select {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--border-subtle);
-      background-color: var(--bg-input);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 14px;
-      outline: none;
-    }
+        .btn-icon:hover {
+            border-color: var(--oro);
+        }
 
-    input:focus,
-    select:focus {
-      border-color: var(--gold);
-    }calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-}
+        /* Cuadrícula del Calendario */
+        .weekdays, .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
 
-.calendar-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.8rem;
-  color: var(--oro);
-  margin: 0;
-}
+        .weekdays {
+            margin-bottom: 8px;
+        }
 
-.weekdays,
-.days-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-}
+        .weekday {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--texto-silenciado);
+            font-weight: 500;
+        }
 
-.weekday {
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--texto-silenciado, #a6a095);
-}
+        .day-cell {
+            padding: 10px 4px;
+            text-align: center;
+            border-radius: 6px;
+            background: var(--tarjeta-bg);
+            border: 1px solid var(--borde-sutil);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 68px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.day-cell {
-  padding: 10px 4px;
-  text-align: center;
-  border-radius: 6px;
-  background: var(--tarjeta-bg, #121212);
-  border: 1px solid var(--borde-sutil, rgba(255, 255, 255, 0.1));
-  cursor: pointer;
-}
+        .day-cell:hover:not(.booked):not(.past) {
+            border-color: var(--oro);
+            background: rgba(212, 175, 55, 0.08);
+        }
 
-.day-cell.booked {
-  background: rgba(180, 40, 40, 0.25);
-  border-color: rgba(220, 70, 70, 0.6);
-  cursor: not-allowed;
-  opacity: 0.75;
-}
+        .day-cell.booked {
+            background: rgba(180, 40, 40, 0.25);
+            border-color: rgba(220, 70, 70, 0.6);
+            cursor: not-allowed;
+            opacity: 0.85;
+        }
 
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
+        .day-cell.past {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
 
-    .calendar-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      color: var(--gold);
-      margin: 0;
-    }
+        .day-number {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
 
-    .weekdays,
-    .days-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 8px;
-    }
+        .status-tag {
+            font-size: 0.68rem;
+            padding: 2px 5px;
+            border-radius: 4px;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-    .weekday {
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      padding: 6px 0;
-      font-weight: 600;
-    }
+        .status-available {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
 
-    .day-btn {
-      padding: 10px 0;
-      border-radius: 8px;
-      border: 1px solid var(--border-subtle);
-      background-color: var(--bg-input);
-      color: var(--text-main);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
+        .status-booked {
+            color: #fca5a5;
+            background: rgba(220, 70, 70, 0.3);
+        }
 
-    .day-btn:hover {
-      border-color: var(--gold);
-      background-color: var(--gold-soft);
-    }
+        /* Lista lateral de cupos */
+        .booking-item {
+            padding: 12px;
+            border-radius: 8px;
+            background: #181818;
+            border: 1px solid var(--borde-sutil);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .day-btn.selected {
-      background-color: var(--gold);
-      color: #0a0a0a;
-      border-color: var(--gold);
-    }
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 50;
+        }
 
-    .cta-btn {
-      width: 100%;
-      padding: 14px 18px;
-      border-radius: 10px;
-      border: none;
-      background-color: var(--gold);
-      color: #0a0a0a;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: 0.03em;
-    }
+        .modal-backdrop.active { display: flex; }
 
-    .cta-btn:hover {
-      filter: brightness(1.06);
-    }
+        .modal-box {
+            background: var(--tarjeta-bg);
+            border: 1px solid var(--oro);
+            border-radius: 12px;
+            max-width: 420px;
+            width: 100%;
+            padding: 24px;
+        }
 
-    .status {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--text-muted);
-      min-height: 20px;
-    }
-  </style>
+        .form-group {
+            margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--texto-silenciado);
+        }
+
+        .btn-primary {
+            background: var(--oro);
+            color: #000;
+            font-weight: 600;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary:hover { background: var(--oro-hover); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--oro);
+            border: 1px solid var(--oro);
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .alert-box {
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid var(--oro);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <main class="container">
-    <header class="header">
-      <div class="kicker">Agenda Oficial de Citas</div>
-      <h1>RAIGO TATTOO</h1>
-      <div class="subtitle">Tour España 2027</div>
-      <div class="cities">MADRID · ALICANTE · GRANADA · MARZO 2027</div>
-    </header>
 
-    <section class="card">
-      <form id="bookingForm">
-        <div class="field">
-          <label for="nombre">Nombre</label>
-          <input id="nombre" name="nombre" type="text" placeholder="Tu nombre" required />
+    <!-- 2. ESTRUCTURA HTML -->
+    <div class="container">
+        <!-- Calendario -->
+        <div class="card">
+            <div class="calendar-header">
+                <h2 class="calendar-title" id="header-month-title">Calendario</h2>
+                <div class="nav-controls">
+                    <button class="btn-icon" onclick="changeMonth(-1)">◀</button>
+                    <select id="month-select" onchange="jumpToDate()">
+                        <option value="0">Enero</option><option value="1">Febrero</option>
+                        <option value="2">Marzo</option><option value="3">Abril</option>
+                        <option value="4">Mayo</option><option value="5">Junio</option>
+                        <option value="6">Julio</option><option value="7">Agosto</option>
+                        <option value="8">Septiembre</option><option value="9">Octubre</option>
+                        <option value="10">Noviembre</option><option value="11">Diciembre</option>
+                    </select>
+                    <select id="year-select" onchange="jumpToDate()"></select>
+                    <button class="btn-icon" onclick="changeMonth(1)">▶</button>
+                </div>
+            </div>
+
+            <div class="weekdays">
+                <div class="weekday">Dom</div><div class="weekday">Lun</div>
+                <div class="weekday">Mar</div><div class="weekday">Mié</div>
+                <div class="weekday">Jue</div><div class="weekday">Vie</div>
+                <div class="weekday">Sáb</div>
+            </div>
+
+            <div class="days-grid" id="calendar-grid"></div>
         </div>
 
-        <div class="field">
-          <label for="apellido">Apellido</label>
-          <input id="apellido" name="apellido" type="text" placeholder="Tu apellido" required />
+        <!-- Panel de Cupos Ocupados y Disponibles -->
+        <div class="card">
+            <h3 class="calendar-title" style="font-size: 1.4rem; margin-bottom: 6px;">Estado de Cupos</h3>
+            <p id="sync-status" style="font-size: 0.8rem; color: var(--texto-silenciado); margin-bottom: 16px;">
+                Conectando base de datos...
+            </p>
+            <div id="bookings-list"></div>
         </div>
+    </div>
 
-        <div class="field">
-          <label for="correo">Correo</label>
-          <input id="correo" name="correo" type="email" placeholder="correo@ejemplo.com" required />
+    <!-- Modal de Reserva / Cambio de Fecha -->
+    <div class="modal-backdrop" id="booking-modal">
+        <div class="modal-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 class="calendar-title" style="font-size: 1.5rem;">Reservar Fecha</h3>
+                <button class="btn-icon" onclick="closeModal()">✕</button>
+            </div>
+
+            <p style="font-size: 0.9rem; margin-bottom: 16px;">
+                Fecha elegida: <strong id="modal-date-text" style="color: var(--oro);"></strong>
+            </p>
+
+            <!-- Aviso dinámico si el mismo nombre ya tiene una reserva -->
+            <div id="existing-booking-alert" class="alert-box">
+                <p id="existing-booking-msg"></p>
+            </div>
+
+            <form id="booking-form" onsubmit="confirmBooking(event)">
+                <input type="hidden" id="selected-date-key">
+
+                <div class="form-group">
+                    <label>Tu nombre completo *</label>
+                    <input type="text" id="user-name" required placeholder="Ej: Carlos Gómez" oninput="checkExistingName()">
+                </div>
+
+                <div class="form-group">
+                    <label>Teléfono / WhatsApp *</label>
+                    <input type="text" id="user-contact" required placeholder="Ej: 300 123 4567">
+                </div>
+
+                <div class="form-group">
+                    <label>Notas (Opcional)</label>
+                    <textarea id="user-notes" rows="2" placeholder="Detalles adicionales..."></textarea>
+                </div>
+
+                <!-- Botones de Acción -->
+                <button type="submit" id="btn-confirm-new" class="btn-primary">
+                    OK, Confirmar Fecha
+                </button>
+
+                <button type="button" id="btn-change-date" class="btn-secondary" style="display: none;" onclick="switchBookingDate()">
+                    Cambiar mi fecha anterior a esta
+                </button>
+            </form>
         </div>
+    </div>
 
-        <div class="field">
-          <label for="celular">Celular</label>
-          <input id="celular" name="celular" type="tel" placeholder="+34 600 000 000" required />
-        </div>
+    <!-- 3. ALMACENAMIENTO EN TIEMPO REAL Y LÓGICA -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, collection, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        <div class="field">
-          <label for="ciudad">Ciudad</label>
-          <select id="ciudad" name="ciudad" required>
-            <option value="">Elige tu ciudad</option>
-            <option value="Madrid">Madrid</option>
-            <option value="Alicante">Alicante</option>
-            <option value="Granada">Granada</option>
-          </select>
-        </div>
+        // Configuración de Firebase (Reemplaza con tus credenciales si lo subes a un hosting externo)
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'agenda-cupos-app';
 
-        <div class="field">
-          <label>Fecha en marzo 2027</label>
-          <div class="calendar-header">
-            <h2 class="calendar-title">Marzo 2027</h2>
-            <span id="selectedDateLabel" style="color:#c89b54;font-size:13px;font-weight:600;">Sin día elegido</span>
-          </div>
-          <div class="weekdays">
-            <div class="weekday">Lun</div>
-            <div class="weekday">Mar</div>
-            <div class="weekday">Mié</div>
-            <div class="weekday">Jue</div>
-            <div class="weekday">Vie</div>
-            <div class="weekday">Sáb</div>
-            <div class="weekday">Dom</div>
-          </div>
-          <div id="daysGrid" class="days-grid"></div>
-        </div>
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        <button type="submit" class="cta-btn">Separar cupo por WhatsApp</button>
-        <div id="statusMsg" class="status"></div>
-      </form>
-    </section>
-  </main>
+        let currentUser = null;
+        let currentYear = new Date().getFullYear();
+        let currentMonth = new Date().getMonth();
+        let bookingsData = {}; // Guarda { "YYYY-MM-DD": { name, contact, notes, normalizedName } }
+        let matchedPreviousDateKey = null;
 
-  <script>
-    const STORAGE_KEY = 'raigo_tour_es_2027_reserva';
-    const WHATSAPP_URL = 'https://wa.me/message/DAUFCP6HLKS4M1';
-    const daysGrid = document.getElementById('daysGrid');
-    const selectedDateLabel = document.getElementById('selectedDateLabel');
-    const statusMsg = document.getElementById('statusMsg');
-    const form = document.getElementById('bookingForm');
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
-    let selectedDay = null;
+        // Inicializar años
+        const yearSelect = document.getElementById('year-select');
+        for (let y = currentYear; y <= currentYear + 3; y++) {
+            const opt = document.createElement('option');
+            opt.value = y;
+            opt.textContent = y;
+            yearSelect.appendChild(opt);
+        }
 
-    // Marzo 2027 empieza en lunes (índice 0 en Lun-Dom) y tiene 31 días
-    for (let day = 1; day <= 31; day++) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'day-btn';
-      btn.textContent = String(day);
-      btn.addEventListener('click', () => {
-        selectedDay = day;
-        document.querySelectorAll('.day-btn').forEach(el => el.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedDateLabel.textContent = `${day} de marzo de 2027`;
-        saveDraft();
-      });
-      daysGrid.appendChild(btn);
-    }
+        // Autenticación automática
+        async function initAuth() {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+        }
 
-    function saveDraft() {
-      const data = {
-        nombre: document.getElementById('nombre').value.trim(),
-        apellido: document.getElementById('apellido').value.trim(),
-        correo: document.getElementById('correo').value.trim(),
-        celular: document.getElementById('celular').value.trim(),
-        ciudad: document.getElementById('ciudad').value,
-        dia: selectedDay
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    }
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('sync-status').textContent = "🟢 Sincronizado en tiempo real";
+                listenToBookings();
+            }
+        });
 
-    form.addEventListener('input', saveDraft);
+        // ESCUCHAR CAMBIOS EN TIEMPO REAL (Bloquea automáticamente para los demás)
+        function listenToBookings() {
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario');
+            onSnapshot(colRef, (snapshot) => {
+                const updated = {};
+                snapshot.forEach((docSnap) => {
+                    updated[docSnap.id] = docSnap.data();
+                });
+                bookingsData = updated;
+                renderCalendar();
+                renderBookingsList();
+            });
+        }
 
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-    if (saved) {
-      if (saved.nombre) document.getElementById('nombre').value = saved.nombre;
-      if (saved.apellido) document.getElementById('apellido').value = saved.apellido;
-      if (saved.correo) document.getElementById('correo').value = saved.correo;
-      if (saved.celular) document.getElementById('celular').value = saved.celular;
-      if (saved.ciudad) document.getElementById('ciudad').value = saved.ciudad;
-      if (saved.dia) {
-        selectedDay = saved.dia;
-        const targetBtn = daysGrid.children[saved.dia - 1];
-        if (targetBtn) targetBtn.classList.add('selected');
-        selectedDateLabel.textContent = `${saved.dia} de marzo de 2027`;
-      }
-    }
+        // RENDERIZAR CALENDARIO CON TUS CLASES (.day-cell y .booked)
+        window.renderCalendar = function() {
+            const grid = document.getElementById('calendar-grid');
+            document.getElementById('month-select').value = currentMonth;
+            document.getElementById('year-select').value = currentYear;
+            document.getElementById('header-month-title').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            grid.innerHTML = '';
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      saveDraft();
-      if (!selectedDay) {
-        statusMsg.textContent = 'Elige un día de marzo de 2027 antes de continuar.';
-        return;
-      }
-      statusMsg.textContent = 'Reserva guardada en este dispositivo. Abriendo WhatsApp...';
-      window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
-    });
-  </script>
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            for (let i = 0; i < firstDay; i++) {
+                grid.appendChild(document.createElement('div'));
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateObj = new Date(currentYear, currentMonth, day);
+                const dateKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const booking = bookingsData[dateKey];
+                const isPast = dateObj < today;
+
+                const cell = document.createElement('div');
+                cell.className = 'day-cell';
+
+                if (booking) {
+                    // FECHA BLOQUEADA AUTOMÁTICAMENTE
+                    cell.classList.add('booked');
+                    cell.innerHTML = `
+                        <span class="day-number">${day}</span>
+                        <span class="status-tag status-booked" title="Ocupado por ${booking.name}">🔒 ${booking.name}</span>
+                    `;
+                    cell.onclick = () => alert(`Este cupo ya está ocupado por ${booking.name}. Por favor selecciona una fecha disponible.`);
+                } else if (isPast) {
+                    cell.classList.add('past');
+                    cell.innerHTML = `<span class="day-number">${day}</span><span class="status-tag">-</span>`;
+                } else {
+                    // FECHA DISPONIBLE
+                    cell.innerHTML = `
+                        <span class="day-number">${day}</span>
+                        <span class="status-tag status-available">Disponible</span>
+                    `;
+                    cell.onclick = () => openModal(dateKey);
+                }
+
+                grid.appendChild(cell);
+            }
+        };
+
+        // RENDERIZAR LISTA LATERAL DE CUPOS OCUPADOS
+        window.renderBookingsList = function() {
+            const container = document.getElementById('bookings-list');
+            const entries = Object.entries(bookingsData).sort((a, b) => a[0].localeCompare(b[0]));
+
+            if (entries.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--texto-silenciado);">Aún no hay fechas reservadas. Todas están disponibles.</p>`;
+                return;
+            }
+
+            container.innerHTML = entries.map(([dateKey, data]) => `
+                <div class="booking-item">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem;">${data.name}</div>
+                        <div style="font-size: 0.8rem; color: var(--oro);">${formatHumanDate(dateKey)}</div>
+                    </div>
+                    <span class="status-tag status-booked" style="width: auto;">Ocupado</span>
+                </div>
+            `).join('');
+        };
+
+        // DETECTAR SI EL MISMO NOMBRE YA TIENE UNA RESERVA PARA OFRECER CAMBIO DE FECHA
+        window.checkExistingName = function() {
+            const inputName = document.getElementById('user-name').value.trim().toLowerCase();
+            const alertBox = document.getElementById('existing-booking-alert');
+            const alertMsg = document.getElementById('existing-booking-msg');
+            const btnChange = document.getElementById('btn-change-date');
+
+            matchedPreviousDateKey = null;
+
+            if (inputName.length >= 3) {
+                for (const [dateKey, data] of Object.entries(bookingsData)) {
+                    if (data.name.trim().toLowerCase() === inputName) {
+                        matchedPreviousDateKey = dateKey;
+                        break;
+                    }
+                }
+            }
+
+            if (matchedPreviousDateKey) {
+                alertBox.style.display = 'block';
+                alertMsg.innerHTML = `Ya tienes una reserva el <strong>${formatHumanDate(matchedPreviousDateKey)}</strong>. ¿Deseas mover tu cupo a esta nueva fecha o confirmar una adicional?`;
+                btnChange.style.display = 'block';
+            } else {
+                alertBox.style.display = 'none';
+                btnChange.style.display = 'none';
+            }
+        };
+
+        // OPCIÓN 1: GUARDAR NUEVA RESERVA (Y BLOQUEAR PARA LOS DEMÁS)
+        window.confirmBooking = async function(event) {
+            event.preventDefault();
+            if (!currentUser) return;
+
+            const dateKey = document.getElementById('selected-date-key').value;
+            const name = document.getElementById('user-name').value.trim();
+            const contact = document.getElementById('user-contact').value.trim();
+            const notes = document.getElementById('user-notes').value.trim();
+
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario', dateKey);
+
+            try {
+                await runTransaction(db, async (transaction) => {
+                    const existingDoc = await transaction.get(docRef);
+                    if (existingDoc.exists()) {
+                        throw new Error("YA_OCUPADO");
+                    }
+                    transaction.set(docRef, {
+                        name,
+                        contact,
+                        notes,
+                        createdAt: new Date().toISOString()
+                    });
+                });
+                closeModal();
+            } catch (err) {
+                if (err.message === "YA_OCUPADO") {
+                    alert("¡Alguien más acaba de confirmar esta fecha hace un segundo! Elige otra.");
+                    closeModal();
+                } else {
+                    alert("Error al guardar la reserva.");
+                }
+            }
+        };
+
+        // OPCIÓN 2: CAMBIAR FECHA (Libera la anterior y bloquea la nueva en un solo paso)
+        window.switchBookingDate = async function() {
+            if (!currentUser || !matchedPreviousDateKey) return;
+
+            const newDateKey = document.getElementById('selected-date-key').value;
+            const name = document.getElementById('user-name').value.trim();
+            const contact = document.getElementById('user-contact').value.trim();
+            const notes = document.getElementById('user-notes').value.trim();
+
+            const oldDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario', matchedPreviousDateKey);
+            const newDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario', newDateKey);
+
+            try {
+                await runTransaction(db, async (transaction) => {
+                    const newDoc = await transaction.get(newDocRef);
+                    if (newDoc.exists()) {
+                        throw new Error("YA_OCUPADO");
+                    }
+                    // 1. Elimina la reserva anterior (la vuelve a dejar disponible para otros)
+                    transaction.delete(oldDocRef);
+                    // 2. Guarda y bloquea la nueva fecha
+                    transaction.set(newDocRef, {
+                        name,
+                        contact,
+                        notes,
+                        updatedAt: new Date().toISOString()
+                    });
+                });
+                closeModal();
+            } catch (err) {
+                alert(err.message === "YA_OCUPADO" ? "La nueva fecha ya fue tomada." : "Error al cambiar la fecha.");
+            }
+        };
+
+        // Controles de Modal y Navegación
+        window.openModal = function(dateKey) {
+            document.getElementById('booking-form').reset();
+            document.getElementById('existing-booking-alert').style.display = 'none';
+            document.getElementById('btn-change-date').style.display = 'none';
+            document.getElementById('selected-date-key').value = dateKey;
+            document.getElementById('modal-date-text').textContent = formatHumanDate(dateKey);
+            document.getElementById('booking-modal').classList.add('active');
+        };
+
+        window.closeModal = function() {
+            document.getElementById('booking-modal').classList.remove('active');
+        };
+
+        window.changeMonth = function(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+        };
+
+        window.jumpToDate = function() {
+            currentMonth = parseInt(document.getElementById('month-select').value, 10);
+            currentYear = parseInt(document.getElementById('year-select').value, 10);
+            renderCalendar();
+        };
+
+        function formatHumanDate(dateKey) {
+            const [y, m, d] = dateKey.split('-').map(Number);
+            return `${d} de ${monthNames[m - 1]} de ${y}`;
+        }
+
+        renderCalendar();
+        initAuth();
+    </script>
 </body>
 </html>
