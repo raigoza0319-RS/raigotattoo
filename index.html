@@ -3,20 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda de Cupos y Reservas</title>
+    <title>Agenda de Cupos | Raigotattoo</title>
+
+    <!-- Tipografías -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- 1. ESTILOS CSS ORGANIZADOS -->
+
+    <!-- SDK de EmailJS para enviar notificaciones por correo -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- ===================================================================== -->
+    <!-- 1. ESTILOS CSS (TEMA NEGRO Y DORADO)                                   -->
+    <!-- ===================================================================== -->
     <style>
         :root {
             --oro: #d4af37;
-            --oro-hover: #e5c158;
-            --fondo-app: #0a0a0a;
+            --oro-brillo: #f0cf65;
+            --oro-suave: rgba(212, 175, 55, 0.14);
+            --fondo-app: #080808;
             --tarjeta-bg: #121212;
-            --borde-sutil: rgba(255, 255, 255, 0.1);
-            --texto-principal: #f5f5f5;
+            --tarjeta-elevada: #181818;
+            --borde-sutil: rgba(212, 175, 55, 0.22);
+            --texto-principal: #f7f5f0;
             --texto-silenciado: #a6a095;
+            --ocupado-bg: rgba(165, 32, 32, 0.25);
+            --ocupado-borde: rgba(239, 68, 68, 0.65);
+            --libre-texto: #4ade80;
         }
 
         * {
@@ -27,40 +38,91 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--fondo-app);
+            background: radial-gradient(circle at top, #17140b 0%, var(--fondo-app) 55%);
             color: var(--texto-principal);
-            padding: 20px;
+            min-height: 100vh;
+            padding: 24px 16px;
             display: flex;
             justify-content: center;
         }
 
-        .container {
-            max-width: 900px;
+        .app-wrapper {
             width: 100%;
+            max-width: 1060px;
+        }
+
+        /* Encabezado superior */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 18px;
+            margin-bottom: 22px;
+            border-bottom: 1px solid var(--borde-sutil);
+        }
+
+        .brand-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.1rem;
+            color: var(--oro);
+            letter-spacing: 0.5px;
+        }
+
+        .brand-subtitle {
+            font-size: 0.85rem;
+            color: var(--texto-silenciado);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--tarjeta-bg);
+            border: 1px solid var(--borde-sutil);
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            color: var(--oro-brillo);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        /* Estructura en columnas */
+        .layout-grid {
             display: grid;
-            grid-template-columns: 1.6fr 1fr;
+            grid-template-columns: 1.55fr 1fr;
             gap: 24px;
         }
 
-        @media (max-width: 768px) {
-            .container { grid-template-columns: 1fr; }
+        @media (max-width: 840px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card {
             background: var(--tarjeta-bg);
             border: 1px solid var(--borde-sutil);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 20px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
         }
 
-        /* Cabecera y Controles */
+        /* Cabecera y controles del calendario */
         .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
         .calendar-title {
@@ -70,20 +132,21 @@
             margin: 0;
         }
 
-        .nav-controls {
+        .controls-group {
             display: flex;
-            gap: 8px;
             align-items: center;
+            gap: 8px;
         }
 
         select, input, textarea {
-            background: #1a1a1a;
+            background: var(--tarjeta-elevada);
             color: var(--texto-principal);
-            border: 1px solid var(--borde-sutil);
-            border-radius: 6px;
-            padding: 8px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 8px;
+            padding: 9px 12px;
             font-family: inherit;
             font-size: 0.9rem;
+            transition: border-color 0.2s ease;
         }
 
         input:focus, select:focus, textarea:focus {
@@ -91,532 +154,7 @@
             outline: none;
         }
 
-        .btn-icon {
-            background: #1a1a1a;
+        .btn-nav {
+            background: var(--tarjeta-elevada);
             color: var(--oro);
-            border: 1px solid var(--borde-sutil);
-            border-radius: 6px;
-            padding: 6px 10px;
-            cursor: pointer;
-        }
-
-        .btn-icon:hover {
-            border-color: var(--oro);
-        }
-
-        /* Cuadrícula del Calendario */
-        .weekdays, .days-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-        }
-
-        .weekdays {
-            margin-bottom: 8px;
-        }
-
-        .weekday {
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--texto-silenciado);
-            font-weight: 500;
-        }
-
-        .day-cell {
-            padding: 10px 4px;
-            text-align: center;
-            border-radius: 6px;
-            background: var(--tarjeta-bg);
-            border: 1px solid var(--borde-sutil);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            min-height: 68px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .day-cell:hover:not(.booked):not(.past) {
-            border-color: var(--oro);
-            background: rgba(212, 175, 55, 0.08);
-        }
-
-        .day-cell.booked {
-            background: rgba(180, 40, 40, 0.25);
-            border-color: rgba(220, 70, 70, 0.6);
-            cursor: not-allowed;
-            opacity: 0.85;
-        }
-
-        .day-cell.past {
-            opacity: 0.35;
-            cursor: not-allowed;
-        }
-
-        .day-number {
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .status-tag {
-            font-size: 0.68rem;
-            padding: 2px 5px;
-            border-radius: 4px;
-            width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .status-available {
-            color: #4ade80;
-            background: rgba(74, 222, 128, 0.1);
-        }
-
-        .status-booked {
-            color: #fca5a5;
-            background: rgba(220, 70, 70, 0.3);
-        }
-
-        /* Lista lateral de cupos */
-        .booking-item {
-            padding: 12px;
-            border-radius: 8px;
-            background: #181818;
-            border: 1px solid var(--borde-sutil);
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Modal */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            z-index: 50;
-        }
-
-        .modal-backdrop.active { display: flex; }
-
-        .modal-box {
-            background: var(--tarjeta-bg);
-            border: 1px solid var(--oro);
-            border-radius: 12px;
-            max-width: 420px;
-            width: 100%;
-            padding: 24px;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 0.85rem;
-            color: var(--texto-silenciado);
-        }
-
-        .btn-primary {
-            background: var(--oro);
-            color: #000;
-            font-weight: 600;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .btn-primary:hover { background: var(--oro-hover); }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--oro);
-            border: 1px solid var(--oro);
-            font-weight: 600;
-            padding: 10px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 8px;
-        }
-
-        .alert-box {
-            background: rgba(212, 175, 55, 0.12);
-            border: 1px solid var(--oro);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            margin-bottom: 14px;
-            display: none;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- 2. ESTRUCTURA HTML -->
-    <div class="container">
-        <!-- Calendario -->
-        <div class="card">
-            <div class="calendar-header">
-                <h2 class="calendar-title" id="header-month-title">Calendario</h2>
-                <div class="nav-controls">
-                    <button class="btn-icon" onclick="changeMonth(-1)">◀</button>
-                    <select id="month-select" onchange="jumpToDate()">
-                        <option value="0">Enero</option><option value="1">Febrero</option>
-                        <option value="2">Marzo</option><option value="3">Abril</option>
-                        <option value="4">Mayo</option><option value="5">Junio</option>
-                        <option value="6">Julio</option><option value="7">Agosto</option>
-                        <option value="8">Septiembre</option><option value="9">Octubre</option>
-                        <option value="10">Noviembre</option><option value="11">Diciembre</option>
-                    </select>
-                    <select id="year-select" onchange="jumpToDate()"></select>
-                    <button class="btn-icon" onclick="changeMonth(1)">▶</button>
-                </div>
-            </div>
-
-            <div class="weekdays">
-                <div class="weekday">Dom</div><div class="weekday">Lun</div>
-                <div class="weekday">Mar</div><div class="weekday">Mié</div>
-                <div class="weekday">Jue</div><div class="weekday">Vie</div>
-                <div class="weekday">Sáb</div>
-            </div>
-
-            <div class="days-grid" id="calendar-grid"></div>
-        </div>
-
-        <!-- Panel de Cupos Ocupados y Disponibles -->
-        <div class="card">
-            <h3 class="calendar-title" style="font-size: 1.4rem; margin-bottom: 6px;">Estado de Cupos</h3>
-            <p id="sync-status" style="font-size: 0.8rem; color: var(--texto-silenciado); margin-bottom: 16px;">
-                Conectando base de datos...
-            </p>
-            <div id="bookings-list"></div>
-        </div>
-    </div>
-
-    <!-- Modal de Reserva / Cambio de Fecha -->
-    <div class="modal-backdrop" id="booking-modal">
-        <div class="modal-box">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                <h3 class="calendar-title" style="font-size: 1.5rem;">Reservar Fecha</h3>
-                <button class="btn-icon" onclick="closeModal()">✕</button>
-            </div>
-
-            <p style="font-size: 0.9rem; margin-bottom: 16px;">
-                Fecha elegida: <strong id="modal-date-text" style="color: var(--oro);"></strong>
-            </p>
-
-            <!-- Aviso dinámico si el mismo nombre ya tiene una reserva -->
-            <div id="existing-booking-alert" class="alert-box">
-                <p id="existing-booking-msg"></p>
-            </div>
-
-            <form id="booking-form" onsubmit="confirmBooking(event)">
-                <input type="hidden" id="selected-date-key">
-
-                <div class="form-group">
-                    <label>Tu nombre completo *</label>
-                    <input type="text" id="user-name" required placeholder="Ej: Carlos Gómez" oninput="checkExistingName()">
-                </div>
-
-                <div class="form-group">
-                    <label>Teléfono / WhatsApp *</label>
-                    <input type="text" id="user-contact" required placeholder="Ej: 300 123 4567">
-                </div>
-
-                <div class="form-group">
-                    <label>Notas (Opcional)</label>
-                    <textarea id="user-notes" rows="2" placeholder="Detalles adicionales..."></textarea>
-                </div>
-
-                <!-- Botones de Acción -->
-                <button type="submit" id="btn-confirm-new" class="btn-primary">
-                    OK, Confirmar Fecha
-                </button>
-
-                <button type="button" id="btn-change-date" class="btn-secondary" style="display: none;" onclick="switchBookingDate()">
-                    Cambiar mi fecha anterior a esta
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- 3. ALMACENAMIENTO EN TIEMPO REAL Y LÓGICA -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, collection, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Configuración de Firebase (Reemplaza con tus credenciales si lo subes a un hosting externo)
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'agenda-cupos-app';
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        let currentUser = null;
-        let currentYear = new Date().getFullYear();
-        let currentMonth = new Date().getMonth();
-        let bookingsData = {}; // Guarda { "YYYY-MM-DD": { name, contact, notes, normalizedName } }
-        let matchedPreviousDateKey = null;
-
-        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-        // Inicializar años
-        const yearSelect = document.getElementById('year-select');
-        for (let y = currentYear; y <= currentYear + 3; y++) {
-            const opt = document.createElement('option');
-            opt.value = y;
-            opt.textContent = y;
-            yearSelect.appendChild(opt);
-        }
-
-        // Autenticación automática
-        async function initAuth() {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                await signInAnonymously(auth);
-            }
-        }
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('sync-status').textContent = "🟢 Sincronizado en tiempo real";
-                listenToBookings();
-            }
-        });
-
-        // ESCUCHAR CAMBIOS EN TIEMPO REAL (Bloquea automáticamente para los demás)
-        function listenToBookings() {
-            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario');
-            onSnapshot(colRef, (snapshot) => {
-                const updated = {};
-                snapshot.forEach((docSnap) => {
-                    updated[docSnap.id] = docSnap.data();
-                });
-                bookingsData = updated;
-                renderCalendar();
-                renderBookingsList();
-            });
-        }
-
-        // RENDERIZAR CALENDARIO CON TUS CLASES (.day-cell y .booked)
-        window.renderCalendar = function() {
-            const grid = document.getElementById('calendar-grid');
-            document.getElementById('month-select').value = currentMonth;
-            document.getElementById('year-select').value = currentYear;
-            document.getElementById('header-month-title').textContent = `${monthNames[currentMonth]} ${currentYear}`;
-            grid.innerHTML = '';
-
-            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            for (let i = 0; i < firstDay; i++) {
-                grid.appendChild(document.createElement('div'));
-            }
-
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateObj = new Date(currentYear, currentMonth, day);
-                const dateKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const booking = bookingsData[dateKey];
-                const isPast = dateObj < today;
-
-                const cell = document.createElement('div');
-                cell.className = 'day-cell';
-
-                if (booking) {
-                    // FECHA BLOQUEADA AUTOMÁTICAMENTE
-                    cell.classList.add('booked');
-                    cell.innerHTML = `
-                        <span class="day-number">${day}</span>
-                        <span class="status-tag status-booked" title="Ocupado por ${booking.name}">🔒 ${booking.name}</span>
-                    `;
-                    cell.onclick = () => alert(`Este cupo ya está ocupado por ${booking.name}. Por favor selecciona una fecha disponible.`);
-                } else if (isPast) {
-                    cell.classList.add('past');
-                    cell.innerHTML = `<span class="day-number">${day}</span><span class="status-tag">-</span>`;
-                } else {
-                    // FECHA DISPONIBLE
-                    cell.innerHTML = `
-                        <span class="day-number">${day}</span>
-                        <span class="status-tag status-available">Disponible</span>
-                    `;
-                    cell.onclick = () => openModal(dateKey);
-                }
-
-                grid.appendChild(cell);
-            }
-        };
-
-        // RENDERIZAR LISTA LATERAL DE CUPOS OCUPADOS
-        window.renderBookingsList = function() {
-            const container = document.getElementById('bookings-list');
-            const entries = Object.entries(bookingsData).sort((a, b) => a[0].localeCompare(b[0]));
-
-            if (entries.length === 0) {
-                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--texto-silenciado);">Aún no hay fechas reservadas. Todas están disponibles.</p>`;
-                return;
-            }
-
-            container.innerHTML = entries.map(([dateKey, data]) => `
-                <div class="booking-item">
-                    <div>
-                        <div style="font-weight: 600; font-size: 0.9rem;">${data.name}</div>
-                        <div style="font-size: 0.8rem; color: var(--oro);">${formatHumanDate(dateKey)}</div>
-                    </div>
-                    <span class="status-tag status-booked" style="width: auto;">Ocupado</span>
-                </div>
-            `).join('');
-        };
-
-        // DETECTAR SI EL MISMO NOMBRE YA TIENE UNA RESERVA PARA OFRECER CAMBIO DE FECHA
-        window.checkExistingName = function() {
-            const inputName = document.getElementById('user-name').value.trim().toLowerCase();
-            const alertBox = document.getElementById('existing-booking-alert');
-            const alertMsg = document.getElementById('existing-booking-msg');
-            const btnChange = document.getElementById('btn-change-date');
-
-            matchedPreviousDateKey = null;
-
-            if (inputName.length >= 3) {
-                for (const [dateKey, data] of Object.entries(bookingsData)) {
-                    if (data.name.trim().toLowerCase() === inputName) {
-                        matchedPreviousDateKey = dateKey;
-                        break;
-                    }
-                }
-            }
-
-            if (matchedPreviousDateKey) {
-                alertBox.style.display = 'block';
-                alertMsg.innerHTML = `Ya tienes una reserva el <strong>${formatHumanDate(matchedPreviousDateKey)}</strong>. ¿Deseas mover tu cupo a esta nueva fecha o confirmar una adicional?`;
-                btnChange.style.display = 'block';
-            } else {
-                alertBox.style.display = 'none';
-                btnChange.style.display = 'none';
-            }
-        };
-
-        // OPCIÓN 1: GUARDAR NUEVA RESERVA (Y BLOQUEAR PARA LOS DEMÁS)
-        window.confirmBooking = async function(event) {
-            event.preventDefault();
-            if (!currentUser) return;
-
-            const dateKey = document.getElementById('selected-date-key').value;
-            const name = document.getElementById('user-name').value.trim();
-            const contact = document.getElementById('user-contact').value.trim();
-            const notes = document.getElementById('user-notes').value.trim();
-
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario', dateKey);
-
-            try {
-                await runTransaction(db, async (transaction) => {
-                    const existingDoc = await transaction.get(docRef);
-                    if (existingDoc.exists()) {
-                        throw new Error("YA_OCUPADO");
-                    }
-                    transaction.set(docRef, {
-                        name,
-                        contact,
-                        notes,
-                        createdAt: new Date().toISOString()
-                    });
-                });
-                closeModal();
-            } catch (err) {
-                if (err.message === "YA_OCUPADO") {
-                    alert("¡Alguien más acaba de confirmar esta fecha hace un segundo! Elige otra.");
-                    closeModal();
-                } else {
-                    alert("Error al guardar la reserva.");
-                }
-            }
-        };
-
-        // OPCIÓN 2: CAMBIAR FECHA (Libera la anterior y bloquea la nueva en un solo paso)
-        window.switchBookingDate = async function() {
-            if (!currentUser || !matchedPreviousDateKey) return;
-
-            const newDateKey = document.getElementById('selected-date-key').value;
-            const name = document.getElementById('user-name').value.trim();
-            const contact = document.getElementById('user-contact').value.trim();
-            const notes = document.getElementById('user-notes').value.trim();
-
-            const oldDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario', matchedPreviousDateKey);
-            const newDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario', newDateKey);
-
-            try {
-                await runTransaction(db, async (transaction) => {
-                    const newDoc = await transaction.get(newDocRef);
-                    if (newDoc.exists()) {
-                        throw new Error("YA_OCUPADO");
-                    }
-                    // 1. Elimina la reserva anterior (la vuelve a dejar disponible para otros)
-                    transaction.delete(oldDocRef);
-                    // 2. Guarda y bloquea la nueva fecha
-                    transaction.set(newDocRef, {
-                        name,
-                        contact,
-                        notes,
-                        updatedAt: new Date().toISOString()
-                    });
-                });
-                closeModal();
-            } catch (err) {
-                alert(err.message === "YA_OCUPADO" ? "La nueva fecha ya fue tomada." : "Error al cambiar la fecha.");
-            }
-        };
-
-        // Controles de Modal y Navegación
-        window.openModal = function(dateKey) {
-            document.getElementById('booking-form').reset();
-            document.getElementById('existing-booking-alert').style.display = 'none';
-            document.getElementById('btn-change-date').style.display = 'none';
-            document.getElementById('selected-date-key').value = dateKey;
-            document.getElementById('modal-date-text').textContent = formatHumanDate(dateKey);
-            document.getElementById('booking-modal').classList.add('active');
-        };
-
-        window.closeModal = function() {
-            document.getElementById('booking-modal').classList.remove('active');
-        };
-
-        window.changeMonth = function(delta) {
-            currentMonth += delta;
-            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-            renderCalendar();
-        };
-
-        window.jumpToDate = function() {
-            currentMonth = parseInt(document.getElementById('month-select').value, 10);
-            currentYear = parseInt(document.getElementById('year-select').value, 10);
-            renderCalendar();
-        };
-
-        function formatHumanDate(dateKey) {
-            const [y, m, d] = dateKey.split('-').map(Number);
-            return `${d} de ${monthNames[m - 1]} de ${y}`;
-        }
-
-        renderCalendar();
-        initAuth();
-    </script>
-</body>
-</html>
+            border
