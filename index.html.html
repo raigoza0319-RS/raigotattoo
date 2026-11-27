@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raigo Tattoo — Tour España 2027</title>
+    <meta name="description" content="Raigo Tattoo visita Madrid, Alicante y Granada en marzo de 2027. Elige tu día y separa tu cupo por WhatsApp.">
+    <meta property="og:title" content="Raigo Tattoo — Tour España 2027">
+    <meta property="og:description" content="Madrid · Alicante · Granada — marzo 2027. Separa tu cupo.">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='38' fill='%23c89b54'%3ER%3C/text%3E%3C/svg%3E">
+
+    <!-- Editorial serif display font and clean sans-serif UI font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Tipografía editorial para el encabezado y base sans-serif para la interfaz */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .font-display-editorial {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+        }
+        @keyframes toastSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-toast {
+            animation: toastSlideIn 0.25s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#0a0a0a] text-neutral-100 flex flex-col items-center justify-center px-4 py-10 sm:py-14">
+
+    <!-- Alerta visual flotante al confirmar y bloquear una fecha -->
+    <div id="alert-banner" role="alert" aria-live="assertive" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-xl bg-[#161616] border border-[#c89b54] rounded-2xl p-4 shadow-2xl shadow-black/80 animate-toast">
+        <div class="flex items-start justify-between gap-3">
+            <div class="space-y-1">
+                <p id="alert-banner-title" class="text-sm sm:text-base font-bold text-[#c89b54]">
+                    Alerta de fecha bloqueada
+                </p>
+                <p id="alert-banner-body" class="text-xs sm:text-sm text-neutral-200 leading-relaxed"></p>
+            </div>
+            <button type="button" id="btn-close-alert" aria-label="Cerrar alerta" class="px-2.5 py-1 rounded-xl text-xs font-semibold bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700 cursor-pointer transition shrink-0">
+                ✕
+            </button>
+        </div>
+    </div>
+
+    <!-- Main minimalist container -->
+    <main class="w-full max-w-2xl">
+
+        <!-- Bold editorial display header -->
+        <header class="text-center mb-8 sm:mb-10 bg-[#121212] border border-[#c89b54]/35 rounded-3xl px-5 py-8 sm:px-8 sm:py-10 shadow-2xl">
+            <h1 class="font-display-editorial text-6xl sm:text-7xl md:text-8xl font-bold text-white uppercase leading-none tracking-tight">
+                RAIGO TATTOO
+            </h1>
+            <p class="font-display-editorial text-4xl sm:text-6xl md:text-7xl italic font-bold text-[#c89b54] uppercase leading-tight mt-2">
+                TOUR ESPAÑA 2027
+            </p>
+        </header>
+
+        <!-- Client booking form -->
+        <form id="tour-booking-form" novalidate="" class="bg-[#121212] border border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+
+            <!-- Nombre and Apellido -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="input-nombre" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                        Nombre
+                    </label>
+                    <input type="text" id="input-nombre" name="nombre" required="" autocomplete="given-name" placeholder="Tu nombre" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white placeholder:text-neutral-500 outline-none transition">
+                </div>
+
+                <div>
+                    <label for="input-apellido" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                        Apellido
+                    </label>
+                    <input type="text" id="input-apellido" name="apellido" autocomplete="family-name" placeholder="Tu apellido" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white placeholder:text-neutral-500 outline-none transition">
+                </div>
+            </div>
+
+            <!-- Correo and Celular -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="input-correo" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                        Correo
+                    </label>
+                    <input type="email" id="input-correo" name="correo" autocomplete="email" placeholder="correo@ejemplo.com" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white placeholder:text-neutral-500 outline-none transition">
+                </div>
+
+                <div>
+                    <label for="input-celular" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                        Celular
+                    </label>
+                    <input type="tel" id="input-celular" name="celular" autocomplete="tel" placeholder="+34 600 000 000" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white placeholder:text-neutral-500 outline-none transition">
+                </div>
+            </div>
+
+            <!-- Ciudad (Madrid, Alicante, Granada in exact order) -->
+            <div>
+                <label for="select-ciudad" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                    Ciudad
+                </label>
+                <select id="select-ciudad" name="ciudad" required="" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-base sm:text-lg text-white outline-none transition cursor-pointer">
+                    <option value="" selected="" disabled="">Elige tu ciudad</option>
+                    <option value="Madrid">Madrid</option>
+                    <option value="Alicante">Alicante</option>
+                    <option value="Granada">Granada</option>
+                </select>
+            </div>
+
+            <!-- Interactive March 2027 calendar trigger -->
+            <div>
+                <label for="btn-toggle-calendar" class="block text-lg sm:text-xl font-semibold text-white mb-2">
+                    Fecha en marzo 2027
+                </label>
+                <button type="button" id="btn-toggle-calendar" aria-expanded="true" aria-controls="panel-march-calendar" class="w-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-4 text-left text-base sm:text-lg transition cursor-pointer flex items-center justify-between gap-3">
+                    <span id="selected-date-text" class="text-neutral-400">Selecciona un día de marzo de 2027</span>
+                    <span class="text-[#c89b54] font-semibold text-sm sm:text-base shrink-0">
+                        Marzo 2027
+                    </span>
+                </button>
+
+                <!-- March 2027 calendar panel -->
+                <div id="panel-march-calendar" class="mt-3 bg-[#0e0e0e] border border-[#c89b54]/50 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-neutral-800 pb-3">
+                        <div>
+                            <h2 class="text-lg sm:text-xl font-bold text-[#c89b54]">
+                                Marzo 2027
+                            </h2>
+                            <p class="text-xs sm:text-sm text-neutral-400">
+                                Elige el día en que quieres tatuarte
+                            </p>
+                        </div>
+                        <button type="button" id="btn-close-calendar" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700 cursor-pointer transition">
+                            Cerrar
+                        </button>
+                    </div>
+
+                    <!-- Days of the week -->
+                    <div class="grid grid-cols-7 gap-1.5 text-center text-xs sm:text-sm font-semibold text-neutral-400">
+                        <div>Lun</div>
+                        <div>Mar</div>
+                        <div>Mié</div>
+                        <div>Jue</div>
+                        <div>Vie</div>
+                        <div>Sáb</div>
+                        <div>Dom</div>
+                    </div>
+
+                    <!-- March 2027 days grid -->
+                    <div id="march-grid" class="grid grid-cols-7 gap-1.5 sm:gap-2" aria-busy="false"><button type="button" aria-label="1 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">1</button><button type="button" aria-label="2 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">2</button><button type="button" aria-label="3 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">3</button><button type="button" aria-label="4 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">4</button><button type="button" aria-label="5 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">5</button><button type="button" aria-label="6 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">6</button><button type="button" aria-label="7 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">7</button><button type="button" aria-label="8 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">8</button><button type="button" aria-label="9 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">9</button><button type="button" aria-label="10 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">10</button><button type="button" aria-label="11 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">11</button><button type="button" aria-label="12 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">12</button><button type="button" aria-label="13 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">13</button><button type="button" aria-label="14 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">14</button><button type="button" aria-label="15 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">15</button><button type="button" aria-label="16 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">16</button><button type="button" aria-label="17 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">17</button><button type="button" aria-label="18 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">18</button><button type="button" aria-label="19 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">19</button><button type="button" aria-label="20 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">20</button><button type="button" aria-label="21 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">21</button><button type="button" aria-label="22 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">22</button><button type="button" aria-label="23 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">23</button><button type="button" aria-label="24 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">24</button><button type="button" aria-label="25 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">25</button><button type="button" aria-label="26 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">26</button><button type="button" aria-label="27 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">27</button><button type="button" aria-label="28 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">28</button><button type="button" aria-label="29 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">29</button><button type="button" aria-label="30 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">30</button><button type="button" aria-label="31 de marzo de 2027 disponible" class="h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition">31</button></div>
+
+                    <!-- Occupancy counter and legend -->
+                    <div class="pt-3 border-t border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs sm:text-sm text-neutral-400">
+                        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded bg-neutral-900 border border-neutral-700 inline-block"></span>
+                                Disponible
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded bg-[#c89b54] inline-block"></span>
+                                Tu elección
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded bg-neutral-800/90 border border-[#c89b54]/40 inline-block"></span>
+                                Reservada
+                            </span>
+                        </div>
+                        <span id="march-occupancy-status" class="font-semibold text-[#c89b54]">0 / 31 días ocupados</span>
+                    </div>
+
+                    <!-- List of saved dates with client details and save timestamps -->
+                    <div id="booked-dates-summary" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+
+            <!-- Honeypot field: hidden from people, filled in only by spam bots -->
+            <div class="hidden" aria-hidden="true">
+                <label for="input-website">Sitio web</label>
+                <input type="text" id="input-website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- Botón adicional para confirmar y bloquear la fecha seleccionada -->
+            <button type="button" id="btn-confirmar-fecha" class="w-full bg-neutral-900 hover:bg-neutral-800 text-[#c89b54] border border-[#c89b54]/60 font-bold text-lg sm:text-xl py-3.5 px-6 rounded-2xl transition cursor-pointer">
+                Confirmar y bloquear fecha
+            </button>
+
+            <!-- Main CTA button pointing directly to WhatsApp -->
+            <a id="btn-separar-cupo" href="https://wa.me/message/DAUFCP6HLKS4M1" target="_blank" rel="noopener noreferrer" aria-disabled="true" class="w-full bg-[#c89b54] hover:bg-[#dfb570] text-black font-bold text-xl sm:text-2xl py-4 px-6 rounded-2xl transition shadow-lg shadow-[#c89b54]/20 flex items-center justify-center gap-3 text-center opacity-50 pointer-events-none select-none" aria-busy="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 shrink-0" aria-hidden="true">
+                    <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.766.469 3.484 1.359 5l-1.422 5.203 5.328-1.391c1.453.797 3.078 1.219 4.695 1.219 5.516 0 9.969-4.453 9.969-9.969s-4.453-10-9.969-10zm5.813 14.109c-.25.703-1.438 1.344-1.984 1.422-.516.078-1.156.109-1.859-.109-.438-.141-1-.328-1.75-.656-3.078-1.328-5.078-4.453-5.234-4.656-.156-.203-1.25-1.656-1.25-3.156s.797-2.25 1.078-2.547c.281-.297.625-.375.828-.375s.406.016.594.016c.188 0 .453-.078.703.531.266.641.891 2.172.969 2.328.078.156.125.344.031.547-.094.203-.141.328-.281.5-.141.172-.297.391-.422.516-.141.141-.297.297-.125.594.172.297.766 1.266 1.641 2.047 1.125 1 2.078 1.313 2.375 1.453.297.141.469.125.641-.078.172-.203.734-.859.938-1.156.203-.297.406-.25.688-.141.281.109 1.797.844 2.109 1 .313.156.516.234.594.359.078.125.078.734-.172 1.438z"></path>
+                </svg>
+                <span id="btn-separar-cupo-label">Ir a WhatsApp</span>
+            </a>
+
+            <!-- Booking result / error messages -->
+            <div id="booking-status" role="status" aria-live="polite" class="rounded-2xl border border-[#c89b54]/40 bg-[#c89b54]/10 px-4 py-3.5 text-sm sm:text-base text-[#f3d8a7]">
+                <p>Selecciona tu ciudad y un día disponible en marzo de 2027.</p>
+            </div>
+        </form>
+
+        <footer class="mt-8 text-center text-xs sm:text-sm text-neutral-500 space-y-1">
+            <p class="font-display-editorial italic text-lg text-[#c89b54]/80">Madrid · Alicante · Granada</p>
+            <p>Cupos limitados: un solo cliente por día durante marzo de 2027.</p>
+            <p>© 2026 Raigo Tattoo</p>
+        </footer>
+    </main>
+
+    <script>
+        (function () {
+            "use strict";
+
+            // Número de WhatsApp en formato internacional sin "+" ni espacios (personalízalo si lo deseas)
+            const WHATSAPP_NUM = "34600000000";
+            // Webhook opcional para recibir alerta automática por HTTP POST
+            const ALERT_WEBHOOK_URL = "";
+            const STORAGE_KEY = "raigo_tattoo_tour_espana_marzo_2027_v1";
+
+            let selectedDay = null;
+            let alertTimeoutId = null;
+
+            // Referencias a elementos del DOM
+            const form = document.getElementById("tour-booking-form");
+            const inputNombre = document.getElementById("input-nombre");
+            const inputApellido = document.getElementById("input-apellido");
+            const inputCorreo = document.getElementById("input-correo");
+            const inputCelular = document.getElementById("input-celular");
+            const selectCiudad = document.getElementById("select-ciudad");
+            const honeypot = document.getElementById("input-website");
+
+            const btnToggleCalendar = document.getElementById("btn-toggle-calendar");
+            const btnCloseCalendar = document.getElementById("btn-close-calendar");
+            const panelCalendar = document.getElementById("panel-march-calendar");
+            const selectedDateText = document.getElementById("selected-date-text");
+            const marchGrid = document.getElementById("march-grid");
+            const occupancyStatus = document.getElementById("march-occupancy-status");
+            const bookedSummary = document.getElementById("booked-dates-summary");
+
+            const btnConfirmarFecha = document.getElementById("btn-confirmar-fecha");
+            const whatsappBtn = document.getElementById("btn-separar-cupo");
+            const bookingStatus = document.getElementById("booking-status");
+
+            const alertBanner = document.getElementById("alert-banner");
+            const alertBannerTitle = document.getElementById("alert-banner-title");
+            const alertBannerBody = document.getElementById("alert-banner-body");
+            const btnCloseAlert = document.getElementById("btn-close-alert");
+
+            /**
+             * Escapa texto para prevenir inyección HTML en mensajes dinámicos.
+             */
+            function escapeHtml(str) {
+                return String(str || "")
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            /**
+             * Lee las reservas almacenadas en localStorage.
+             */
+            function getBookings() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    const parsed = raw ? JSON.parse(raw) : {};
+                    return parsed && typeof parsed === "object" ? parsed : {};
+                } catch (error) {
+                    console.warn("No se pudo leer localStorage:", error);
+                    return {};
+                }
+            }
+
+            /**
+             * Guarda las reservas en localStorage.
+             */
+            function saveBookings(bookings) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
+                } catch (error) {
+                    console.warn("No se pudo guardar en localStorage:", error);
+                }
+            }
+
+            /**
+             * Actualiza el bloque de estado inferior del formulario.
+             */
+            function setStatusMessage(html, isError = false) {
+                if (!bookingStatus) return;
+                bookingStatus.className = isError
+                    ? "rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3.5 text-sm sm:text-base text-red-200"
+                    : "rounded-2xl border border-[#c89b54]/40 bg-[#c89b54]/10 px-4 py-3.5 text-sm sm:text-base text-[#f3d8a7]";
+                bookingStatus.innerHTML = `<p>${html}</p>`;
+            }
+
+            /**
+             * Muestra la alerta visual superior con los detalles de la fecha bloqueada.
+             */
+            function showVisualAlert(title, bodyText) {
+                if (!alertBanner || !alertBannerTitle || !alertBannerBody) return;
+                alertBannerTitle.textContent = title;
+                alertBannerBody.textContent = bodyText;
+                alertBanner.classList.remove("hidden");
+
+                if (alertTimeoutId) {
+                    clearTimeout(alertTimeoutId);
+                }
+                alertTimeoutId = setTimeout(() => {
+                    alertBanner.classList.add("hidden");
+                }, 9000);
+            }
+
+            if (btnCloseAlert && alertBanner) {
+                btnCloseAlert.addEventListener("click", () => {
+                    alertBanner.classList.add("hidden");
+                    if (alertTimeoutId) clearTimeout(alertTimeoutId);
+                });
+            }
+
+            /**
+             * Habilita o deshabilita el botón de WhatsApp y actualiza su URL con mensaje prellenado.
+             */
+            function setWhatsAppButtonState(enabled, url = "https://wa.me/message/DAUFCP6HLKS4M1") {
+                if (!whatsappBtn) return;
+                whatsappBtn.href = url;
+                whatsappBtn.setAttribute("aria-disabled", String(!enabled));
+                whatsappBtn.classList.toggle("opacity-50", !enabled);
+                whatsappBtn.classList.toggle("pointer-events-none", !enabled);
+            }
+
+            /**
+             * Renderiza los 31 días de marzo de 2027, el contador y el listado de reservas.
+             */
+            function renderCalendar() {
+                const bookings = getBookings();
+                const bookedDays = Object.keys(bookings);
+
+                if (occupancyStatus) {
+                    occupancyStatus.textContent = `${bookedDays.length} / 31 días ocupados`;
+                }
+
+                if (marchGrid) {
+                    const dayButtons = Array.from(marchGrid.children);
+                    dayButtons.forEach((btn, index) => {
+                        const day = String(index + 1);
+                        const isBooked = Boolean(bookings[day]);
+                        const isSelected = !isBooked && selectedDay === day;
+
+                        btn.disabled = isBooked;
+                        btn.setAttribute(
+                            "aria-label",
+                            `${day} de marzo de 2027 ${isBooked ? "reservada" : "disponible"}`
+                        );
+
+                        // Resetear clases dinámicas previas
+                        btn.classList.remove(
+                            "bg-[#c89b54]",
+                            "text-black",
+                            "border-[#c89b54]",
+                            "bg-neutral-800/90",
+                            "text-neutral-500",
+                            "border-[#c89b54]/40",
+                            "cursor-not-allowed",
+                            "opacity-60",
+                            "bg-neutral-900",
+                            "hover:bg-neutral-800",
+                            "text-neutral-100",
+                            "border-neutral-800",
+                            "hover:border-[#c89b54]"
+                        );
+
+                        if (isBooked) {
+                            btn.classList.add(
+                                "bg-neutral-800/90",
+                                "text-neutral-500",
+                                "border-[#c89b54]/40",
+                                "cursor-not-allowed",
+                                "opacity-60"
+                            );
+                        } else if (isSelected) {
+                            btn.classList.add(
+                                "bg-[#c89b54]",
+                                "text-black",
+                                "border-[#c89b54]"
+                            );
+                        } else {
+                            btn.classList.add(
+                                "bg-neutral-900",
+                                "hover:bg-neutral-800",
+                                "text-neutral-100",
+                                "border-neutral-800",
+                                "hover:border-[#c89b54]"
+                            );
+                        }
+                    });
+                }
+
+                if (bookedSummary) {
+                    if (bookedDays.length === 0) {
+                        bookedSummary.innerHTML = "";
+                    } else {
+                        bookedSummary.innerHTML = bookedDays
+                            .sort((a, b) => Number(a) - Number(b))
+                            .map((day) => {
+                                const item = bookings[day];
+                                const fullName = `${item.nombre || ""} ${item.apellido || ""}`.trim();
+                                return `
+                                    <div class="flex items-center justify-between gap-2 text-xs bg-neutral-900/90 border border-neutral-800 rounded-xl px-3 py-2">
+                                        <span class="text-neutral-200 truncate">
+                                            <strong class="text-[#c89b54]">${escapeHtml(day)} mar 2027</strong> · ${escapeHtml(item.ciudad)} — ${escapeHtml(fullName)}
+                                        </span>
+                                        <span class="text-neutral-500 shrink-0">${escapeHtml(item.timestamp)}</span>
+                                    </div>
+                                `;
+                            })
+                            .join("");
+                    }
+                }
+            }
+
+            /**
+             * Alterna o cierra el panel del calendario.
+             */
+            function setCalendarOpen(isOpen) {
+                if (!panelCalendar || !btnToggleCalendar) return;
+                panelCalendar.classList.toggle("hidden", !isOpen);
+                btnToggleCalendar.setAttribute("aria-expanded", String(isOpen));
+            }
+
+            if (btnToggleCalendar && panelCalendar) {
+                btnToggleCalendar.addEventListener("click", () => {
+                    const willOpen = panelCalendar.classList.contains("hidden");
+                    setCalendarOpen(willOpen);
+                });
+            }
+
+            if (btnCloseCalendar) {
+                btnCloseCalendar.addEventListener("click", () => {
+                    setCalendarOpen(false);
+                });
+            }
+
+            /**
+             * Maneja la selección de un día disponible en marzo 2027.
+             */
+            if (marchGrid) {
+                marchGrid.addEventListener("click", (event) => {
+                    const dayBtn = event.target.closest("button");
+                    if (!dayBtn || dayBtn.disabled) return;
+
+                    const day = dayBtn.textContent.trim();
+                    const bookings = getBookings();
+                    if (bookings[day]) {
+                        setStatusMessage(`El <strong>${escapeHtml(day)} de marzo de 2027</strong> ya está reservado.`, true);
+                        renderCalendar();
+                        return;
+                    }
+
+                    selectedDay = day;
+                    if (selectedDateText) {
+                        selectedDateText.textContent = `${day} de marzo de 2027`;
+                        selectedDateText.classList.remove("text-neutral-400");
+                        selectedDateText.classList.add("text-white", "font-semibold");
+                    }
+
+                    renderCalendar();
+                    setStatusMessage(
+                        `Has seleccionado el <strong>${escapeHtml(day)} de marzo de 2027</strong>. Pulsa <strong>Confirmar y bloquear fecha</strong> para apartarlo.`
+                    );
+                });
+            }
+
+            /**
+             * Envía alerta silenciosa a un webhook si se configuró una URL.
+             */
+            async function dispatchWebhookAlert(payload) {
+                if (!ALERT_WEBHOOK_URL) return;
+                try {
+                    await fetch(ALERT_WEBHOOK_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (error) {
+                    console.warn("No se pudo enviar la alerta al webhook:", error);
+                }
+            }
+
+            /**
+             * Valida los datos, bloquea la fecha seleccionada, muestra la alerta y prepara WhatsApp.
+             */
+            async function handleConfirmAndLockDate() {
+                if (honeypot && honeypot.value.trim() !== "") {
+                    return;
+                }
+
+                const nombre = inputNombre ? inputNombre.value.trim() : "";
+                const apellido = inputApellido ? inputApellido.value.trim() : "";
+                const correo = inputCorreo ? inputCorreo.value.trim() : "";
+                const celular = inputCelular ? inputCelular.value.trim() : "";
+                const ciudad = selectCiudad ? selectCiudad.value : "";
+
+                if (!nombre) {
+                    setStatusMessage("Por favor ingresa tu <strong>Nombre</strong> para confirmar la reserva.", true);
+                    showVisualAlert("Datos incompletos", "Ingresa tu nombre antes de confirmar y bloquear la fecha.");
+                    if (inputNombre) inputNombre.focus();
+                    return;
+                }
+
+                if (!ciudad) {
+                    setStatusMessage("Por favor elige tu <strong>Ciudad</strong> (Madrid, Alicante o Granada).", true);
+                    showVisualAlert("Ciudad pendiente", "Selecciona Madrid, Alicante o Granada para continuar.");
+                    if (selectCiudad) selectCiudad.focus();
+                    return;
+                }
+
+                if (!selectedDay) {
+                    setStatusMessage("Por favor selecciona un <strong>día disponible en marzo de 2027</strong>.", true);
+                    showVisualAlert("Fecha pendiente", "Elige un día en el calendario de marzo de 2027 antes de confirmar.");
+                    setCalendarOpen(true);
+                    return;
+                }
+
+                const bookings = getBookings();
+                if (bookings[selectedDay]) {
+                    setStatusMessage(
+                        `El <strong>${escapeHtml(selectedDay)} de marzo de 2027</strong> ya fue bloqueado por otra reserva. Elige otro día.`,
+                        true
+                    );
+                    selectedDay = null;
+                    renderCalendar();
+                    return;
+                }
+
+                const now = new Date();
+                const timestamp = now.toLocaleString("es-ES", {
+                    day: "2-digit",
+                    month: "short",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+
+                const lockedDay = selectedDay;
+                const fechaTexto = `${lockedDay} de marzo de 2027`;
+                const fullName = `${nombre} ${apellido}`.trim();
+
+                const bookingRecord = {
+                    nombre,
+                    apellido,
+                    correo,
+                    celular,
+                    ciudad,
+                    fecha: fechaTexto,
+                    timestamp
+                };
+
+                // 1. Bloquear fecha en el registro local
+                bookings[lockedDay] = bookingRecord;
+                saveBookings(bookings);
+
+                // 2. Disparar webhook opcional si existe
+                await dispatchWebhookAlert(bookingRecord);
+
+                // 3. Construir URL de WhatsApp con mensaje prellenado
+                const whatsappMessage = encodeURIComponent(
+                    `¡Nueva reserva confirmada - Raigo Tattoo Tour España 2027!\n` +
+                    `• Fecha bloqueada: ${fechaTexto}\n` +
+                    `• Ciudad: ${ciudad}\n` +
+                    `• Cliente: ${fullName}\n` +
+                    `• Celular: ${celular || "No indicado"}\n` +
+                    `• Correo: ${correo || "No indicado"}`
+                );
+                const whatsappUrl = `https://wa.me/${WHATSAPP_NUM}?text=${whatsappMessage}`;
+
+                // 4. Restablecer selección activa y redibujar calendario bloqueado
+                selectedDay = null;
+                if (selectedDateText) {
+                    selectedDateText.textContent = "Selecciona un día de marzo de 2027";
+                    selectedDateText.classList.add("text-neutral-400");
+                    selectedDateText.classList.remove("text-white", "font-semibold");
+                }
+
+                renderCalendar();
+                setWhatsAppButtonState(true, whatsappUrl);
+
+                // 5. Mostrar alerta visual y mensaje de confirmación
+                showVisualAlert(
+                    `¡Fecha bloqueada: ${fechaTexto}!`,
+                    `Cupo apartado en ${ciudad} para ${fullName}. Ya puedes enviar el aviso directo por WhatsApp.`
+                );
+
+                setStatusMessage(
+                    `Fecha <strong>${escapeHtml(fechaTexto)}</strong> bloqueada para <strong>${escapeHtml(fullName)}</strong> en <strong>${escapeHtml(ciudad)}</strong>. Pulsa <strong>Ir a WhatsApp</strong> para enviar tu alerta.`
+                );
+            }
+
+            if (btnConfirmarFecha) {
+                btnConfirmarFecha.addEventListener("click", handleConfirmAndLockDate);
+            }
+
+            if (form) {
+                form.addEventListener("submit", (event) => {
+                    event.preventDefault();
+                    handleConfirmAndLockDate();
+                });
+            }
+
+            // Inicialización limpia al cargar la página
+            setWhatsAppButtonState(false);
+            renderCalendar();
+        })();
+    </script>
+</body>
+</html>
