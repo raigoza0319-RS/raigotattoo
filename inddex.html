@@ -208,7 +208,7 @@
                     Confirmar fecha
                 </button>
 
-                <a id="btn-separar-cupo" href="https://wa.me/message/DAUFCP6HLKS4M1" target="_blank" rel="noopener noreferrer" class="w-full bg-[#c89b54] hover:bg-[#dfb570] text-black font-bold text-lg sm:text-xl py-4 px-5 rounded-2xl transition shadow-lg shadow-[#c89b54]/20 flex items-center justify-center gap-2.5 text-center">
+                <a id="btn-separar-cupo" href="https://wa.me/message/DAUFCP6HLKS4M1" target="_blank" rel="noopener noreferrer" aria-label="Abrir chat de WhatsApp" class="w-full bg-[#c89b54] hover:bg-[#dfb570] text-black font-bold text-lg sm:text-xl py-4 px-5 rounded-2xl transition shadow-lg shadow-[#c89b54]/20 flex items-center justify-center gap-2.5 text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 shrink-0" aria-hidden="true">
                         <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.766.469 3.484 1.359 5l-1.422 5.203 5.328-1.391c1.453.797 3.078 1.219 4.695 1.219 5.516 0 9.969-4.453 9.969-9.969s-4.453-10-9.969-10zm5.813 14.109c-.25.703-1.438 1.344-1.984 1.422-.516.078-1.156.109-1.859-.109-.438-.141-1-.328-1.75-.656-3.078-1.328-5.078-4.453-5.234-4.656-.156-.203-1.25-1.656-1.25-3.156s.797-2.25 1.078-2.547c.281-.297.625-.375.828-.375s.406.016.594.016c.188 0 .453-.078.703.531.266.641.891 2.172.969 2.328.078.156.125.344.031.547-.094.203-.141.328-.281.5-.141.172-.297.391-.422.516-.141.141-.297.297-.125.594.172.297.766 1.266 1.641 2.047 1.125 1 2.078 1.313 2.375 1.453.297.141.469.125.641-.078.172-.203.734-.859.938-1.156.203-.297.406-.25.688-.141.281.109 1.797.844 2.109 1 .313.156.516.234.594.359.078.125.078.734-.172 1.438z"></path>
                     </svg>
@@ -226,14 +226,14 @@
 
     <script>
         /**
-         * Maneja la selección del día en marzo de 2027 y la confirmación
-         * de la fecha tomada manteniendo los botones finales de Confirmar fecha y WhatsApp.
+         * Gestiona la selección del día en marzo de 2027, el bloqueo en Supabase,
+         * la notificación por FormSubmit y el botón directo a WhatsApp.
          */
+        const SUPABASE_URL = "https://bgxifnsrrkspibhztsjc.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_GDUma45ffIYqEXsRmFwDsg_cpa5Xl2t";
+        const TU_CORREO_ALERTA = "raigotattoo@gmail.com";
         const WHATSAPP_URL = "https://wa.me/message/DAUFCP6HLKS4M1";
-
-        let selectedDay = null;
-        let lockedFechaTexto = "";
-        let reservasActivas = {};
+        const TABLA_RESERVAS = "reservas_marzo_2027";
 
         const form = document.getElementById("tour-booking-form");
         const grid = document.getElementById("march-grid");
