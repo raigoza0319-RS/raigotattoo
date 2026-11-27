@@ -1,160 +1,334 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda de Cupos | Raigotattoo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raigo Tattoo — Tour España 2027</title>
+  <meta name="description" content="Raigo Tattoo visita Madrid, Alicante y Granada en marzo de 2027. Elige tu día y separa tu cupo." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-main: #0a0a0a;
+      --bg-card: #121212;
+      --bg-input: #191919;
+      --gold: #c89b54;
+      --gold-soft: rgba(200, 155, 84, 0.16);
+      --gold-border: rgba(200, 155, 84, 0.35);
+      --text-main: #f5f2eb;
+      --text-muted: #a6a095;
+      --border-subtle: rgba(255, 255, 255, 0.1);
+    }
 
-    <!-- Tipografías -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    * {
+      box-sizing: border-box;
+    }
 
-    <!-- SDK de EmailJS para enviar notificaciones por correo -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px 64px;
+    }
 
-    <!-- ===================================================================== -->
-    <!-- 1. ESTILOS CSS (TEMA NEGRO Y DORADO)                                   -->
-    <!-- ===================================================================== -->
-    <style>
-        :root {
-            --oro: #d4af37;
-            --oro-brillo: #f0cf65;
-            --oro-suave: rgba(212, 175, 55, 0.14);
-            --fondo-app: #080808;
-            --tarjeta-bg: #121212;
-            --tarjeta-elevada: #181818;
-            --borde-sutil: rgba(212, 175, 55, 0.22);
-            --texto-principal: #f7f5f0;
-            --texto-silenciado: #a6a095;
-            --ocupado-bg: rgba(165, 32, 32, 0.25);
-            --ocupado-borde: rgba(239, 68, 68, 0.65);
-            --libre-texto: #4ade80;
-        }
+    .container {
+      width: 100%;
+      max-width: 720px;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    .header {
+      background: linear-gradient(180deg, rgba(200, 155, 84, 0.08) 0%, var(--bg-card) 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: 16px;
+      padding: 36px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at top, #17140b 0%, var(--fondo-app) 55%);
-            color: var(--texto-principal);
-            min-height: 100vh;
-            padding: 24px 16px;
-            display: flex;
-            justify-content: center;
-        }
+    .kicker {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
 
-        .app-wrapper {
-            width: 100%;
-            max-width: 1060px;
-        }
+    h1 {
+      margin: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+      color: var(--text-main);
+    }
 
-        /* Encabezado superior */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding-bottom: 18px;
-            margin-bottom: 22px;
-            border-bottom: 1px solid var(--borde-sutil);
-        }
+    .subtitle {
+      margin: 10px 0 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      color: var(--gold);
+    }
 
-        .brand-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.1rem;
-            color: var(--oro);
-            letter-spacing: 0.5px;
-        }
+    .cities {
+      margin-top: 16px;
+      color: var(--text-muted);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
 
-        .brand-subtitle {
-            font-size: 0.85rem;
-            color: var(--texto-silenciado);
-        }
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
 
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--tarjeta-bg);
-            border: 1px solid var(--borde-sutil);
-            padding: 8px 14px;
-            border-radius: 999px;
-            font-size: 0.82rem;
-            color: var(--oro-brillo);
-        }
+    .field {
+      margin-bottom: 16px;
+    }
 
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22c55e;
-        }
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
 
-        /* Estructura en columnas */
-        .layout-grid {
-            display: grid;
-            grid-template-columns: 1.55fr 1fr;
-            gap: 24px;
-        }
+    input,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-input);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
 
-        @media (max-width: 840px) {
-            .layout-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+    input:focus,
+    select:focus {
+      border-color: var(--gold);
+    }
 
-        .card {
-            background: var(--tarjeta-bg);
-            border: 1px solid var(--borde-sutil);
-            border-radius: 14px;
-            padding: 20px;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
-        }
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
 
-        /* Cabecera y controles del calendario */
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
+    .calendar-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin: 0;
+    }
 
-        .calendar-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            color: var(--oro);
-            margin: 0;
-        }
+    .weekdays,
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
 
-        .controls-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .weekday {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 6px 0;
+      font-weight: 600;
+    }
 
-        select, input, textarea {
-            background: var(--tarjeta-elevada);
-            color: var(--texto-principal);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 8px;
-            padding: 9px 12px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            transition: border-color 0.2s ease;
-        }
+    .day-btn {
+      padding: 10px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-input);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--oro);
-            outline: none;
-        }
+    .day-btn:hover {
+      border-color: var(--gold);
+      background-color: var(--gold-soft);
+    }
 
-        .btn-nav {
-            background: var(--tarjeta-elevada);
-            color: var(--oro);
-            border
+    .day-btn.selected {
+      background-color: var(--gold);
+      color: #0a0a0a;
+      border-color: var(--gold);
+    }
+
+    .cta-btn {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: none;
+      background-color: var(--gold);
+      color: #0a0a0a;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+    }
+
+    .cta-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .status {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="kicker">Agenda Oficial de Citas</div>
+      <h1>RAIGO TATTOO</h1>
+      <div class="subtitle">Tour España 2027</div>
+      <div class="cities">MADRID · ALICANTE · GRANADA · MARZO 2027</div>
+    </header>
+
+    <section class="card">
+      <form id="bookingForm">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" placeholder="Tu nombre" required />
+        </div>
+
+        <div class="field">
+          <label for="apellido">Apellido</label>
+          <input id="apellido" name="apellido" type="text" placeholder="Tu apellido" required />
+        </div>
+
+        <div class="field">
+          <label for="correo">Correo</label>
+          <input id="correo" name="correo" type="email" placeholder="correo@ejemplo.com" required />
+        </div>
+
+        <div class="field">
+          <label for="celular">Celular</label>
+          <input id="celular" name="celular" type="tel" placeholder="+34 600 000 000" required />
+        </div>
+
+        <div class="field">
+          <label for="ciudad">Ciudad</label>
+          <select id="ciudad" name="ciudad" required>
+            <option value="">Elige tu ciudad</option>
+            <option value="Madrid">Madrid</option>
+            <option value="Alicante">Alicante</option>
+            <option value="Granada">Granada</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Fecha en marzo 2027</label>
+          <div class="calendar-header">
+            <h2 class="calendar-title">Marzo 2027</h2>
+            <span id="selectedDateLabel" style="color:#c89b54;font-size:13px;font-weight:600;">Sin día elegido</span>
+          </div>
+          <div class="weekdays">
+            <div class="weekday">Lun</div>
+            <div class="weekday">Mar</div>
+            <div class="weekday">Mié</div>
+            <div class="weekday">Jue</div>
+            <div class="weekday">Vie</div>
+            <div class="weekday">Sáb</div>
+            <div class="weekday">Dom</div>
+          </div>
+          <div id="daysGrid" class="days-grid"></div>
+        </div>
+
+        <button type="submit" class="cta-btn">Separar cupo por WhatsApp</button>
+        <div id="statusMsg" class="status"></div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'raigo_tour_es_2027_reserva';
+    const WHATSAPP_URL = 'https://wa.me/message/DAUFCP6HLKS4M1';
+    const daysGrid = document.getElementById('daysGrid');
+    const selectedDateLabel = document.getElementById('selectedDateLabel');
+    const statusMsg = document.getElementById('statusMsg');
+    const form = document.getElementById('bookingForm');
+
+    let selectedDay = null;
+
+    // Marzo 2027 empieza en lunes (índice 0 en Lun-Dom) y tiene 31 días
+    for (let day = 1; day <= 31; day++) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'day-btn';
+      btn.textContent = String(day);
+      btn.addEventListener('click', () => {
+        selectedDay = day;
+        document.querySelectorAll('.day-btn').forEach(el => el.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedDateLabel.textContent = `${day} de marzo de 2027`;
+        saveDraft();
+      });
+      daysGrid.appendChild(btn);
+    }
+
+    function saveDraft() {
+      const data = {
+        nombre: document.getElementById('nombre').value.trim(),
+        apellido: document.getElementById('apellido').value.trim(),
+        correo: document.getElementById('correo').value.trim(),
+        celular: document.getElementById('celular').value.trim(),
+        ciudad: document.getElementById('ciudad').value,
+        dia: selectedDay
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    form.addEventListener('input', saveDraft);
+
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    if (saved) {
+      if (saved.nombre) document.getElementById('nombre').value = saved.nombre;
+      if (saved.apellido) document.getElementById('apellido').value = saved.apellido;
+      if (saved.correo) document.getElementById('correo').value = saved.correo;
+      if (saved.celular) document.getElementById('celular').value = saved.celular;
+      if (saved.ciudad) document.getElementById('ciudad').value = saved.ciudad;
+      if (saved.dia) {
+        selectedDay = saved.dia;
+        const targetBtn = daysGrid.children[saved.dia - 1];
+        if (targetBtn) targetBtn.classList.add('selected');
+        selectedDateLabel.textContent = `${saved.dia} de marzo de 2027`;
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      saveDraft();
+      if (!selectedDay) {
+        statusMsg.textContent = 'Elige un día de marzo de 2027 antes de continuar.';
+        return;
+      }
+      statusMsg.textContent = 'Reserva guardada en este dispositivo. Abriendo WhatsApp...';
+      window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
+    });
+  </script>
+</body>
+</html>
