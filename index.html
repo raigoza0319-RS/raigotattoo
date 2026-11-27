@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0046)https://google-gemini-link-06d53f.netlify.app/ -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raigo Tattoo — Tour España 2027</title>
     <meta name="description" content="Raigo Tattoo visita Madrid, Alicante y Granada en marzo de 2027. Elige tu día y separa tu cupo por WhatsApp.">
@@ -15,8 +15,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link href="./index_files/css2" rel="stylesheet">
 
-  <script type="module" crossorigin="" src="./index_files/index-D-0E5wir.js.descarga"></script>
-  <link rel="stylesheet" crossorigin="" href="./index_files/index-Qdd00V9W.css">
+    <!-- Tailwind CDN de respaldo por si abres este HTML suelto sin el CSS local -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" crossorigin="" href="./index_files/index-Qdd00V9W.css">
 </head>
 <body class="min-h-screen bg-[#0a0a0a] text-neutral-100 flex flex-col items-center justify-center px-4 py-10 sm:py-14">
 
@@ -155,6 +156,11 @@
                 <input type="text" id="input-website" name="website" tabindex="-1" autocomplete="off">
             </div>
 
+            <!-- Botón adicional para confirmar y bloquear la fecha seleccionada -->
+            <button type="button" id="btn-confirmar-fecha" class="w-full bg-neutral-900 hover:bg-neutral-800 text-[#c89b54] border border-[#c89b54]/60 font-bold text-lg sm:text-xl py-3.5 px-6 rounded-2xl transition cursor-pointer">
+                Confirmar y bloquear fecha
+            </button>
+
             <!-- Main CTA button pointing directly to WhatsApp -->
             <a id="btn-separar-cupo" href="https://wa.me/message/DAUFCP6HLKS4M1" target="_blank" rel="noopener noreferrer" aria-disabled="true" class="w-full bg-[#c89b54] hover:bg-[#dfb570] text-black font-bold text-xl sm:text-2xl py-4 px-6 rounded-2xl transition shadow-lg shadow-[#c89b54]/20 flex items-center justify-center gap-3 text-center opacity-50 pointer-events-none select-none" aria-busy="false">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 shrink-0" aria-hidden="true">
@@ -174,8 +180,231 @@
         </footer>
     </main>
 
+    <script>
+        // Configura tu número de WhatsApp en formato internacional sin "+" ni espacios (ej. 34600111222)
+        const WHATSAPP_NUM = "34600000000";
+        // Opcional: URL de webhook (Make, Zapier, Formspree, etc.) para recibir alerta automática en segundo plano
+        const ALERT_WEBHOOK_URL = "";
 
+        const STORAGE_KEY = "raigo_tour_marzo_2027_reservas";
+        let selectedDay = null;
 
-<script async="" src="./index_files/ar" data-netlify-deploy-id="6b08b8233f04d14bc8bdbad0" data-netlify-site-id="90cd6f20-5432-4822-81df-7ea742fc628f" data-agent-runner-id="6b08b72a56319724b638e870"></script>
-<script async="" src="./index_files/hud" data-nf-variant="owner-private" data-netlify-site-id="90cd6f20-5432-4822-81df-7ea742fc628f" data-app-host="app.netlify.com"></script>
-</body></html>
+        const form = document.getElementById("tour-booking-form");
+        const grid = document.getElementById("march-grid");
+        const panelCalendar = document.getElementById("panel-march-calendar");
+        const btnToggleCalendar = document.getElementById("btn-toggle-calendar");
+        const btnCloseCalendar = document.getElementById("btn-close-calendar");
+        const btnConfirmarFecha = document.getElementById("btn-confirmar-fecha");
+        const selectedDateText = document.getElementById("selected-date-text");
+        const occupancyStatus = document.getElementById("march-occupancy-status");
+        const bookedSummary = document.getElementById("booked-dates-summary");
+        const whatsappBtn = document.getElementById("btn-separar-cupo");
+        const bookingStatus = document.getElementById("booking-status");
+        const honeypot = document.getElementById("input-website");
+
+        function getBookings() {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+            } catch {
+                return {};
+            }
+        }
+
+        function saveBookings(data) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        function setStatusMessage(html, isError = false) {
+            bookingStatus.className = isError
+                ? "rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3.5 text-sm sm:text-base text-red-200"
+                : "rounded-2xl border border-[#c89b54]/40 bg-[#c89b54]/10 px-4 py-3.5 text-sm sm:text-base text-[#f3d8a7]";
+            bookingStatus.innerHTML = `<p>${html}</p>`;
+        }
+
+        function toggleWhatsAppButton(enabled, url = "https://wa.me/message/DAUFCP6HLKS4M1") {
+            whatsappBtn.href = url;
+            whatsappBtn.setAttribute("aria-disabled", String(!enabled));
+            whatsappBtn.classList.toggle("opacity-50", !enabled);
+            whatsappBtn.classList.toggle("pointer-events-none", !enabled);
+        }
+
+        function renderCalendar() {
+            const bookings = getBookings();
+            const bookedDays = Object.keys(bookings);
+
+            occupancyStatus.textContent = `${bookedDays.length} / 31 días ocupados`;
+
+            Array.from(grid.children).forEach((btn, index) => {
+                const day = String(index + 1);
+                const isBooked = Boolean(bookings[day]);
+                const isSelected = selectedDay === day;
+
+                btn.disabled = isBooked;
+                btn.setAttribute(
+                    "aria-label",
+                    `${day} de marzo de 2027 ${isBooked ? "reservada" : "disponible"}`
+                );
+
+                btn.classList.remove(
+                    "bg-[#c89b54]",
+                    "text-black",
+                    "border-[#c89b54]",
+                    "bg-neutral-800/90",
+                    "text-neutral-500",
+                    "cursor-not-allowed",
+                    "opacity-60"
+                );
+
+                if (isBooked) {
+                    btn.classList.add(
+                        "bg-neutral-800/90",
+                        "text-neutral-500",
+                        "border-[#c89b54]/40",
+                        "cursor-not-allowed",
+                        "opacity-60"
+                    );
+                } else if (isSelected) {
+                    btn.classList.add("bg-[#c89b54]", "text-black", "border-[#c89b54]");
+                }
+            });
+
+            if (bookedDays.length === 0) {
+                bookedSummary.innerHTML = "";
+            } else {
+                bookedSummary.innerHTML = bookedDays
+                    .sort((a, b) => Number(a) - Number(b))
+                    .map((day) => {
+                        const item = bookings[day];
+                        return `
+                            <div class="flex items-center justify-between text-xs bg-neutral-900/90 border border-neutral-800 rounded-xl px-3 py-2">
+                                <span class="text-neutral-200">
+                                    <strong class="text-[#c89b54]">${day} mar 2027</strong> · ${item.ciudad} — ${item.nombre} ${item.apellido}
+                                </span>
+                                <span class="text-neutral-500">${item.timestamp}</span>
+                            </div>
+                        `;
+                    })
+                    .join("");
+            }
+        }
+
+        // Abrir / cerrar panel del calendario
+        btnToggleCalendar.addEventListener("click", () => {
+            const isHidden = panelCalendar.classList.toggle("hidden");
+            btnToggleCalendar.setAttribute("aria-expanded", String(!isHidden));
+        });
+
+        btnCloseCalendar.addEventListener("click", () => {
+            panelCalendar.classList.add("hidden");
+            btnToggleCalendar.setAttribute("aria-expanded", "false");
+        });
+
+        // Seleccionar un día disponible
+        grid.addEventListener("click", (e) => {
+            const btn = e.target.closest("button");
+            if (!btn || btn.disabled) return;
+
+            selectedDay = btn.textContent.trim();
+            selectedDateText.textContent = `${selectedDay} de marzo de 2027`;
+            selectedDateText.classList.remove("text-neutral-400");
+            selectedDateText.classList.add("text-white", "font-semibold");
+
+            renderCalendar();
+            setStatusMessage(`Día <strong>${selectedDay} de marzo de 2027</strong> seleccionado. Pulsa <strong>Confirmar y bloquear fecha</strong> para apartarlo.`);
+        });
+
+        async function sendAlertWebhook(payload) {
+            if (!ALERT_WEBHOOK_URL) return;
+            try {
+                await fetch(ALERT_WEBHOOK_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+            } catch (err) {
+                console.error("Error enviando alerta:", err);
+            }
+        }
+
+        async function confirmAndLockDate() {
+            if (honeypot && honeypot.value.trim() !== "") return;
+
+            const nombre = document.getElementById("input-nombre").value.trim();
+            const apellido = document.getElementById("input-apellido").value.trim();
+            const correo = document.getElementById("input-correo").value.trim();
+            const celular = document.getElementById("input-celular").value.trim();
+            const ciudad = document.getElementById("select-ciudad").value;
+
+            if (!nombre || !ciudad || !selectedDay) {
+                setStatusMessage("Completa tu <strong>Nombre</strong>, elige <strong>Ciudad</strong> y selecciona un día en marzo de 2027 antes de confirmar.", true);
+                return;
+            }
+
+            const bookings = getBookings();
+            if (bookings[selectedDay]) {
+                setStatusMessage(`El <strong>${selectedDay} de marzo de 2027</strong> ya fue bloqueado. Elige otro día.`, true);
+                selectedDay = null;
+                renderCalendar();
+                return;
+            }
+
+            const timestamp = new Date().toLocaleString("es-ES", {
+                day: "2-digit",
+                month: "short",
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+
+            const reserva = {
+                nombre,
+                apellido,
+                correo,
+                celular,
+                ciudad,
+                fecha: `${selectedDay} de marzo de 2027`,
+                timestamp,
+            };
+
+            // Bloquear fecha
+            bookings[selectedDay] = reserva;
+            saveBookings(bookings);
+
+            // Alerta automática por webhook (si configuraste URL)
+            await sendAlertWebhook(reserva);
+
+            // Alerta lista para enviar por WhatsApp
+            const mensaje = encodeURIComponent(
+                `¡Nueva alerta de reserva - Raigo Tattoo Tour 2027!\n` +
+                `• Fecha bloqueada: ${reserva.fecha}\n` +
+                `• Ciudad: ${ciudad}\n` +
+                `• Cliente: ${nombre} ${apellido}\n` +
+                `• Celular: ${celular || "No indicado"}\n` +
+                `• Correo: ${correo || "No indicado"}`
+            );
+            const waUrl = `https://wa.me/${WHATSAPP_NUM}?text=${mensaje}`;
+
+            const lockedDay = selectedDay;
+            selectedDay = null;
+            selectedDateText.textContent = "Selecciona un día de marzo de 2027";
+            selectedDateText.classList.add("text-neutral-400");
+            selectedDateText.classList.remove("text-white", "font-semibold");
+
+            renderCalendar();
+            toggleWhatsAppButton(true, waUrl);
+            alert(`Fecha bloqueada: ${lockedDay} de marzo de 2027 (${ciudad}). Ya puedes enviar el aviso por WhatsApp.`);
+            setStatusMessage(
+                `Fecha <strong>${lockedDay} de marzo de 2027</strong> bloqueada. Haz clic en <strong>Ir a WhatsApp</strong> para enviar la alerta.`
+            );
+        }
+
+        btnConfirmarFecha.addEventListener("click", confirmAndLockDate);
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            confirmAndLockDate();
+        });
+
+        setStatusMessage("Selecciona una ciudad y un día disponible en marzo de 2027.");
+        renderCalendar();
+    </script>
+</body>
+</html>
