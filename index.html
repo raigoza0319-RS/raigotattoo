@@ -1,834 +1,334 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendario de Reservas y Cupos en Tiempo Real</title>
-    <!-- Tailwind CSS para diseño moderno y adaptable -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fuente Inter para legibilidad limpia -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons para iconos limpios -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Animación suave para el modal y notificaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.2s ease-out forwards;
-        }
-        /* Personalización de la barra de desplazamiento */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raigo Tattoo — Tour España 2027</title>
+  <meta name="description" content="Raigo Tattoo visita Madrid, Alicante y Granada en marzo de 2027. Elige tu día y separa tu cupo." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-main: #0a0a0a;
+      --bg-card: #121212;
+      --bg-input: #191919;
+      --gold: #c89b54;
+      --gold-soft: rgba(200, 155, 84, 0.16);
+      --gold-border: rgba(200, 155, 84, 0.35);
+      --text-main: #f5f2eb;
+      --text-muted: #a6a095;
+      --border-subtle: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px 64px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .header {
+      background: linear-gradient(180deg, rgba(200, 155, 84, 0.08) 0%, var(--bg-card) 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: 16px;
+      padding: 36px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .kicker {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+      color: var(--text-main);
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      color: var(--gold);
+    }
+
+    .cities {
+      margin-top: 16px;
+      color: var(--text-muted);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-input);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--gold);
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .calendar-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin: 0;
+    }
+
+    .weekdays,
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .weekday {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 6px 0;
+      font-weight: 600;
+    }
+
+    .day-btn {
+      padding: 10px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-input);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .day-btn:hover {
+      border-color: var(--gold);
+      background-color: var(--gold-soft);
+    }
+
+    .day-btn.selected {
+      background-color: var(--gold);
+      color: #0a0a0a;
+      border-color: var(--gold);
+    }
+
+    .cta-btn {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: none;
+      background-color: var(--gold);
+      color: #0a0a0a;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+    }
+
+    .cta-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .status {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
-
-    <!-- Notificación Toast Flotante -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-white font-medium text-sm">
-        <i id="toast-icon" data-lucide="check-circle" class="w-5 h-5"></i>
-        <span id="toast-message">Mensaje de notificación</span>
-    </div>
-
-    <!-- Encabezado Superior -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-indigo-600 text-white p-2.5 rounded-xl shadow-indigo-200 shadow-md">
-                    <i data-lucide="calendar-check" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold text-slate-900 tracking-tight">Agenda de Cupos</h1>
-                    <p class="text-xs text-slate-500 flex items-center gap-1.5">
-                        <span id="connection-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                        <span id="connection-status">Conectando en tiempo real...</span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Botón para compartir enlace -->
-            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                <button onclick="copyShareLink()" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium px-4 py-2.5 rounded-xl transition-colors border border-indigo-200 text-sm cursor-pointer">
-                    <i data-lucide="share-2" class="w-4 h-4"></i>
-                    <span>Copiar enlace para compartir</span>
-                </button>
-            </div>
-        </div>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="kicker">Agenda Oficial de Citas</div>
+      <h1>RAIGO TATTOO</h1>
+      <div class="subtitle">Tour España 2027</div>
+      <div class="cities">MADRID · ALICANTE · GRANADA · MARZO 2027</div>
     </header>
 
-    <!-- Contenido Principal -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
-            
-            <!-- Columna Izquierda: Calendario Interactivo (8 columnas en desktop) -->
-            <div class="lg:col-span-8 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-                
-                <!-- Controles de Navegación del Mes y Año -->
-                <div class="p-4 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/50">
-                    <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
-                        <button onclick="changeMonth(-1)" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 transition-colors shadow-xs" title="Mes anterior">
-                            <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                        </button>
-                        
-                        <div class="flex items-center gap-2">
-                            <select id="month-select" onchange="jumpToDate()" class="bg-white border border-slate-200 text-slate-800 font-semibold text-base sm:text-lg rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-                                <option value="0">Enero</option>
-                                <option value="1">Febrero</option>
-                                <option value="2">Marzo</option>
-                                <option value="3">Abril</option>
-                                <option value="4">Mayo</option>
-                                <option value="5">Junio</option>
-                                <option value="6">Julio</option>
-                                <option value="7">Agosto</option>
-                                <option value="8">Septiembre</option>
-                                <option value="9">Octubre</option>
-                                <option value="10">Noviembre</option>
-                                <option value="11">Diciembre</option>
-                            </select>
-                            
-                            <select id="year-select" onchange="jumpToDate()" class="bg-white border border-slate-200 text-slate-800 font-semibold text-base sm:text-lg rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-                                <!-- Se llena dinámicamente -->
-                            </select>
-                        </div>
-
-                        <button onclick="changeMonth(1)" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 transition-colors shadow-xs" title="Mes siguiente">
-                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-
-                    <!-- Atajos rápidos (Ej: Hoy, Marzo 2027) -->
-                    <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                        <button onclick="goToToday()" class="text-xs font-medium px-3 py-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors">
-                            Hoy
-                        </button>
-                        <button onclick="goToSpecificDate(2027, 2)" class="text-xs font-medium px-3 py-2 rounded-lg bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 text-indigo-700 transition-colors">
-                            Ir a Marzo 2027
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Leyenda de Estados -->
-                <div class="px-4 sm:px-6 py-3 bg-white border-b border-slate-100 flex flex-wrap items-center gap-4 text-xs text-slate-600">
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-3 h-3 rounded-full bg-emerald-100 border border-emerald-400"></span>
-                        <span>Disponible (Clic para reservar)</span>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-3 h-3 rounded-full bg-rose-100 border border-rose-400"></span>
-                        <span>Ocupado / Reservado</span>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-3 h-3 rounded-full bg-slate-100 border border-slate-300"></span>
-                        <span>Fecha pasada</span>
-                    </div>
-                </div>
-
-                <!-- Cabecera de Días de la Semana -->
-                <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-200 text-center py-2.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    <div>Dom</div>
-                    <div>Lun</div>
-                    <div>Mar</div>
-                    <div>Mié</div>
-                    <div>Jue</div>
-                    <div>Vie</div>
-                    <div>Sáb</div>
-                </div>
-
-                <!-- Cuadrícula de Días del Calendario -->
-                <div id="calendar-grid" class="grid grid-cols-7 flex-1 bg-slate-200 gap-px">
-                    <!-- Los días se renderizan aquí mediante JavaScript -->
-                </div>
-            </div>
-
-            <!-- Columna Derecha: Resumen y Lista de Reservas Confirmadas (4 columnas en desktop) -->
-            <div class="lg:col-span-4 flex flex-col gap-6">
-                
-                <!-- Tarjeta de Instrucciones Rápidas -->
-                <div class="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-2xl p-5 text-white shadow-md">
-                    <h2 class="font-bold text-lg mb-1 flex items-center gap-2">
-                        <i data-lucide="info" class="w-5 h-5 text-indigo-200"></i>
-                        ¿Cómo funciona?
-                    </h2>
-                    <p class="text-indigo-100 text-sm leading-relaxed">
-                        Selecciona cualquier fecha en <strong class="text-white font-semibold">verde (Disponible)</strong> para apartar tu cupo. Una vez guardado, la fecha se bloqueará automáticamente para todos los demás usuarios que abran este enlace.
-                    </p>
-                </div>
-
-                <!-- Panel de Reservas Confirmadas -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex-1 flex flex-col overflow-hidden max-h-[540px]">
-                    <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                        <div>
-                            <h3 class="font-bold text-slate-800 text-base">Cupos Reservados</h3>
-                            <p class="text-xs text-slate-500">Actualización automática en vivo</p>
-                        </div>
-                        <span id="total-bookings-badge" class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-full">
-                            0 reservas
-                        </span>
-                    </div>
-
-                    <!-- Buscador o filtro rápido -->
-                    <div class="p-3 border-b border-slate-100">
-                        <div class="relative">
-                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                            <input type="text" id="search-bookings" onkeyup="renderBookingsList()" placeholder="Buscar por nombre o fecha..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
-                        </div>
-                    </div>
-
-                    <!-- Lista desplazable de reservas -->
-                    <div id="bookings-list" class="p-4 overflow-y-auto flex-1 space-y-3">
-                        <div class="text-center py-8 text-slate-400 text-sm">
-                            Cargando reservas...
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="card">
+      <form id="bookingForm">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" placeholder="Tu nombre" required />
         </div>
-    </main>
 
-    <!-- Modal para Reservar una Fecha -->
-    <div id="booking-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-fade-in border border-slate-100">
-            <!-- Cabecera del Modal -->
-            <div class="bg-indigo-600 px-6 py-4 text-white flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                    <i data-lucide="calendar-plus" class="w-5 h-5 text-indigo-200"></i>
-                    <h3 class="font-bold text-lg">Apartar Cupo</h3>
-                </div>
-                <button onclick="closeModal('booking-modal')" class="text-indigo-200 hover:text-white p-1 rounded-lg transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <!-- Cuerpo del Formulario -->
-            <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="p-6 space-y-4">
-                <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-3.5 flex items-center gap-3">
-                    <div class="bg-white p-2 rounded-lg text-indigo-600 shadow-xs">
-                        <i data-lucide="calendar" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs text-indigo-600 font-medium uppercase tracking-wider">Fecha seleccionada</p>
-                        <p id="modal-date-display" class="text-base font-bold text-slate-900">6 de Marzo de 2027</p>
-                    </div>
-                </div>
-
-                <input type="hidden" id="selected-date-key">
-
-                <div>
-                    <label for="user-name" class="block text-sm font-semibold text-slate-700 mb-1">
-                        Nombre completo <span class="text-rose-500">*</span>
-                    </label>
-                    <input type="text" id="user-name" required placeholder="Ej: Pepito Pérez" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
-                </div>
-
-                <div>
-                    <label for="user-contact" class="block text-sm font-semibold text-slate-700 mb-1">
-                        Teléfono / WhatsApp o Correo <span class="text-rose-500">*</span>
-                    </label>
-                    <input type="text" id="user-contact" required placeholder="Ej: 300 123 4567" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
-                </div>
-
-                <div>
-                    <label for="user-notes" class="block text-sm font-semibold text-slate-700 mb-1">
-                        Notas adicionales <span class="text-slate-400 font-normal">(Opcional)</span>
-                    </label>
-                    <textarea id="user-notes" rows="2" placeholder="Algún detalle o comentario sobre tu reserva..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none"></textarea>
-                </div>
-
-                <div class="pt-2 flex items-center justify-end gap-3">
-                    <button type="button" onclick="closeModal('booking-modal')" class="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">
-                        Cancelar
-                    </button>
-                    <button type="submit" id="submit-booking-btn" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-200 transition-all flex items-center gap-2">
-                        <i data-lucide="check" class="w-4 h-4"></i>
-                        <span>Confirmar Reserva</span>
-                    </button>
-                </div>
-            </form>
+        <div class="field">
+          <label for="apellido">Apellido</label>
+          <input id="apellido" name="apellido" type="text" placeholder="Tu apellido" required />
         </div>
-    </div>
 
-    <!-- Modal para Ver Detalle de Fecha Ocupada -->
-    <div id="details-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-fade-in border border-slate-100">
-            <div class="bg-rose-600 px-6 py-4 text-white flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                    <i data-lucide="lock" class="w-5 h-5 text-rose-200"></i>
-                    <h3 class="font-bold text-lg">Cupo Ocupado</h3>
-                </div>
-                <button onclick="closeModal('details-modal')" class="text-rose-200 hover:text-white p-1 rounded-lg transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div class="p-6 space-y-4">
-                <div class="bg-rose-50 border border-rose-100 rounded-xl p-3.5 flex items-center gap-3">
-                    <div class="bg-white p-2 rounded-lg text-rose-600 shadow-xs">
-                        <i data-lucide="calendar-x" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs text-rose-600 font-medium uppercase tracking-wider">Fecha reservada</p>
-                        <p id="detail-date-display" class="text-base font-bold text-slate-900">6 de Marzo de 2027</p>
-                    </div>
-                </div>
-
-                <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    <div>
-                        <span class="text-xs text-slate-400 uppercase font-semibold">Reservado por</span>
-                        <p id="detail-user-name" class="text-base font-bold text-slate-800">Pepito Pérez</p>
-                    </div>
-                    <div id="detail-notes-container" class="hidden">
-                        <span class="text-xs text-slate-400 uppercase font-semibold">Notas</span>
-                        <p id="detail-user-notes" class="text-sm text-slate-600 mt-0.5"></p>
-                    </div>
-                    <div>
-                        <span class="text-xs text-slate-400 uppercase font-semibold">Estado</span>
-                        <p class="text-sm text-rose-600 font-medium flex items-center gap-1.5 mt-0.5">
-                            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-                            No disponible (Por favor elige otra fecha)
-                        </p>
-                    </div>
-                </div>
-
-                <div class="pt-2 flex items-center justify-between gap-3">
-                    <!-- Botón opcional para liberar cupo si el usuario que lo creó está en la misma sesión -->
-                    <button type="button" id="cancel-own-booking-btn" onclick="cancelBooking()" class="hidden px-4 py-2.5 rounded-xl text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-colors flex items-center gap-1.5">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        <span>Liberar mi reserva</span>
-                    </button>
-                    <button type="button" onclick="closeModal('details-modal')" class="ml-auto px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-slate-800 hover:bg-slate-900 transition-colors">
-                        Entendido
-                    </button>
-                </div>
-            </div>
+        <div class="field">
+          <label for="correo">Correo</label>
+          <input id="correo" name="correo" type="email" placeholder="correo@ejemplo.com" required />
         </div>
-    </div>
 
-    <!-- Scripts de Firebase y Lógica de la Aplicación -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Configuración inicial de Firebase desde variables globales del entorno
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-calendar-app';
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Estado global de la aplicación
-        let currentUser = null;
-        let currentYear = new Date().getFullYear();
-        let currentMonth = new Date().getMonth();
-        let bookingsData = {}; // Diccionario indexado por fecha YYYY-MM-DD
-        let selectedDetailDateKey = null;
-
-        const monthNames = [
-            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-        ];
-
-        // Inicializar iconos de Lucide
-        lucide.createIcons();
-
-        // Poblar selector de años (desde año actual hasta +5 años)
-        function initYearSelector() {
-            const yearSelect = document.getElementById('year-select');
-            const baseYear = new Date().getFullYear();
-            yearSelect.innerHTML = '';
-            for (let y = baseYear - 1; y <= baseYear + 5; y++) {
-                const option = document.createElement('option');
-                option.value = y;
-                option.textContent = y;
-                yearSelect.appendChild(option);
-            }
-        }
-
-        // Autenticación obligatoria antes de consultar Firestore
-        async function initAuth() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                console.error("Error de autenticación:", error);
-                updateConnectionStatus(false, "Error de conexión");
-            }
-        }
-
-        // Escuchar cambios de estado de autenticación
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                updateConnectionStatus(true, "Sincronizado en tiempo real");
-                subscribeToBookings();
-            }
-        });
-
-        // Actualizar indicador visual de conexión
-        function updateConnectionStatus(isConnected, text) {
-            const dot = document.getElementById('connection-dot');
-            const statusText = document.getElementById('connection-status');
-            statusText.textContent = text;
-            if (isConnected) {
-                dot.className = "w-2 h-2 rounded-full bg-emerald-500";
-            } else {
-                dot.className = "w-2 h-2 rounded-full bg-rose-500";
-            }
-        }
-
-        // Suscripción en tiempo real a la colección pública de reservas
-        function subscribeToBookings() {
-            if (!currentUser) return;
-
-            // Ruta estricta pública para compartir entre todos los usuarios con el enlace
-            const bookingsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario');
-
-            onSnapshot(bookingsRef, (snapshot) => {
-                const updatedBookings = {};
-                snapshot.forEach((docSnap) => {
-                    updatedBookings[docSnap.id] = docSnap.data();
-                });
-                bookingsData = updatedBookings;
-                
-                // Re-renderizar calendario y lista lateral automáticamente
-                renderCalendar();
-                renderBookingsList();
-            }, (error) => {
-                console.error("Error escuchando reservas:", error);
-                showToast("Error al sincronizar los cupos", "error");
-            });
-        }
-
-        // Renderizar la cuadrícula del calendario
-        window.renderCalendar = function() {
-            const grid = document.getElementById('calendar-grid');
-            const monthSelect = document.getElementById('month-select');
-            const yearSelect = document.getElementById('year-select');
-
-            monthSelect.value = currentMonth;
-            yearSelect.value = currentYear;
-
-            grid.innerHTML = '';
-
-            const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            // Celdas vacías antes del primer día del mes
-            for (let i = 0; i < firstDayOfMonth; i++) {
-                const emptyCell = document.createElement('div');
-                emptyCell.className = 'bg-slate-50/70 min-h-[85px] sm:min-h-[105px] p-2';
-                grid.appendChild(emptyCell);
-            }
-
-            // Celdas de cada día del mes
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateObj = new Date(currentYear, currentMonth, day);
-                const dateKey = formatDateKey(currentYear, currentMonth, day);
-                const booking = bookingsData[dateKey];
-                const isPast = dateObj < today;
-                const isToday = dateObj.getTime() === today.getTime();
-
-                const cell = document.createElement('div');
-                
-                // Estilos base y condicionales según disponibilidad
-                let cellClasses = 'min-h-[85px] sm:min-h-[105px] p-1.5 sm:p-2.5 flex flex-col justify-between transition-all relative select-none ';
-                
-                if (booking) {
-                    // Fecha Ocupada
-                    cellClasses += 'bg-rose-50/90 hover:bg-rose-100/80 cursor-pointer border-t-2 border-rose-400';
-                } else if (isPast) {
-                    // Fecha Pasada
-                    cellClasses += 'bg-slate-100/80 text-slate-400 cursor-not-allowed';
-                } else {
-                    // Fecha Disponible
-                    cellClasses += 'bg-white hover:bg-emerald-50/80 cursor-pointer group border-t-2 border-transparent hover:border-emerald-400';
-                }
-
-                cell.className = cellClasses;
-
-                // Número del día + etiqueta de "Hoy"
-                const headerDiv = document.createElement('div');
-                headerDiv.className = 'flex items-center justify-between';
-
-                const dayNumber = document.createElement('span');
-                dayNumber.textContent = day;
-                dayNumber.className = `text-xs sm:text-sm font-bold w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full ${
-                    isToday 
-                        ? 'bg-indigo-600 text-white shadow-xs' 
-                        : booking 
-                            ? 'text-rose-700' 
-                            : isPast 
-                                ? 'text-slate-400' 
-                                : 'text-slate-700 group-hover:text-emerald-700'
-                }`;
-                headerDiv.appendChild(dayNumber);
-
-                if (booking) {
-                    const lockIcon = document.createElement('span');
-                    lockIcon.innerHTML = `<i data-lucide="lock" class="w-3.5 h-3.5 text-rose-500"></i>`;
-                    headerDiv.appendChild(lockIcon);
-                } else if (!isPast) {
-                    const plusIcon = document.createElement('span');
-                    plusIcon.className = 'opacity-0 group-hover:opacity-100 transition-opacity text-emerald-600';
-                    plusIcon.innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4"></i>`;
-                    headerDiv.appendChild(plusIcon);
-                }
-
-                cell.appendChild(headerDiv);
-
-                // Estado inferior de la celda
-                const statusDiv = document.createElement('div');
-                statusDiv.className = 'mt-1 overflow-hidden';
-
-                if (booking) {
-                    statusDiv.innerHTML = `
-                        <div class="bg-rose-100 border border-rose-200 text-rose-800 rounded-lg px-1.5 py-1 text-[10px] sm:text-xs font-semibold truncate" title="Reservado por ${escapeHtml(booking.name)}">
-                            ${escapeHtml(booking.name)}
-                        </div>
-                        <p class="text-[9px] sm:text-[10px] text-rose-500 font-medium mt-0.5 hidden sm:block">Ocupado</p>
-                    `;
-                    cell.onclick = () => openDetailsModal(dateKey, booking);
-                } else if (isPast) {
-                    statusDiv.innerHTML = `
-                        <span class="text-[10px] text-slate-400 hidden sm:inline">No disponible</span>
-                    `;
-                } else {
-                    statusDiv.innerHTML = `
-                        <span class="inline-block bg-emerald-50 text-emerald-700 border border-emerald-200/80 group-hover:bg-emerald-500 group-hover:text-white group-hover:border-emerald-500 transition-colors rounded-md px-1.5 py-0.5 text-[10px] sm:text-xs font-medium">
-                            Disponible
-                        </span>
-                    `;
-                    cell.onclick = () => openBookingModal(dateKey);
-                }
-
-                cell.appendChild(statusDiv);
-                grid.appendChild(cell);
-            }
-
-            lucide.createIcons();
-        };
-
-        // Renderizar la lista lateral de reservas confirmadas
-        window.renderBookingsList = function() {
-            const listContainer = document.getElementById('bookings-list');
-            const badge = document.getElementById('total-bookings-badge');
-            const searchQuery = document.getElementById('search-bookings').value.toLowerCase().trim();
-
-            const entries = Object.entries(bookingsData)
-                .map(([key, data]) => ({ dateKey: key, ...data }))
-                .sort((a, b) => a.dateKey.localeCompare(b.dateKey));
-
-            badge.textContent = `${entries.length} ${entries.length === 1 ? 'reserva' : 'reservas'}`;
-
-            const filtered = entries.filter(item => {
-                const humanDate = formatHumanDate(item.dateKey).toLowerCase();
-                return item.name.toLowerCase().includes(searchQuery) || humanDate.includes(searchQuery);
-            });
-
-            if (filtered.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="text-center py-8 px-4">
-                        <div class="bg-slate-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
-                            <i data-lucide="calendar-off" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-sm font-medium text-slate-600">No hay reservas registradas</p>
-                        <p class="text-xs text-slate-400 mt-1">Sé el primero en elegir una fecha disponible en el calendario.</p>
-                    </div>
-                `;
-                lucide.createIcons();
-                return;
-            }
-
-            listContainer.innerHTML = filtered.map(item => `
-                <div onclick="jumpAndInspect('${item.dateKey}')" class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-indigo-50/50 hover:border-indigo-200 transition-all cursor-pointer group">
-                    <div class="flex items-start justify-between gap-2">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">
-                                ${getInitials(item.name)}
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-bold text-slate-800 group-hover:text-indigo-700 transition-colors">
-                                    ${escapeHtml(item.name)}
-                                </h4>
-                                <p class="text-xs font-medium text-rose-600 flex items-center gap-1 mt-0.5">
-                                    <i data-lucide="calendar" class="w-3 h-3"></i>
-                                    ${formatHumanDate(item.dateKey)}
-                                </p>
-                            </div>
-                        </div>
-                        <span class="text-[10px] font-semibold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-md">
-                            Ocupado
-                        </span>
-                    </div>
-                    ${item.notes ? `<p class="text-xs text-slate-500 mt-2 pl-10 line-clamp-1 italic">"${escapeHtml(item.notes)}"</p>` : ''}
-                </div>
-            `).join('');
-
-            lucide.createIcons();
-        };
-
-        // Guardar nueva reserva usando una Transacción de Firestore para evitar reservas duplicadas simultáneas
-        window.handleBookingSubmit = async function(event) {
-            event.preventDefault();
-            if (!currentUser) {
-                showToast("Esperando conexión con el servidor...", "error");
-                return;
-            }
-
-            const dateKey = document.getElementById('selected-date-key').value;
-            const name = document.getElementById('user-name').value.trim();
-            const contact = document.getElementById('user-contact').value.trim();
-            const notes = document.getElementById('user-notes').value.trim();
-            const submitBtn = document.getElementById('submit-booking-btn');
-
-            if (!name || !contact) return;
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span> Guardando...`;
-
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario', dateKey);
-
-            try {
-                // Transacción atómica: verifica si alguien más tomó la fecha milisegundos antes
-                await runTransaction(db, async (transaction) => {
-                    const sfDoc = await transaction.get(docRef);
-                    if (sfDoc.exists()) {
-                        throw new Error("ALREADY_BOOKED");
-                    }
-
-                    transaction.set(docRef, {
-                        name: name,
-                        contact: contact,
-                        notes: notes,
-                        dateKey: dateKey,
-                        createdBy: currentUser.uid,
-                        createdAt: new Date().toISOString()
-                    });
-                });
-
-                closeModal('booking-modal');
-                document.getElementById('booking-form').reset();
-                showToast(`¡Cupo reservado para el ${formatHumanDate(dateKey)}!`, "success");
-            } catch (error) {
-                if (error.message === "ALREADY_BOOKED") {
-                    showToast("¡Lo sentimos! Alguien acaba de reservar esta fecha hace un instante.", "error");
-                    closeModal('booking-modal');
-                } else {
-                    console.error("Error al guardar:", error);
-                    showToast("Hubo un error al guardar tu reserva. Intenta nuevamente.", "error");
-                }
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>Confirmar Reserva</span>`;
-                lucide.createIcons();
-            }
-        };
-
-        // Cancelar reserva propia si el usuario la creó en la misma sesión
-        window.cancelBooking = async function() {
-            if (!currentUser || !selectedDetailDateKey) return;
-            const booking = bookingsData[selectedDetailDateKey];
-            if (!booking || booking.createdBy !== currentUser.uid) return;
-
-            try {
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'reservas_calendario', selectedDetailDateKey);
-                await deleteDoc(docRef);
-                closeModal('details-modal');
-                showToast("Tu reserva ha sido cancelada y el cupo vuelve a estar libre.", "success");
-            } catch (error) {
-                console.error("Error al cancelar:", error);
-                showToast("No se pudo cancelar la reserva.", "error");
-            }
-        };
-
-        // Funciones de control de Modales
-        window.openBookingModal = function(dateKey) {
-            if (bookingsData[dateKey]) {
-                openDetailsModal(dateKey, bookingsData[dateKey]);
-                return;
-            }
-            document.getElementById('selected-date-key').value = dateKey;
-            document.getElementById('modal-date-display').textContent = formatHumanDate(dateKey);
-            document.getElementById('booking-modal').classList.remove('hidden');
-            setTimeout(() => document.getElementById('user-name').focus(), 100);
-        };
-
-        window.openDetailsModal = function(dateKey, booking) {
-            selectedDetailDateKey = dateKey;
-            document.getElementById('detail-date-display').textContent = formatHumanDate(dateKey);
-            document.getElementById('detail-user-name').textContent = booking.name;
-
-            const notesContainer = document.getElementById('detail-notes-container');
-            const notesText = document.getElementById('detail-user-notes');
-            if (booking.notes) {
-                notesText.textContent = booking.notes;
-                notesContainer.classList.remove('hidden');
-            } else {
-                notesContainer.classList.add('hidden');
-            }
-
-            // Mostrar botón de liberar solo si fue creado por este mismo usuario
-            const cancelBtn = document.getElementById('cancel-own-booking-btn');
-            if (currentUser && booking.createdBy === currentUser.uid) {
-                cancelBtn.classList.remove('hidden');
-            } else {
-                cancelBtn.classList.add('hidden');
-            }
-
-            document.getElementById('details-modal').classList.remove('hidden');
-        };
-
-        window.closeModal = function(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        };
-
-        // Navegación del calendario
-        window.changeMonth = function(delta) {
-            currentMonth += delta;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            } else if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            ensureYearInSelect(currentYear);
-            renderCalendar();
-        };
-
-        window.jumpToDate = function() {
-            currentMonth = parseInt(document.getElementById('month-select').value, 10);
-            currentYear = parseInt(document.getElementById('year-select').value, 10);
-            renderCalendar();
-        };
-
-        window.goToToday = function() {
-            const now = new Date();
-            currentYear = now.getFullYear();
-            currentMonth = now.getMonth();
-            ensureYearInSelect(currentYear);
-            renderCalendar();
-        };
-
-        window.goToSpecificDate = function(year, monthIndex) {
-            currentYear = year;
-            currentMonth = monthIndex;
-            ensureYearInSelect(currentYear);
-            renderCalendar();
-        };
-
-        window.jumpAndInspect = function(dateKey) {
-            const [y, m] = dateKey.split('-').map(Number);
-            currentYear = y;
-            currentMonth = m - 1;
-            ensureYearInSelect(currentYear);
-            renderCalendar();
-            if (bookingsData[dateKey]) {
-                openDetailsModal(dateKey, bookingsData[dateKey]);
-            }
-        };
-
-        function ensureYearInSelect(year) {
-            const yearSelect = document.getElementById('year-select');
-            let exists = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === year);
-            if (!exists) {
-                const opt = document.createElement('option');
-                opt.value = year;
-                opt.textContent = year;
-                yearSelect.appendChild(opt);
-            }
-        }
-
-        // Copiar enlace actual al portapapeles (compatible con iframes)
-        window.copyShareLink = function() {
-            const url = window.location.href;
-            const tempInput = document.createElement('input');
-            tempInput.value = url;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            try {
-                document.execCommand('copy');
-                showToast("¡Enlace copiado! Compártelo para que elijan sus fechas.", "success");
-            } catch (err) {
-                showToast("No se pudo copiar automáticamente. Copia la URL de tu navegador.", "error");
-            }
-            document.body.removeChild(tempInput);
-        };
-
-        // Sistema de notificaciones Toast
-        let toastTimeout;
-        function showToast(message, type = "success") {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-message');
-            const toastIcon = document.getElementById('toast-icon');
-
-            toastMsg.textContent = message;
-            if (type === "success") {
-                toast.className = "fixed bottom-5 right-5 z-50 transition-all duration-300 flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-white font-medium text-sm bg-emerald-600 translate-y-0 opacity-100";
-                toastIcon.setAttribute('data-lucide', 'check-circle');
-            } else {
-                toast.className = "fixed bottom-5 right-5 z-50 transition-all duration-300 flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-white font-medium text-sm bg-rose-600 translate-y-0 opacity-100";
-                toastIcon.setAttribute('data-lucide', 'alert-circle');
-            }
-            lucide.createIcons();
-
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 4000);
-        }
-
-        // Utilidades de formato
-        function formatDateKey(year, monthIndex, day) {
-            const m = String(monthIndex + 1).padStart(2, '0');
-            const d = String(day).padStart(2, '0');
-            return `${year}-${m}-${d}`;
-        }
-
-        function formatHumanDate(dateKey) {
-            const [y, m, d] = dateKey.split('-').map(Number);
-            return `${d} de ${monthNames[m - 1]} de ${y}`;
-        }
-
-        function getInitials(name) {
-            return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Inicializar aplicación
-        initYearSelector();
-        renderCalendar();
-        initAuth();
-    </script>
+        <div class="field">
+          <label for="celular">Celular</label>
+          <input id="celular" name="celular" type="tel" placeholder="+34 600 000 000" required />
+        </div>
+
+        <div class="field">
+          <label for="ciudad">Ciudad</label>
+          <select id="ciudad" name="ciudad" required>
+            <option value="">Elige tu ciudad</option>
+            <option value="Madrid">Madrid</option>
+            <option value="Alicante">Alicante</option>
+            <option value="Granada">Granada</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Fecha en marzo 2027</label>
+          <div class="calendar-header">
+            <h2 class="calendar-title">Marzo 2027</h2>
+            <span id="selectedDateLabel" style="color:#c89b54;font-size:13px;font-weight:600;">Sin día elegido</span>
+          </div>
+          <div class="weekdays">
+            <div class="weekday">Lun</div>
+            <div class="weekday">Mar</div>
+            <div class="weekday">Mié</div>
+            <div class="weekday">Jue</div>
+            <div class="weekday">Vie</div>
+            <div class="weekday">Sáb</div>
+            <div class="weekday">Dom</div>
+          </div>
+          <div id="daysGrid" class="days-grid"></div>
+        </div>
+
+        <button type="submit" class="cta-btn">Separar cupo por WhatsApp</button>
+        <div id="statusMsg" class="status"></div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'raigo_tour_es_2027_reserva';
+    const WHATSAPP_URL = 'https://wa.me/message/DAUFCP6HLKS4M1';
+    const daysGrid = document.getElementById('daysGrid');
+    const selectedDateLabel = document.getElementById('selectedDateLabel');
+    const statusMsg = document.getElementById('statusMsg');
+    const form = document.getElementById('bookingForm');
+
+    let selectedDay = null;
+
+    // Marzo 2027 empieza en lunes (índice 0 en Lun-Dom) y tiene 31 días
+    for (let day = 1; day <= 31; day++) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'day-btn';
+      btn.textContent = String(day);
+      btn.addEventListener('click', () => {
+        selectedDay = day;
+        document.querySelectorAll('.day-btn').forEach(el => el.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedDateLabel.textContent = `${day} de marzo de 2027`;
+        saveDraft();
+      });
+      daysGrid.appendChild(btn);
+    }
+
+    function saveDraft() {
+      const data = {
+        nombre: document.getElementById('nombre').value.trim(),
+        apellido: document.getElementById('apellido').value.trim(),
+        correo: document.getElementById('correo').value.trim(),
+        celular: document.getElementById('celular').value.trim(),
+        ciudad: document.getElementById('ciudad').value,
+        dia: selectedDay
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    form.addEventListener('input', saveDraft);
+
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    if (saved) {
+      if (saved.nombre) document.getElementById('nombre').value = saved.nombre;
+      if (saved.apellido) document.getElementById('apellido').value = saved.apellido;
+      if (saved.correo) document.getElementById('correo').value = saved.correo;
+      if (saved.celular) document.getElementById('celular').value = saved.celular;
+      if (saved.ciudad) document.getElementById('ciudad').value = saved.ciudad;
+      if (saved.dia) {
+        selectedDay = saved.dia;
+        const targetBtn = daysGrid.children[saved.dia - 1];
+        if (targetBtn) targetBtn.classList.add('selected');
+        selectedDateLabel.textContent = `${saved.dia} de marzo de 2027`;
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      saveDraft();
+      if (!selectedDay) {
+        statusMsg.textContent = 'Elige un día de marzo de 2027 antes de continuar.';
+        return;
+      }
+      statusMsg.textContent = 'Reserva guardada en este dispositivo. Abriendo WhatsApp...';
+      window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
+    });
+  </script>
 </body>
 </html>
