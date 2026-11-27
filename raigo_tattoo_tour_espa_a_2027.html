@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raigo Tattoo — Tour España 2027</title>
+    <meta name="description" content="Raigo Tattoo visita Madrid, Alicante, Granada, Salou y Mallorca en febrero y marzo de 2027. Cotiza tu tatuaje y separa tu cupo por WhatsApp.">
+    <meta property="og:title" content="Raigo Tattoo — Tour España 2027">
+    <meta property="og:description" content="Madrid · Alicante · Granada · Salou · Mallorca — Febrero y Marzo 2027.">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='38' fill='%23c89b54'%3ER%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .font-display-editorial {
+            font-family: "Cormorant Garamond", Georgia, serif;
+        }
+        body {
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            background-color: #0a0a0a;
+            color: #f5f5f5;
+            margin: 0;
+        }
+        /* Cuadrícula de 7 columnas para el calendario interactivo de 35 días */
+        #tour-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 0.45rem;
+            width: 100%;
+        }
+        .dia-btn {
+            min-height: 3.35rem;
+            width: 100%;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.1;
+            padding: 0.25rem 0.15rem;
+            transition: all 140ms ease;
+        }
+        .dia-disponible {
+            background-color: #171717;
+            color: #d4d4d4;
+            border: 1px solid #262626;
+            cursor: pointer;
+        }
+        .dia-disponible:hover {
+            background-color: #262626;
+            border-color: #c89b54;
+        }
+        .dia-ciudad-activa {
+            background-color: #211c14;
+            color: #ffffff;
+            border: 1px solid rgba(200, 155, 84, 0.8);
+            box-shadow: inset 0 0 0 1px rgba(200, 155, 84, 0.2);
+            cursor: pointer;
+        }
+        .dia-ciudad-activa:hover {
+            background-color: #2c2419;
+            border-color: #c89b54;
+        }
+        .dia-elegido {
+            background-color: #c89b54;
+            color: #0a0a0a;
+            border: 1px solid #c89b54;
+            font-weight: 700;
+            transform: scale(1.02);
+            cursor: pointer;
+        }
+        .dia-reservado {
+            background-color: rgba(38, 38, 38, 0.85);
+            color: #737373;
+            border: 1px solid rgba(200, 155, 84, 0.3);
+            text-decoration: line-through;
+            opacity: 0.58;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#0a0a0a] text-neutral-100 flex flex-col items-center justify-center px-4 py-8 sm:py-12">
+
+    <main class="w-full max-w-2xl">
+
+        <!-- Encabezado principal con acceso directo a Instagram Portafolio y WhatsApp -->
+        <header class="text-center mb-6 sm:mb-8 bg-[#121212] border border-[#c89b54]/35 rounded-3xl px-5 py-7 sm:px-8 sm:py-9 shadow-2xl">
+            <h1 class="font-display-editorial text-5xl sm:text-7xl md:text-8xl font-bold text-white uppercase leading-none tracking-tight">
+                RAIGO TATTOO
+            </h1>
+            <p class="font-display-editorial text-3xl sm:text-5xl md:text-6xl italic font-bold text-[#c89b54] uppercase leading-tight mt-2">
+                TOUR ESPAÑA 2027
+            </p>
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+                <a id="btn-instagram-portafolio" href="https://www.instagram.com/criss.rai?bqrl=b3hmZHg0YnQyYmVv" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-neutral-900 hover:bg-neutral-800 text-[#c89b54] hover:text-[#dfb570] border border-[#c89b54]/60 font-semibold text-sm sm:text-base transition shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 shrink-0" aria-hidden="true">
+                        <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.5-2.75a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"></path>
+                    </svg>
+                    <span>Conoce mi portafolio</span>
+                </a>
+
+                <a id="btn-whatsapp-directo-header" href="https://wa.me/message/DAUFCP6HLKS4M1" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-[#c89b54] hover:bg-[#dfb570] text-black font-bold text-sm sm:text-base transition shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 shrink-0" aria-hidden="true">
+                        <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.766.469 3.484 1.359 5l-1.422 5.203 5.328-1.391c1.453.797 3.078 1.219 4.695 1.219 5.516 0 9.969-4.453 9.969-9.969s-4.453-10-9.969-10zm5.813 14.109c-.25.703-1.438 1.344-1.984 1.422-.516.078-1.156.109-1.859-.109-.438-.141-1-.328-1.75-.656-3.078-1.328-5.078-4.453-5.234-4.656-.156-.203-1.25-1.656-1.25-3.156s.797-2.25 1.078-2.547c.281-.297.625-.375.828-.375s.406.016.594.016c.188 0 .453-.078.703.531.266.641.891 2.172.969 2.328.078.156.125.344.031.547-.094.203-.141.328-.281.5-.141.172-.297.391-.422.516-.141.141-.297.297-.125.594.172.297.766 1.266 1.641 2.047 1.125 1 2.078 1.313 2.375 1.453.297.141.469.125.641-.078.172-.203.734-.859.938-1.156.203-.297.406-.25.688-.141.281.109 1.797.844 2.109 1 .313.156.516.234.594.359.078.125.078.734-.172 1.438z"></path>
+                    </svg>
+                    <span>WhatsApp directo</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Barra de navegación de los 3 pasos -->
+        <nav aria-label="Pasos de reserva" class="mb-6 bg-[#121212] border border-neutral-800 rounded-2xl p-2 grid grid-cols-3 gap-2 shadow-xl">
+            <button type="button" id="tab-step-1" data-step="1" class="step-tab rounded-xl py-3 px-2 sm:px-3 text-center transition cursor-pointer bg-[#c89b54] text-black font-bold">
+                <span class="block text-[11px] uppercase tracking-wider opacity-80">Paso 1</span>
+                <span class="block text-xs sm:text-sm truncate">1. Tus datos</span>
+            </button>
+            <button type="button" id="tab-step-2" data-step="2" class="step-tab rounded-xl py-3 px-2 sm:px-3 text-center transition cursor-pointer bg-neutral-900 text-neutral-300 hover:text-white font-semibold">
+                <span class="block text-[11px] uppercase tracking-wider text-[#c89b54]">Paso 2</span>
+                <span class="block text-xs sm:text-sm truncate">2. Ciudad, día y cotización</span>
+            </button>
+            <button type="button" id="tab-step-3" data-step="3" class="step-tab rounded-xl py-3 px-2 sm:px-3 text-center transition cursor-pointer bg-neutral-900 text-neutral-300 hover:text-white font-semibold">
+                <span class="block text-[11px] uppercase tracking-wider text-[#c89b54]">Paso 3</span>
+                <span class="block text-xs sm:text-sm truncate">3. Resumen y reserva</span>
+            </button>
+        </nav>
+
+        <!-- Formulario principal del flujo de reserva -->
+        <form id="tour-booking-form" novalidate class="bg-[#121212] border border-neutral-800 rounded-3xl p-5 sm:p-8 shadow-2xl">
+
+            <!-- Campo oculto antispam -->
+            <div class="hidden" aria-hidden="true">
+                <label for="input-website">Sitio web</label>
+                <input type="text" id="input-website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- PASO 1: TUS DATOS                                         -->
+            <!-- ========================================================= -->
+            <section id="step-1" class="space-y-6">
+                <div class="border-b border-neutral-800 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-widest text-[#c89b54]">Paso 1 de 3</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Tus datos de contacto</h2>
+                    <p class="text-sm text-neutral-400 mt-1">Completa tu información para identificar tu cita y cotización.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="input-nombre" class="block text-base sm:text-lg font-semibold text-white mb-2">
+                            Nombre <span class="text-[#c89b54]">*</span>
+                        </label>
+                        <input type="text" id="input-nombre" name="nombre" required autocomplete="given-name" placeholder="Tu nombre" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-3.5 text-base text-white placeholder:text-neutral-500 outline-none transition">
+                    </div>
+
+                    <div>
+                        <label for="input-apellido" class="block text-base sm:text-lg font-semibold text-white mb-2">
+                            Apellido
+                        </label>
+                        <input type="text" id="input-apellido" name="apellido" autocomplete="family-name" placeholder="Tu apellido" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-3.5 text-base text-white placeholder:text-neutral-500 outline-none transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="input-correo" class="block text-base sm:text-lg font-semibold text-white mb-2">
+                            Correo electrónico
+                        </label>
+                        <input type="email" id="input-correo" name="correo" autocomplete="email" placeholder="correo@ejemplo.com" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-3.5 text-base text-white placeholder:text-neutral-500 outline-none transition">
+                    </div>
+
+                    <div>
+                        <label for="input-celular" class="block text-base sm:text-lg font-semibold text-white mb-2">
+                            Celular / WhatsApp
+                        </label>
+                        <input type="tel" id="input-celular" name="celular" autocomplete="tel" placeholder="+34 600 000 000" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-3.5 text-base text-white placeholder:text-neutral-500 outline-none transition">
+                    </div>
+                </div>
+
+                <div id="step-1-alert" class="hidden rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"></div>
+
+                <div class="pt-2">
+                    <button type="button" id="btn-next-step-1" class="w-full bg-[#c89b54] hover:bg-[#dfb570] text-black font-bold text-lg sm:text-xl py-4 px-6 rounded-2xl transition shadow-lg shadow-[#c89b54]/20 cursor-pointer">
+                        Siguiente: Ciudad, día y cotización
+                    </button>
+                </div>
+            </section>
+
+            <!-- ========================================================= -->
+            <!-- PASO 2: CIUDAD, DÍA Y COTIZACIÓN                          -->
+            <!-- ========================================================= -->
+            <section id="step-2" class="hidden space-y-6">
+                <div class="border-b border-neutral-800 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-widest text-[#c89b54]">Paso 2 de 3</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Ciudad, día y cotización</h2>
+                    <p class="text-sm text-neutral-400 mt-1">Selecciona tu tramo del tour 2027, un día disponible en el calendario y los detalles de tu tatuaje.</p>
+                </div>
+
+                <!-- Selector de Ciudad del Tour 2027 -->
+                <div>
+                    <label for="select-ciudad" class="block text-base sm:text-lg font-semibold text-white mb-2">
+                        Ciudad y fechas del tour <span class="text-[#c89b54]">*</span>
+                    </label>
+                    <select id="select-ciudad" name="ciudad" required class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-2xl px-4 py-3.5 text-base text-white outline-none transition cursor-pointer">
+                        <option value="" selected disabled>Elige tu ciudad y fechas</option>
+                        <option value="Madrid — Primera fecha (24 - 28 febrero 2027)">Madrid — Primera fecha (24 - 28 febrero 2027)</option>
+                        <option value="Alicante (1 - 9 marzo 2027)">Alicante (1 - 9 marzo 2027)</option>
+                        <option value="Granada (10 - 13 marzo 2027)">Granada (10 - 13 marzo 2027)</option>
+                        <option value="Salou (14 - 20 marzo 2027)">Salou (14 - 20 marzo 2027)</option>
+                        <option value="Mallorca (21 - 27 marzo 2027)">Mallorca (21 - 27 marzo 2027)</option>
+                        <option value="Madrid — Segunda fecha (28 - 30 marzo 2027)">Madrid — Segunda fecha (28 - 30 marzo 2027)</option>
+                    </select>
+                </div>
+
+                <!-- Calendario interactivo sincronizado de 35 días -->
+                <div class="bg-[#0e0e0e] border border-[#c89b54]/45 rounded-2xl p-4 sm:p-5 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-neutral-800 pb-3">
+                        <div>
+                            <h3 class="text-lg font-bold text-[#c89b54]">Calendario Tour 2027 (35 días)</h3>
+                            <p id="calendar-picked-info" class="text-xs sm:text-sm text-neutral-300">
+                                Toca un día disponible (24 Feb — 30 Mar 2027)
+                            </p>
+                        </div>
+                        <span id="selected-day-pill" class="inline-flex items-center self-start sm:self-auto px-3 py-1 rounded-full text-xs font-bold bg-neutral-900 border border-neutral-700 text-[#c89b54]">
+                            Sin fecha elegida
+                        </span>
+                    </div>
+
+                    <!-- Atajos rápidos por parada del tour -->
+                    <div class="flex flex-wrap gap-1.5 text-[11px] sm:text-xs">
+                        <button type="button" data-city-jump="Madrid — Primera fecha (24 - 28 febrero 2027)" class="px-2.5 py-1 rounded-lg bg-neutral-900 hover:border-[#c89b54] border border-neutral-800 text-neutral-300 transition cursor-pointer">
+                            Madrid <span class="text-[#c89b54]">24–28 Feb</span>
+                        </button>
+                        <button type="button" data-city-jump="Alicante (1 - 9 marzo 2027)" class="px-2.5 py-1 rounded-lg bg-neutral-900 hover:border-[#c89b54] border border-neutral-800 text-neutral-300 transition cursor-pointer">
+                            Alicante <span class="text-[#c89b54]">1–9 Mar</span>
+                        </button>
+                        <button type="button" data-city-jump="Granada (10 - 13 marzo 2027)" class="px-2.5 py-1 rounded-lg bg-neutral-900 hover:border-[#c89b54] border border-neutral-800 text-neutral-300 transition cursor-pointer">
+                            Granada <span class="text-[#c89b54]">10–13 Mar</span>
+                        </button>
+                        <button type="button" data-city-jump="Salou (14 - 20 marzo 2027)" class="px-2.5 py-1 rounded-lg bg-neutral-900 hover:border-[#c89b54] border border-neutral-800 text-neutral-300 transition cursor-pointer">
+                            Salou <span class="text-[#c89b54]">14–20 Mar</span>
+                        </button>
+                        <button type="button" data-city-jump="Mallorca (21 - 27 marzo 2027)" class="px-2.5 py-1 rounded-lg bg-neutral-900 hover:border-[#c89b54] border border-neutral-800 text-neutral-300 transition cursor-pointer">
+                            Mallorca <span class="text-[#c89b54]">21–27 Mar</span>
+                        </button>
+                        <button type="button" data-city-jump="Madrid — Segunda fecha (28 - 30 marzo 2027)" class="px-2.5 py-1 rounded-lg bg-neutral-900 hover:border-[#c89b54] border border-neutral-800 text-neutral-300 transition cursor-pointer">
+                            Madrid 2da fecha <span class="text-[#c89b54]">28–30 Mar</span>
+                        </button>
+                    </div>
+
+                    <!-- Cabecera de días de la semana -->
+                    <div class="grid grid-cols-7 gap-1.5 text-center text-xs font-semibold text-neutral-400">
+                        <div>Lun</div>
+                        <div>Mar</div>
+                        <div>Mié</div>
+                        <div>Jue</div>
+                        <div>Vie</div>
+                        <div>Sáb</div>
+                        <div>Dom</div>
+                    </div>
+
+                    <!-- Cuadrícula de 35 celdas (2 huecos iniciales + 35 días del tour) -->
+                    <div id="tour-grid" aria-busy="false"></div>
+
+                    <!-- Leyenda de ocupación -->
+                    <div class="pt-3 border-t border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-neutral-400">
+                        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded bg-[#211c14] border border-[#c89b54]/80 inline-block"></span>
+                                Ciudad elegida
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded bg-[#c89b54] inline-block"></span>
+                                Tu día
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded bg-neutral-800/90 border border-[#c89b54]/30 inline-block"></span>
+                                Reservada
+                            </span>
+                        </div>
+                        <span id="tour-occupancy-status" class="font-semibold text-[#c89b54]">0 / 35 días ocupados</span>
+                    </div>
+                </div>
+
+                <!-- Cotización e información del tatuaje -->
+                <div class="bg-[#0e0e0e] border border-neutral-800 rounded-2xl p-4 sm:p-5 space-y-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Cotización e información del tatuaje</h3>
+                        <p class="text-xs sm:text-sm text-neutral-400 mt-0.5">Indica estilo, zona, tamaño y notas para preparar tu cotización.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label for="select-estilo" class="block text-sm font-semibold text-neutral-200 mb-1.5">
+                                Estilo
+                            </label>
+                            <select id="select-estilo" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-xl px-3.5 py-3 text-sm text-white outline-none transition cursor-pointer">
+                                <option value="Retrato realista">Retrato realista</option>
+                                <option value="Realismo sombras">Realismo sombras</option>
+                                <option value="Microrealismo">Microrealismo</option>
+                                <option value="Otro proyecto">Otro proyecto</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="select-zona" class="block text-sm font-semibold text-neutral-200 mb-1.5">
+                                Zona del cuerpo
+                            </label>
+                            <select id="select-zona" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-xl px-3.5 py-3 text-sm text-white outline-none transition cursor-pointer">
+                                <option value="Brazo">Brazo</option>
+                                <option value="Antebrazo">Antebrazo</option>
+                                <option value="Pierna">Pierna</option>
+                                <option value="Espalda">Espalda</option>
+                                <option value="Pecho">Pecho</option>
+                                <option value="Otra zona">Otra zona</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="select-tamano" class="block text-sm font-semibold text-neutral-200 mb-1.5">
+                                Tamaño aprox.
+                            </label>
+                            <select id="select-tamano" class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-xl px-3.5 py-3 text-sm text-white outline-none transition cursor-pointer">
+                                <option value="10 - 15 cm">10 - 15 cm</option>
+                                <option value="15 - 20 cm">15 - 20 cm</option>
+                                <option value="20 - 30 cm">20 - 30 cm</option>
+                                <option value="Proyecto grande / manga">Proyecto grande / manga</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="input-notas" class="block text-sm font-semibold text-neutral-200 mb-1.5">
+                            Notas e idea del tatuaje
+                        </label>
+                        <textarea id="input-notas" rows="3" placeholder="Cuéntanos tu idea, referencias, color o sombras y detalles adicionales..." class="w-full bg-neutral-900 border border-neutral-700 focus:border-[#c89b54] rounded-xl px-3.5 py-3 text-sm text-white placeholder:text-neutral-500 outline-none transition"></textarea>
+                    </div>
+
+                    <div class="rounded-xl border border-[#c89b54]/30 bg-[#c89b54]/10 px-3.5 py-2.5 text-xs sm:text-sm text-[#f3d8a7]">
+                        <strong>Cupo único por día:</strong> Se atiende un solo proyecto por fecha durante el tour. Al pasar al resumen podrás bloquear el día y enviar todo el detalle por WhatsApp.
+                    </div>
+                </div>
+
+                <div id="step-2-alert" class="hidden rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"></div>
+
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <button type="button" id="btn-back-step-2" class="w-full bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700 font-semibold text-base sm:text-lg py-4 px-5 rounded-2xl transition cursor-pointer">
+                        Volver
+                    </button>
+                    <button type="button" id="btn-next-step-2" class="w-full bg-[#c89b54] hover:bg-[#dfb570] text-black font-bold text-base sm:text-lg py-4 px-5 rounded-2xl transition shadow-lg shadow-[#c89b54]/20 cursor-pointer">
+                        Siguiente: Resumen
+                    </button>
+                </div>
+            </section>
+
+            <!-- ========================================================= -->
+            <!-- PASO 3: RESUMEN Y RESERVA                                 -->
+            <!-- ========================================================= -->
+            <section id="step-3" class="hidden space-y-6">
+                <div class="border-b border-neutral-800 pb-4 flex items-center justify-between gap-3">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#c89b54]">Paso 3 de 3</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Resumen y reserva</h2>
+                        <p class="text-sm text-neutral-400 mt-1">Revisa tu información, bloquea tu fecha en el calendario y copia el chat para WhatsApp.</p>
+                    </div>
+                    <button type="button" id="btn-back-step-3" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700 cursor-pointer shrink-0">
+                        Editar
+                    </button>
+                </div>
+
+                <!-- Tarjeta visual de resumen -->
+                <div class="bg-[#0e0e0e] border border-neutral-800 rounded-2xl p-4 sm:p-5 space-y-3 text-sm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-neutral-900/70 rounded-xl p-3 border border-neutral-800/80">
+                            <span class="block text-[11px] uppercase tracking-wider text-neutral-400">Cliente</span>
+                            <span id="sum-nombre" class="font-semibold text-white text-base">—</span>
+                        </div>
+                        <div class="bg-neutral-900/70 rounded-xl p-3 border border-neutral-800/80">
+                            <span class="block text-[11px] uppercase tracking-wider text-neutral-400">Contacto</span>
+                            <span id="sum-contacto" class="font-semibold text-white text-sm block truncate">—</span>
+                        </div>
+                        <div class="bg-neutral-900/70 rounded-xl p-3 border border-[#c89b54]/40">
+                            <span class="block text-[11px] uppercase tracking-wider text-[#c89b54]">Ciudad y fechas</span>
+                            <span id="sum-ciudad" class="font-semibold text-white text-sm">—</span>
+                        </div>
+                        <div class="bg-neutral-900/70 rounded-xl p-3 border border-[#c89b54]/40">
+                            <span class="block text-[11px] uppercase tracking-wider text-[#c89b54]">Día seleccionado</span>
+                            <span id="sum-fecha" class="font-bold text-[#c89b54] text-base">—</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 pt-1">
+                        <div class="bg-neutral-900/70 rounded-xl p-2.5 border border-neutral-800/80">
+                            <span class="block text-[10px] uppercase tracking-wider text-neutral-400">Estilo</span>
+                            <span id="sum-estilo" class="font-semibold text-neutral-100 text-xs sm:text-sm">—</span>
+                        </div>
+                        <div class="bg-neutral-900/70 rounded-xl p-2.5 border border-neutral-800/80">
+                            <span class="block text-[10px] uppercase tracking-wider text-neutral-400">Zona</span>
+                            <span id="sum-zona" class="font-semibold text-neutral-100 text-xs sm:text-sm">—</span>
+                        </div>
+                        <div class="bg-neutral-900/70 rounded-xl p-2.5 border border-neutral-800/80">
+                            <span class="block text-[10px] uppercase tracking-wider text-neutral-400">Tamaño</span>
+                            <span id="sum-tamano" class="font-semibold text-neutral-100 text-xs sm:text-sm">—</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-neutral-900/70 rounded-xl p-3 border border-neutral-800/80">
+                        <span class="block text-[11px] uppercase tracking-wider text-neutral-400">Notas e idea</span>
+                        <p id="sum-notas" class="text-neutral-200 text-sm mt-1 whitespace-pre-line">—</p>
+                    </div>
+                </div>
+
+                <!-- Mensaje formateado para copiar y pegar en WhatsApp -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                        <label for="whatsapp-message-preview" class="text-sm font-semibold text-white">
+                            Chat formateado para copiar y enviar a WhatsApp
+                        </label>
+                        <button type="button" id="btn-copy-only" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-neutral-900 hover:bg-neutral-800 text-[#c89b54] border border-[#c89b54]/50 transition cursor-pointer">
+                            Solo copiar chat
+                        </button>
+                    </div>
+                    <textarea id="whatsapp-message-preview" rows="9" class="w-full bg-[#0e0e0e] border border-neutral-700 focus:border-[#c89b54] rounded-2xl p-4 text-xs sm:text-sm text-neutral-100 font-mono leading-relaxed outline-none transition"></textarea>
+                </div>
+
+                <!-- Aviso de copia al portapapeles -->
+                <div id="copy-banner" role="status" aria-live="polite" class="hidden rounded-2xl border border-emerald-500/40 bg-emerald-500/15 px-4 py-3 text-sm font-semibold text-emerald-200">
+                    ¡Resumen copiado al portapapeles! Pégalo en el chat de WhatsApp que se abrió.
+                </div>
+
+                <!-- Estado de reserva y bloqueo -->
+                <div id="booking-status" role="status" aria-live="polite" class="rounded-2xl border border-[#c89b54]/40 bg-[#c89b54]/10 px-4 py-3.5 text-sm text-[#f3d8a7]">
+                    <p>Revisa tu resumen. Puedes confirmar tu fecha en el calendario y copiar el chat para enviarlo a WhatsApp.</p>
+                </div>
+
+                <!-- Botones finales de confirmación y WhatsApp -->
+                <div class="space-y-3 pt-1">
+                    <button type="button" id="btn-confirmar-fecha" class="w-full bg-neutral-900 hover:bg-neutral-800 text-[#c89b54] border border-[#c89b54]/70 font-bold text-base sm:text-lg py-4 px-5 rounded-2xl transition cursor-pointer">
+                        Confirmar fecha en calendario
+                    </button>
+
+                    <button type="button" id="btn-copy-and-whatsapp" class="w-full bg-[#c89b54] hover:bg-[#dfb570] text-black font-bold text-lg sm:text-xl py-4 px-5 rounded-2xl transition shadow-lg shadow-[#c89b54]/25 flex items-center justify-center gap-3 text-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 shrink-0" aria-hidden="true">
+                            <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.766.469 3.484 1.359 5l-1.422 5.203 5.328-1.391c1.453.797 3.078 1.219 4.695 1.219 5.516 0 9.969-4.453 9.969-9.969s-4.453-10-9.969-10zm5.813 14.109c-.25.703-1.438 1.344-1.984 1.422-.516.078-1.156.109-1.859-.109-.438-.141-1-.328-1.75-.656-3.078-1.328-5.078-4.453-5.234-4.656-.156-.203-1.25-1.656-1.25-3.156s.797-2.25 1.078-2.547c.281-.297.625-.375.828-.375s.406.016.594.016c.188 0 .453-.078.703.531.266.641.891 2.172.969 2.328.078.156.125.344.031.547-.094.203-.141.328-.281.5-.141.172-.297.391-.422.516-.141.141-.297.297-.125.594.172.297.766 1.266 1.641 2.047 1.125 1 2.078 1.313 2.375 1.453.297.141.469.125.641-.078.172-.203.734-.859.938-1.156.203-.297.406-.25.688-.141.281.109 1.797.844 2.109 1 .313.156.516.234.594.359.078.125.078.734-.172 1.438z"></path>
+                        </svg>
+                        <span>Copiar resumen y enviar a WhatsApp</span>
+                    </button>
+                </div>
+            </section>
+        </form>
+
+        <footer class="mt-8 text-center text-xs sm:text-sm text-neutral-500 space-y-1">
+            <p class="font-display-editorial italic text-lg text-[#c89b54]/80">Madrid · Alicante · Granada · Salou · Mallorca</p>
+            <p>Cupos limitados: un solo cliente por día durante febrero y marzo de 2027.</p>
+            <p>© 2026 Raigo Tattoo</p>
+        </footer>
+    </main>
+
+    <script>
+        const SUPABASE_URL = "https://bgxifnsrrkspibhztsjc.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_GDUma45ffIYqEXsRmFwDsg_cpa5Xl2t";
+        const TU_CORREO_ALERTA = "raigotattoo@gmail.com";
+        const INSTAGRAM_URL = "https://www.instagram.com/criss.rai?bqrl=b3hmZHg0YnQyYmVv";
+        const WHATSAPP_URL = "https://wa.me/message/DAUFCP6HLKS4M1";
+        const TABLA_RESERVAS = "reservas_marzo_2027";
+
+        // Itinerario oficial Tour España 2027 (35 días: 24-28 Feb + 1-30 Mar)
+        const TOUR_DAYS = [
+            { id: "24-feb", diaNum: 224, day: 24, monthShort: "Feb", fechaTexto: "24 de febrero de 2027", ciudad: "Madrid — Primera fecha (24 - 28 febrero 2027)", ciudadCorta: "Madrid (1ª fecha)" },
+            { id: "25-feb", diaNum: 225, day: 25, monthShort: "Feb", fechaTexto: "25 de febrero de 2027", ciudad: "Madrid — Primera fecha (24 - 28 febrero 2027)", ciudadCorta: "Madrid (1ª fecha)" },
+            { id: "26-feb", diaNum: 226, day: 26, monthShort: "Feb", fechaTexto: "26 de febrero de 2027", ciudad: "Madrid — Primera fecha (24 - 28 febrero 2027)", ciudadCorta: "Madrid (1ª fecha)" },
+            { id: "27-feb", diaNum: 227, day: 27, monthShort: "Feb", fechaTexto: "27 de febrero de 2027", ciudad: "Madrid — Primera fecha (24 - 28 febrero 2027)", ciudadCorta: "Madrid (1ª fecha)" },
+            { id: "28-feb", diaNum: 228, day: 28, monthShort: "Feb", fechaTexto: "28 de febrero de 2027", ciudad: "Madrid — Primera fecha (24 - 28 febrero 2027)", ciudadCorta: "Madrid (1ª fecha)" },
+
+            { id: "1-mar", diaNum: 1, day: 1, monthShort: "Mar", fechaTexto: "1 de marzo de 2027", ciudad: "Alicante (1 - 9 marzo 2027)", ciudadCorta: "Alicante" },
+            { id: "2-mar", diaNum: 2, day: 2, monthShort: "Mar", fechaTexto: "2 de marzo de 2027", ciudad: "Alicante (1 - 9 marzo 2027)", ciudadCorta: "Alicante" },
+            { id: "3-mar", diaNum: 3, day: 3, monthShort: "Mar", fechaTexto: "3 de marzo de 2027", ciudad: "Alicante (1 - 9 marzo 2027)", ciudadCorta: "Alicante" },
+            { id: "4-mar", diaNum: 4, day: 4, monthShort: "Mar", fechaTexto: "4 de marzo de 2027", ciudad: "Alicante (1 - 9 marzo 2027)", ciudadCorta: "Alicante" },
+            { id: "5-mar", diaNum: 5, day: 5, monthShort: "Mar", fechaTexto: "5 de marzo de 2027", ciudad: "Alicante (1 - 9 marzo 2027)", ciudadCorta: "Alicante" },
+            { id: "6-mar", diaNum: 6, day: 6, monthShort: "Mar", fechaTexto: "6 de marzo de 2027", ciudad: "Alicante (1 - 9 marzo 2027)", ciudadCorta: "Alicante" },
+            { id: "7-mar", diaNum: 7, day: 7, monthShort: "Mar", fechaTexto: "7 de marzo de 2027", ciudad: "Alicante (1 - 9 marzo 2027)", ciudadCorta: "Alicante" },
+            { id: "8-mar", diaNum: 8, day: 8, monthShort: "Mar", fechaTexto: "8 de marzo de 2027", ciudad: "Alicante (1 - 9 marzo 2027)", ciudadCorta: "Alicante" },
+            { id: "9-mar", diaNum: 9, day: 9, monthShort: "Mar", fechaTexto: "9 de marzo de 2027", ciudad: "Alicante (1 - 9 marzo 2027)", ciudadCorta: "Alicante" },
+
+            { id: "10-mar", diaNum: 10, day: 10, monthShort: "Mar", fechaTexto: "10 de marzo de 2027", ciudad: "Granada (10 - 13 marzo 2027)", ciudadCorta: "Granada" },
+            { id: "11-mar", diaNum: 11, day: 11, monthShort: "Mar", fechaTexto: "11 de marzo de 2027", ciudad: "Granada (10 - 13 marzo 2027)", ciudadCorta: "Granada" },
+            { id: "12-mar", diaNum: 12, day: 12, monthShort: "Mar", fechaTexto: "12 de marzo de 2027", ciudad: "Granada (10 - 13 marzo 2027)", ciudadCorta: "Granada" },
+            { id: "13-mar", diaNum: 13, day: 13, monthShort: "Mar", fechaTexto: "13 de marzo de 2027", ciudad: "Granada (10 - 13 marzo 2027)", ciudadCorta: "Granada" },
+
+            { id: "14-mar", diaNum: 14, day: 14, monthShort: "Mar", fechaTexto: "14 de marzo de 2027", ciudad: "Salou (14 - 20 marzo 2027)", ciudadCorta: "Salou" },
+            { id: "15-mar", diaNum: 15, day: 15, monthShort: "Mar", fechaTexto: "15 de marzo de 2027", ciudad: "Salou (14 - 20 marzo 2027)", ciudadCorta: "Salou" },
+            { id: "16-mar", diaNum: 16, day: 16, monthShort: "Mar", fechaTexto: "16 de marzo de 2027", ciudad: "Salou (14 - 20 marzo 2027)", ciudadCorta: "Salou" },
+            { id: "17-mar", diaNum: 17, day: 17, monthShort: "Mar", fechaTexto: "17 de marzo de 2027", ciudad: "Salou (14 - 20 marzo 2027)", ciudadCorta: "Salou" },
+            { id: "18-mar", diaNum: 18, day: 18, monthShort: "Mar", fechaTexto: "18 de marzo de 2027", ciudad: "Salou (14 - 20 marzo 2027)", ciudadCorta: "Salou" },
+            { id: "19-mar", diaNum: 19, day: 19, monthShort: "Mar", fechaTexto: "19 de marzo de 2027", ciudad: "Salou (14 - 20 marzo 2027)", ciudadCorta: "Salou" },
+            { id: "20-mar", diaNum: 20, day: 20, monthShort: "Mar", fechaTexto: "20 de marzo de 2027", ciudad: "Salou (14 - 20 marzo 2027)", ciudadCorta: "Salou" },
+
+            { id: "21-mar", diaNum: 21, day: 21, monthShort: "Mar", fechaTexto: "21 de marzo de 2027", ciudad: "Mallorca (21 - 27 marzo 2027)", ciudadCorta: "Mallorca" },
+            { id: "22-mar", diaNum: 22, day: 22, monthShort: "Mar", fechaTexto: "22 de marzo de 2027", ciudad: "Mallorca (21 - 27 marzo 2027)", ciudadCorta: "Mallorca" },
+            { id: "23-mar", diaNum: 23, day: 23, monthShort: "Mar", fechaTexto: "23 de marzo de 2027", ciudad: "Mallorca (21 - 27 marzo 2027)", ciudadCorta: "Mallorca" },
+            { id: "24-mar", diaNum: 24, day: 24, monthShort: "Mar", fechaTexto: "24 de marzo de 2027", ciudad: "Mallorca (21 - 27 marzo 2027)", ciudadCorta: "Mallorca" },
+            { id: "25-mar", diaNum: 25, day: 25, monthShort: "Mar", fechaTexto: "25 de marzo de 2027", ciudad: "Mallorca (21 - 27 marzo 2027)", ciudadCorta: "Mallorca" },
+            { id: "26-mar", diaNum: 26, day: 26, monthShort: "Mar", fechaTexto: "26 de marzo de 2027", ciudad: "Mallorca (21 - 27 marzo 2027)", ciudadCorta: "Mallorca" },
+            { id: "27-mar", diaNum: 27, day: 27, monthShort: "Mar", fechaTexto: "27 de marzo de 2027", ciudad: "Mallorca (21 - 27 marzo 2027)", ciudadCorta: "Mallorca" },
+
+            { id: "28-mar", diaNum: 28, day: 28, monthShort: "Mar", fechaTexto: "28 de marzo de 2027", ciudad: "Madrid — Segunda fecha (28 - 30 marzo 2027)", ciudadCorta: "Madrid (2da fecha)" },
+            { id: "29-mar", diaNum: 29, day: 29, monthShort: "Mar", fechaTexto: "29 de marzo de 2027", ciudad: "Madrid — Segunda fecha (28 - 30 marzo 2027)", ciudadCorta: "Madrid (2da fecha)" },
+            { id: "30-mar", diaNum: 30, day: 30, monthShort: "Mar", fechaTexto: "30 de marzo de 2027", ciudad: "Madrid — Segunda fecha (28 - 30 marzo 2027)", ciudadCorta: "Madrid (2da fecha)" }
+        ];
+
+        const TOUR_BY_ID = Object.fromEntries(TOUR_DAYS.map((d) => [d.id, d]));
+        const TOUR_BY_NUM = Object.fromEntries(TOUR_DAYS.map((d) => [String(d.diaNum), d]));
+
+        let currentStep = 1;
+        let selectedDayId = null;
+        let confirmedDayId = null;
+        let reservasActivas = {};
+        let isSubmitting = false;
+
+        // Referencias DOM
+        const form = document.getElementById("tour-booking-form");
+        const honeypot = document.getElementById("input-website");
+
+        const inputNombre = document.getElementById("input-nombre");
+        const inputApellido = document.getElementById("input-apellido");
+        const inputCorreo = document.getElementById("input-correo");
+        const inputCelular = document.getElementById("input-celular");
+
+        const selectCiudad = document.getElementById("select-ciudad");
+        const grid = document.getElementById("tour-grid");
+        const calendarPickedInfo = document.getElementById("calendar-picked-info");
+        const selectedDayPill = document.getElementById("selected-day-pill");
+        const occupancyStatus = document.getElementById("tour-occupancy-status");
+
+        const selectEstilo = document.getElementById("select-estilo");
+        const selectZona = document.getElementById("select-zona");
+        const selectTamano = document.getElementById("select-tamano");
+        const inputNotas = document.getElementById("input-notas");
+
+        const step1Alert = document.getElementById("step-1-alert");
+        const step2Alert = document.getElementById("step-2-alert");
+
+        const sumNombre = document.getElementById("sum-nombre");
+        const sumContacto = document.getElementById("sum-contacto");
+        const sumCiudad = document.getElementById("sum-ciudad");
+        const sumFecha = document.getElementById("sum-fecha");
+        const sumEstilo = document.getElementById("sum-estilo");
+        const sumZona = document.getElementById("sum-zona");
+        const sumTamano = document.getElementById("sum-tamano");
+        const sumNotas = document.getElementById("sum-notas");
+        const whatsappMessagePreview = document.getElementById("whatsapp-message-preview");
+        const copyBanner = document.getElementById("copy-banner");
+        const bookingStatus = document.getElementById("booking-status");
+        const btnConfirmarFecha = document.getElementById("btn-confirmar-fecha");
+        const btnCopyAndWhatsapp = document.getElementById("btn-copy-and-whatsapp");
+        const btnCopyOnly = document.getElementById("btn-copy-only");
+        const btnInstagramPortafolio = document.getElementById("btn-instagram-portafolio");
+        const btnWhatsappDirectoHeader = document.getElementById("btn-whatsapp-directo-header");
+
+        if (btnInstagramPortafolio) btnInstagramPortafolio.href = INSTAGRAM_URL;
+        if (btnWhatsappDirectoHeader) btnWhatsappDirectoHeader.href = WHATSAPP_URL;
+
+        function getSupabaseHeaders(extra = {}) {
+            return {
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+                "Content-Type": "application/json",
+                ...extra
+            };
+        }
+
+        function setStatusMessage(html, isError = false) {
+            bookingStatus.className = isError
+                ? "rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3.5 text-sm text-red-200"
+                : "rounded-2xl border border-[#c89b54]/40 bg-[#c89b54]/10 px-4 py-3.5 text-sm text-[#f3d8a7]";
+            bookingStatus.innerHTML = `<p>${html}</p>`;
+        }
+
+        function goToStep(stepNumber) {
+            currentStep = stepNumber;
+            [1, 2, 3].forEach((n) => {
+                const section = document.getElementById(`step-${n}`);
+                const tab = document.getElementById(`tab-step-${n}`);
+                const isActive = n === stepNumber;
+                section.classList.toggle("hidden", !isActive);
+
+                if (isActive) {
+                    tab.className = "step-tab rounded-xl py-3 px-2 sm:px-3 text-center transition cursor-pointer bg-[#c89b54] text-black font-bold";
+                    tab.querySelector("span:first-child").className = "block text-[11px] uppercase tracking-wider opacity-80";
+                } else {
+                    tab.className = "step-tab rounded-xl py-3 px-2 sm:px-3 text-center transition cursor-pointer bg-neutral-900 text-neutral-300 hover:text-white font-semibold";
+                    tab.querySelector("span:first-child").className = "block text-[11px] uppercase tracking-wider text-[#c89b54]";
+                }
+            });
+
+            if (stepNumber === 3) {
+                buildSummaryAndMessage();
+            }
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function validateStep1() {
+            const nombre = inputNombre.value.trim();
+            if (!nombre) {
+                step1Alert.textContent = "Por favor escribe tu nombre para continuar al paso 2.";
+                step1Alert.classList.remove("hidden");
+                inputNombre.focus();
+                return false;
+            }
+            step1Alert.classList.add("hidden");
+            return true;
+        }
+
+        function validateStep2() {
+            const ciudad = selectCiudad.value;
+            const diaObj = selectedDayId ? TOUR_BY_ID[selectedDayId] : (confirmedDayId ? TOUR_BY_ID[confirmedDayId] : null);
+
+            if (!ciudad || !diaObj) {
+                step2Alert.textContent = "Elige una ciudad y selecciona un día disponible en el calendario antes de pasar al resumen.";
+                step2Alert.classList.remove("hidden");
+                return false;
+            }
+            if (diaObj.ciudad !== ciudad) {
+                step2Alert.textContent = `El día ${diaObj.fechaTexto} corresponde a ${diaObj.ciudad}. Ajusta tu selección.`;
+                step2Alert.classList.remove("hidden");
+                return false;
+            }
+            step2Alert.classList.add("hidden");
+            return true;
+        }
+
+        function updateCalendarHeader() {
+            const diaObj = selectedDayId ? TOUR_BY_ID[selectedDayId] : (confirmedDayId ? TOUR_BY_ID[confirmedDayId] : null);
+            if (diaObj) {
+                calendarPickedInfo.textContent = `Elegiste: ${diaObj.fechaTexto} · ${diaObj.ciudadCorta}`;
+                selectedDayPill.textContent = `${diaObj.day} ${diaObj.monthShort} 2027`;
+                selectedDayPill.className = "inline-flex items-center self-start sm:self-auto px-3 py-1 rounded-full text-xs font-bold bg-[#c89b54] text-black";
+            } else if (selectCiudad.value) {
+                calendarPickedInfo.textContent = `Días disponibles resaltados para ${selectCiudad.value}`;
+                selectedDayPill.textContent = "Elige un día";
+                selectedDayPill.className = "inline-flex items-center self-start sm:self-auto px-3 py-1 rounded-full text-xs font-bold bg-neutral-900 border border-[#c89b54]/50 text-[#c89b54]";
+            } else {
+                calendarPickedInfo.textContent = "Toca un día disponible (24 Feb — 30 Mar 2027)";
+                selectedDayPill.textContent = "Sin fecha elegida";
+                selectedDayPill.className = "inline-flex items-center self-start sm:self-auto px-3 py-1 rounded-full text-xs font-bold bg-neutral-900 border border-neutral-700 text-[#c89b54]";
+            }
+        }
+
+        function renderCalendar() {
+            const bookedIds = Object.keys(reservasActivas);
+            const selectedCityValue = selectCiudad.value;
+            occupancyStatus.textContent = `${bookedIds.length} / ${TOUR_DAYS.length} días ocupados`;
+
+            grid.innerHTML = "";
+
+            // 24 Feb 2027 es Miércoles -> 2 espacios vacíos iniciales (Lun, Mar)
+            for (let empty = 0; empty < 2; empty++) {
+                const spacer = document.createElement("div");
+                spacer.className = "min-h-[3.35rem] rounded-xl bg-neutral-950/40 border border-neutral-900/50";
+                spacer.setAttribute("aria-hidden", "true");
+                grid.appendChild(spacer);
+            }
+
+            TOUR_DAYS.forEach((item) => {
+                const isBooked = Boolean(reservasActivas[item.id]);
+                const isSelected = selectedDayId === item.id;
+                const matchesCity = selectedCityValue && item.ciudad === selectedCityValue;
+
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.dataset.dayId = item.id;
+                btn.disabled = isBooked || isSubmitting;
+                btn.setAttribute(
+                    "aria-label",
+                    `${item.fechaTexto} en ${item.ciudad} ${isBooked ? "reservada" : "disponible"}`
+                );
+
+                btn.innerHTML = `
+                    <span class="text-sm sm:text-base font-bold">${item.day}</span>
+                    <span class="text-[10px] uppercase tracking-wider ${isSelected ? "text-black/80 font-bold" : "text-[#c89b54]"}">${item.monthShort}</span>
+                `;
+
+                btn.className = "dia-btn ";
+                if (isBooked) {
+                    btn.className += "dia-reservado";
+                } else if (isSelected) {
+                    btn.className += "dia-elegido";
+                } else if (matchesCity) {
+                    btn.className += "dia-ciudad-activa";
+                } else {
+                    btn.className += "dia-disponible";
+                }
+
+                btn.addEventListener("click", () => {
+                    if (btn.disabled) return;
+                    selectedDayId = item.id;
+                    confirmedDayId = null;
+                    selectCiudad.value = item.ciudad;
+                    step2Alert.classList.add("hidden");
+                    updateCalendarHeader();
+                    renderCalendar();
+                });
+
+                grid.appendChild(btn);
+            });
+        }
+
+        function buildSummaryAndMessage() {
+            const nombreCompleto = `${inputNombre.value.trim()} ${inputApellido.value.trim()}`.trim() || "No indicado";
+            const correo = inputCorreo.value.trim() || "No indicado";
+            const celular = inputCelular.value.trim() || "No indicado";
+            const diaObj = selectedDayId ? TOUR_BY_ID[selectedDayId] : (confirmedDayId ? TOUR_BY_ID[confirmedDayId] : null);
+            const ciudadTexto = diaObj ? diaObj.ciudad : (selectCiudad.value || "No seleccionada");
+            const fechaTexto = diaObj ? diaObj.fechaTexto : "Sin fecha seleccionada";
+            const estilo = selectEstilo.value;
+            const zona = selectZona.value;
+            const tamano = selectTamano.value;
+            const notas = inputNotas.value.trim() || "Sin notas adicionales";
+
+            sumNombre.textContent = nombreCompleto;
+            sumContacto.textContent = `${celular} · ${correo}`;
+            sumCiudad.textContent = ciudadTexto;
+            sumFecha.textContent = fechaTexto;
+            sumEstilo.textContent = estilo;
+            sumZona.textContent = zona;
+            sumTamano.textContent = tamano;
+            sumNotas.textContent = notas;
+
+            const estadoBloqueo = confirmedDayId && diaObj && confirmedDayId === diaObj.id
+                ? "✅ Fecha confirmada y bloqueada en calendario web"
+                : "⏳ Pendiente de confirmación en calendario";
+
+            whatsappMessagePreview.value =
+                `¡Hola Raigo Tattoo! Quiero cotizar y separar mi cupo para el Tour España 2027:\n\n` +
+                `👤 *DATOS DEL CLIENTE*\n` +
+                `• Nombre: ${nombreCompleto}\n` +
+                `• Celular: ${celular}\n` +
+                `• Correo: ${correo}\n\n` +
+                `📍 *CIUDAD Y FECHA*\n` +
+                `• Parada: ${ciudadTexto}\n` +
+                `• Día elegido: ${fechaTexto}\n` +
+                `• Estado: ${estadoBloqueo}\n\n` +
+                `🖤 *COTIZACIÓN Y DETALLES DEL TATUAJE*\n` +
+                `• Estilo: ${estilo}\n` +
+                `• Zona del cuerpo: ${zona}\n` +
+                `• Tamaño aprox.: ${tamano}\n` +
+                `• Notas / Idea: ${notas}`;
+        }
+
+        async function copySummaryToClipboard(openWhatsappAfter = false) {
+            const texto = whatsappMessagePreview.value;
+            let copied = false;
+
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(texto);
+                    copied = true;
+                }
+            } catch (err) {
+                copied = false;
+            }
+
+            if (!copied) {
+                whatsappMessagePreview.focus();
+                whatsappMessagePreview.select();
+                try {
+                    copied = document.execCommand("copy");
+                } catch (e) {
+                    copied = false;
+                }
+            }
+
+            copyBanner.classList.remove("hidden");
+            copyBanner.textContent = openWhatsappAfter
+                ? "¡Resumen copiado al portapapeles! Se abrió tu WhatsApp para que lo pegues y envíes."
+                : "¡Resumen copiado al portapapeles! Ya puedes pegarlo en el chat de WhatsApp.";
+
+            if (openWhatsappAfter) {
+                window.open(WHATSAPP_URL, "_blank", "noopener,noreferrer");
+            }
+        }
+
+        function mapearFilaReserva(row) {
+            if (!row) return null;
+            if (row.dia !== null && row.dia !== undefined && TOUR_BY_NUM[String(row.dia)]) {
+                return TOUR_BY_NUM[String(row.dia)].id;
+            }
+            if (row.fecha) {
+                const found = TOUR_DAYS.find((d) => row.fecha.toLowerCase().includes(d.fechaTexto.toLowerCase()));
+                if (found) return found.id;
+            }
+            return null;
+        }
+
+        async function cargarReservasDesdeNube() {
+            grid.setAttribute("aria-busy", "true");
+            try {
+                const resp = await fetch(
+                    `${SUPABASE_URL}/rest/v1/${TABLA_RESERVAS}?select=*&order=dia.asc`,
+                    {
+                        method: "GET",
+                        headers: getSupabaseHeaders()
+                    }
+                );
+
+                if (!resp.ok) {
+                    const detalle = await resp.text();
+                    throw new Error(`Error ${resp.status} en Supabase: ${detalle}`);
+                }
+
+                const rows = await resp.json();
+                const mapa = {};
+                if (Array.isArray(rows)) {
+                    rows.forEach((row) => {
+                        const dayId = mapearFilaReserva(row);
+                        if (dayId) {
+                            mapa[dayId] = row;
+                        }
+                    });
+                }
+
+                reservasActivas = mapa;
+                if (selectedDayId && reservasActivas[selectedDayId]) {
+                    selectedDayId = null;
+                    updateCalendarHeader();
+                }
+                renderCalendar();
+            } catch (err) {
+                console.error("Error cargando reservas desde Supabase:", err);
+                renderCalendar();
+            } finally {
+                grid.setAttribute("aria-busy", "false");
+            }
+        }
+
+        async function bloquearFechaEnSupabase(payload) {
+            const resp = await fetch(`${SUPABASE_URL}/rest/v1/${TABLA_RESERVAS}`, {
+                method: "POST",
+                headers: getSupabaseHeaders({
+                    "Prefer": "return=representation"
+                }),
+                body: JSON.stringify(payload)
+            });
+
+            if (resp.status === 409) {
+                return { conflict: true };
+            }
+
+            if (!resp.ok) {
+                const errorText = await resp.text();
+                throw new Error(`Error ${resp.status} al guardar: ${errorText}`);
+            }
+
+            const inserted = await resp.json();
+            return { conflict: false, data: Array.isArray(inserted) ? inserted[0] : inserted };
+        }
+
+        async function enviarAlertaAlCorreo(reserva, detallesTatuaje) {
+            if (!TU_CORREO_ALERTA) return false;
+            try {
+                const resp = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(TU_CORREO_ALERTA)}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        _subject: `Nueva cita agendada - ${reserva.fecha} (${reserva.ciudad})`,
+                        fecha_bloqueada: reserva.fecha,
+                        ciudad: reserva.ciudad,
+                        nombre: reserva.nombre,
+                        apellido: reserva.apellido || "No indicado",
+                        correo_cliente: reserva.correo || "No indicado",
+                        celular_cliente: reserva.celular || "No indicado",
+                        estilo_tatuaje: detallesTatuaje.estilo,
+                        zona_cuerpo: detallesTatuaje.zona,
+                        tamano_aprox: detallesTatuaje.tamano,
+                        notas_cliente: detallesTatuaje.notas,
+                        hora_registro: reserva.creado_en
+                    })
+                });
+                return resp.ok;
+            } catch (err) {
+                console.error("Error enviando alerta por FormSubmit:", err);
+                return false;
+            }
+        }
+
+        async function confirmAndLockDate() {
+            if (isSubmitting) return;
+            if (honeypot && honeypot.value.trim() !== "") return;
+
+            const nombre = inputNombre.value.trim();
+            const apellido = inputApellido.value.trim();
+            const correo = inputCorreo.value.trim();
+            const celular = inputCelular.value.trim();
+            const diaObj = selectedDayId ? TOUR_BY_ID[selectedDayId] : null;
+
+            if (!nombre || !diaObj) {
+                setStatusMessage(
+                    "Vuelve al Paso 1 o 2 y asegúrate de tener tu <strong>Nombre</strong> y un <strong>día disponible</strong> seleccionado.",
+                    true
+                );
+                return;
+            }
+
+            isSubmitting = true;
+            btnConfirmarFecha.disabled = true;
+            btnConfirmarFecha.textContent = "Bloqueando fecha...";
+            renderCalendar();
+
+            try {
+                await cargarReservasDesdeNube();
+                if (reservasActivas[diaObj.id]) {
+                    setStatusMessage(
+                        `El <strong>${diaObj.fechaTexto}</strong> ya fue reservado por otra persona. Vuelve al Paso 2 y elige otro día.`,
+                        true
+                    );
+                    selectedDayId = null;
+                    updateCalendarHeader();
+                    renderCalendar();
+                    return;
+                }
+
+                const creadoEn = new Date().toLocaleString("es-ES", {
+                    day: "2-digit",
+                    month: "short",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
+
+                const payloadSupabase = {
+                    dia: diaObj.diaNum,
+                    fecha: diaObj.fechaTexto,
+                    ciudad: diaObj.ciudad,
+                    nombre,
+                    apellido,
+                    correo,
+                    celular,
+                    creado_en: creadoEn
+                };
+
+                const resultado = await bloquearFechaEnSupabase(payloadSupabase);
+
+                if (resultado.conflict) {
+                    await cargarReservasDesdeNube();
+                    setStatusMessage(
+                        `El <strong>${diaObj.fechaTexto}</strong> acaba de ser reservado. Elige otro día en el Paso 2.`,
+                        true
+                    );
+                    selectedDayId = null;
+                    updateCalendarHeader();
+                    renderCalendar();
+                    return;
+                }
+
+                const reservaGuardada = resultado.data || payloadSupabase;
+                reservasActivas[diaObj.id] = reservaGuardada;
+                confirmedDayId = diaObj.id;
+                selectedDayId = null;
+
+                const correoEnviado = await enviarAlertaAlCorreo(reservaGuardada, {
+                    estilo: selectEstilo.value,
+                    zona: selectZona.value,
+                    tamano: selectTamano.value,
+                    notas: inputNotas.value.trim() || "Sin notas adicionales"
+                });
+
+                updateCalendarHeader();
+                renderCalendar();
+                buildSummaryAndMessage();
+
+                const avisoCorreo = correoEnviado
+                    ? ` y enviamos alerta a <strong>${TU_CORREO_ALERTA}</strong>`
+                    : ``;
+
+                setStatusMessage(
+                    `¡Fecha <strong>${diaObj.fechaTexto}</strong> bloqueada en el calendario${avisoCorreo}! Ahora pulsa <strong>Copiar resumen y enviar a WhatsApp</strong>.`
+                );
+            } catch (err) {
+                console.error("Error al bloquear fecha:", err);
+                setStatusMessage(
+                    `${err.message || "No se pudo bloquear en Supabase."} Igualmente puedes copiar tu resumen y enviarlo por WhatsApp.`,
+                    true
+                );
+            } finally {
+                isSubmitting = false;
+                btnConfirmarFecha.disabled = false;
+                btnConfirmarFecha.textContent = "Confirmar fecha en calendario";
+                renderCalendar();
+            }
+        }
+
+        // Navegación entre los 3 pasos
+        document.getElementById("btn-next-step-1").addEventListener("click", () => {
+            if (validateStep1()) goToStep(2);
+        });
+
+        document.getElementById("btn-back-step-2").addEventListener("click", () => goToStep(1));
+
+        document.getElementById("btn-next-step-2").addEventListener("click", () => {
+            if (validateStep2()) goToStep(3);
+        });
+
+        document.getElementById("btn-back-step-3").addEventListener("click", () => goToStep(2));
+
+        document.querySelectorAll(".step-tab").forEach((tab) => {
+            tab.addEventListener("click", () => {
+                const target = Number(tab.dataset.step);
+                if (target === 1) {
+                    goToStep(1);
+                } else if (target === 2) {
+                    if (validateStep1()) goToStep(2);
+                } else if (target === 3) {
+                    if (validateStep1() && validateStep2()) goToStep(3);
+                }
+            });
+        });
+
+        // Sincronización ciudad <-> calendario de 35 días
+        selectCiudad.addEventListener("change", () => {
+            const ciudadElegida = selectCiudad.value;
+            if (selectedDayId && TOUR_BY_ID[selectedDayId]?.ciudad !== ciudadElegida) {
+                selectedDayId = null;
+            }
+            confirmedDayId = null;
+            step2Alert.classList.add("hidden");
+            updateCalendarHeader();
+            renderCalendar();
+        });
+
+        document.querySelectorAll("[data-city-jump]").forEach((chip) => {
+            chip.addEventListener("click", () => {
+                selectCiudad.value = chip.dataset.cityJump;
+                selectCiudad.dispatchEvent(new Event("change"));
+            });
+        });
+
+        // Acciones finales del Paso 3
+        btnConfirmarFecha.addEventListener("click", confirmAndLockDate);
+        btnCopyOnly.addEventListener("click", () => copySummaryToClipboard(false));
+        btnCopyAndWhatsapp.addEventListener("click", () => copySummaryToClipboard(true));
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+        });
+
+        // Inicialización
+        updateCalendarHeader();
+        renderCalendar();
+        cargarReservasDesdeNube();
+    </script>
+</body>
+</html>
