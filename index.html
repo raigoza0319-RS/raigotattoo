@@ -21,14 +21,53 @@
         }
         body {
             font-family: "Inter", system-ui, -apple-system, sans-serif;
+            background-color: #0a0a0a;
+            color: #f5f5f5;
+            margin: 0;
+        }
+        #panel-march-calendar {
+            max-height: none;
+            overflow: visible;
         }
         #march-grid {
             display: grid;
             grid-template-columns: repeat(7, minmax(0, 1fr));
             gap: 0.45rem;
+            width: 100%;
+        }
+        .dia-btn {
+            min-height: 2.75rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 140ms ease;
+        }
+        .dia-disponible {
+            background-color: #171717;
+            color: #f5f5f5;
+            border: 1px solid #262626;
+            cursor: pointer;
+        }
+        .dia-disponible:hover {
+            background-color: #262626;
+            border-color: #c89b54;
+        }
+        .dia-elegido {
+            background-color: #c89b54;
+            color: #0a0a0a;
+            border: 1px solid #c89b54;
+            cursor: pointer;
         }
         .dia-reservado {
+            background-color: rgba(38, 38, 38, 0.9);
+            color: #737373;
+            border: 1px solid rgba(200, 155, 84, 0.4);
             text-decoration: line-through;
+            opacity: 0.65;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -203,17 +242,6 @@
         const bookingStatus = document.getElementById("booking-status");
         const honeypot = document.getElementById("input-website");
 
-        function buildCalendarButtons() {
-            grid.innerHTML = "";
-            for (let d = 1; d <= 31; d++) {
-                const btn = document.createElement("button");
-                btn.type = "button";
-                btn.textContent = String(d);
-                btn.className = "h-11 sm:h-12 rounded-xl font-semibold text-base sm:text-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-100 border border-neutral-800 hover:border-[#c89b54] cursor-pointer transition";
-                grid.appendChild(btn);
-            }
-        }
-
         function getSupabaseHeaders(extra = {}) {
             return {
                 "apikey": SUPABASE_ANON_KEY,
@@ -238,50 +266,35 @@
         }
 
         function renderCalendar() {
-            if (grid.children.length !== 31) {
-                buildCalendarButtons();
-            }
-
             const bookedDays = Object.keys(reservasCache);
             occupancyStatus.textContent = `${bookedDays.length} / 31 días ocupados`;
 
-            Array.from(grid.children).forEach((btn, index) => {
-                const day = String(index + 1);
+            grid.innerHTML = "";
+            for (let d = 1; d <= 31; d++) {
+                const day = String(d);
                 const isBooked = Boolean(reservasCache[day]);
                 const isSelected = selectedDay === day;
 
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.textContent = day;
                 btn.disabled = isBooked || isSubmitting;
                 btn.setAttribute(
                     "aria-label",
                     `${day} de marzo de 2027 ${isBooked ? "reservada" : "disponible"}`
                 );
 
-                btn.classList.remove(
-                    "bg-[#c89b54]",
-                    "text-black",
-                    "border-[#c89b54]",
-                    "bg-neutral-800/90",
-                    "text-neutral-500",
-                    "cursor-not-allowed",
-                    "opacity-60",
-                    "dia-reservado",
-                    "line-through"
-                );
-
+                btn.className = "dia-btn ";
                 if (isBooked) {
-                    btn.classList.add(
-                        "bg-neutral-800/90",
-                        "text-neutral-500",
-                        "border-[#c89b54]/40",
-                        "cursor-not-allowed",
-                        "opacity-60",
-                        "dia-reservado",
-                        "line-through"
-                    );
+                    btn.className += "dia-reservado";
                 } else if (isSelected) {
-                    btn.classList.add("bg-[#c89b54]", "text-black", "border-[#c89b54]");
+                    btn.className += "dia-elegido";
+                } else {
+                    btn.className += "dia-disponible";
                 }
-            });
+
+                grid.appendChild(btn);
+            }
 
             if (bookedDays.length === 0) {
                 bookedSummary.innerHTML = "";
@@ -410,4 +423,151 @@
 
         btnToggleCalendar.addEventListener("click", () => {
             const isHidden = panelCalendar.classList.toggle("hidden");
-            btnToggleCalendar.setAttribute("aria-expanded", String(!
+            btnToggleCalendar.setAttribute("aria-expanded", String(!isHidden));
+            if (!isHidden) {
+                cargarReservasDesdeNube();
+            }
+        });
+
+        btnCloseCalendar.addEventListener("click", () => {
+            panelCalendar.classList.add("hidden");
+            btnToggleCalendar.setAttribute("aria-expanded", "false");
+        });
+
+        grid.addEventListener("click", (e) => {
+            const btn = e.target.closest("button");
+            if (!btn || btn.disabled) return;
+
+            selectedDay = btn.textContent.trim();
+            selectedDateText.textContent = `${selectedDay} de marzo de 2027`;
+            selectedDateText.classList.remove("text-neutral-400");
+            selectedDateText.classList.add("text-white", "font-semibold");
+
+            renderCalendar();
+            setStatusMessage(
+                `Día <strong>${selectedDay} de marzo de 2027</strong> seleccionado. Pulsa <strong>Confirmar y bloquear fecha</strong> para apartarlo.`
+            );
+        });
+
+        async function confirmAndLockDate() {
+            if (isSubmitting) return;
+            if (honeypot && honeypot.value.trim() !== "") return;
+
+            const nombre = document.getElementById("input-nombre").value.trim();
+            const apellido = document.getElementById("input-apellido").value.trim();
+            const correo = document.getElementById("input-correo").value.trim();
+            const celular = document.getElementById("input-celular").value.trim();
+            const ciudad = document.getElementById("select-ciudad").value;
+
+            if (!nombre || !ciudad || !selectedDay) {
+                setStatusMessage(
+                    "Completa tu <strong>Nombre</strong>, elige <strong>Ciudad</strong> y selecciona un día en marzo de 2027 antes de confirmar.",
+                    true
+                );
+                return;
+            }
+
+            isSubmitting = true;
+            btnConfirmarFecha.disabled = true;
+            btnConfirmarFecha.textContent = "Bloqueando fecha...";
+            renderCalendar();
+
+            try {
+                await cargarReservasDesdeNube();
+                if (reservasCache[selectedDay]) {
+                    setStatusMessage(
+                        `El <strong>${selectedDay} de marzo de 2027</strong> ya fue bloqueado. Elige otro día.`,
+                        true
+                    );
+                    selectedDay = null;
+                    renderCalendar();
+                    return;
+                }
+
+                const creadoEn = new Date().toLocaleString("es-ES", {
+                    day: "2-digit",
+                    month: "short",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
+
+                const payloadSupabase = {
+                    dia: Number(selectedDay),
+                    fecha: `${selectedDay} de marzo de 2027`,
+                    ciudad,
+                    nombre,
+                    apellido,
+                    correo,
+                    celular,
+                    creado_en: creadoEn
+                };
+
+                const resultado = await bloquearFechaEnSupabase(payloadSupabase);
+
+                if (resultado.conflict) {
+                    await cargarReservasDesdeNube();
+                    setStatusMessage(
+                        `El <strong>${selectedDay} de marzo de 2027</strong> acaba de ser reservado por otra persona. Elige otro día.`,
+                        true
+                    );
+                    selectedDay = null;
+                    renderCalendar();
+                    return;
+                }
+
+                const reservaGuardada = resultado.data || payloadSupabase;
+                reservasCache[String(selectedDay)] = reservaGuardada;
+
+                const correoEnviado = await enviarAlertaAlCorreo(reservaGuardada);
+
+                const mensaje = encodeURIComponent(
+                    `¡Nueva alerta de reserva - Raigo Tattoo Tour 2027!\n` +
+                    `• Fecha bloqueada: ${reservaGuardada.fecha}\n` +
+                    `• Ciudad: ${ciudad}\n` +
+                    `• Cliente: ${nombre} ${apellido}`.trim() + `\n` +
+                    `• Celular: ${celular || "No indicado"}\n` +
+                    `• Correo: ${correo || "No indicado"}`
+                );
+                const waUrl = `https://wa.me/${WHATSAPP_NUM}?text=${mensaje}`;
+
+                const lockedDay = selectedDay;
+                selectedDay = null;
+                selectedDateText.textContent = "Selecciona un día de marzo de 2027";
+                selectedDateText.classList.add("text-neutral-400");
+                selectedDateText.classList.remove("text-white", "font-semibold");
+
+                renderCalendar();
+                toggleWhatsAppButton(true, waUrl);
+
+                const avisoCorreo = correoEnviado
+                    ? ` y se envió la alerta a <strong>${TU_CORREO_ALERTA}</strong>`
+                    : ` (revisa la bandeja/spam de <strong>${TU_CORREO_ALERTA}</strong> para activar FormSubmit si es tu primera prueba)`;
+
+                setStatusMessage(
+                    `Fecha <strong>${lockedDay} de marzo de 2027</strong> bloqueada en Supabase${avisoCorreo}. También puedes pulsar <strong>Ir a WhatsApp</strong>.`
+                );
+            } catch (err) {
+                console.error("Error al bloquear fecha:", err);
+                setStatusMessage(
+                    `${err.message || "No se pudo bloquear la fecha en Supabase."} Revisa las columnas de <code>${TABLA_RESERVAS}</code> o las políticas RLS.`,
+                    true
+                );
+            } finally {
+                isSubmitting = false;
+                btnConfirmarFecha.disabled = false;
+                btnConfirmarFecha.textContent = "Confirmar y bloquear fecha";
+                renderCalendar();
+            }
+        }
+
+        btnConfirmarFecha.addEventListener("click", confirmAndLockDate);
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            confirmAndLockDate();
+        });
+
+        renderCalendar();
+        cargarReservasDesdeNube();
+    </script>
+</body>
+</html>
